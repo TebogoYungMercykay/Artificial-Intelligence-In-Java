@@ -4,6 +4,8 @@
 ./*/*/*.class
 ./*/*/*/*.class
 
+/Temp_Testing
+
 # Log file
 *.log
 
