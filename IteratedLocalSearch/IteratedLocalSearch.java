@@ -244,5 +244,21 @@ public class IteratedLocalSearch extends Helper {
         }
     }
 
+    /**
+    * Calculates the sum of Values in the instance
+    * 
+    */ 
+
+    public int SumValues() {
+        int sum = 0;
+
+        for (int i = 0; i < instance.size(); i++) {
+            for (int j = 0; j < instance.get(i).size(); j++) {
+                sum += instance.get(i).get(j);
+            }
+        }
+
+        return sum;
+    }
 
 }
