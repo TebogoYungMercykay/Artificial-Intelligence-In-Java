@@ -42,4 +42,33 @@ public class Helper {
 
         return fileContents;
     }
+
+    /**
+    * Reads the file containing optimal solutions and returns a HashMap of the
+    * filename and the optimal number of bins
+    * 
+    * @param filepath
+    * @return optimal
+    */
+
+    public static HashMap<String, Integer> readOptima(String filepath) {
+
+        HashMap<String, Integer> optimal = new HashMap<String, Integer>();
+
+        File file = new File(filepath);
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split(" ");
+                optimal.put(split[0], Integer.parseInt(split[1]));
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return optimal;
+
+    }
 }
