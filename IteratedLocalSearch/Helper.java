@@ -89,4 +89,19 @@ public class Helper {
 
         System.out.println("]");
     }
+
+    /**
+    * Prints the contents of a values ArrayList
+    * 
+    * @param bin
+    */
+
+    public static Integer sumBin(ArrayList<Integer> bin) {
+        Integer sum = 0;
+        for (int i = 0; i < bin.size(); i++) {
+            sum += bin.get(i);
+        }
+
+        return sum;
+    }
 }
