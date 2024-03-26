@@ -73,6 +73,17 @@ public class IteratedLocalSearch extends Helper {
         return runtime.get();
     }
 
+    /**
+    * Returns bin count of the instance
+    * 
+    * @return binCount
+    */
+
+    public Integer getBinCount() {
+        return binCount;
+    }
+
+
 
 
 }
