@@ -71,4 +71,22 @@ public class Helper {
         return optimal;
 
     }
+
+    /**
+    * Prints the contents of a values ArrayList
+    * 
+    * @param values
+    */
+
+    public static void printValues(ArrayList<Integer> values) {
+        System.out.println("Bin [");
+        for (int i = 0; i < values.size(); i++) {
+            System.out.print(values.get(i));
+            if (i != values.size() - 1) {
+                System.out.print(", ");
+            }
+        }
+
+        System.out.println("]");
+    }
 }
