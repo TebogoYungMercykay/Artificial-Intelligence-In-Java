@@ -269,4 +269,14 @@ public class IteratedLocalSearch extends Helper {
     public String getStartValueCount() {
         return startValueCount + "";
     }
+
+
+    /**
+    * Returns the current sum of the values in the instance
+    * 
+    */
+
+    public String getEndValueCount() {
+        return SumValues() + "";
+    }
 }
