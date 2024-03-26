@@ -270,7 +270,6 @@ public class IteratedLocalSearch extends Helper {
         return startValueCount + "";
     }
 
-
     /**
     * Returns the current sum of the values in the instance
     * 
