@@ -128,6 +128,33 @@ public class IteratedLocalSearch extends Helper {
         }
     }
 
+    /**
+    * Finds the best bin to insert a value into the instance
+    * 
+    * @param value
+    */
+
+    public void bestInsert(Integer value) {
+
+        Integer bestIndex = 0;
+        Integer bestSum = sumBin(instance.get(0)) + value;
+
+        for (int i = 1; i < instance.size(); i++) {
+            Integer sum = sumBin(instance.get(i)) + value;
+            if (sum < bestSum) {
+                bestSum = sum;
+                bestIndex = i;
+            }
+        }
+
+        if (bestSum <= cap) {
+            instance.get(bestIndex).add(value);
+        } else {
+            ArrayList<Integer> newList = new ArrayList<>();
+            newList.add(value);
+            instance.add(newList);
+        }
+    }
 
 
 
