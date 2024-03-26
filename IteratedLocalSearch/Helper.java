@@ -104,4 +104,28 @@ public class Helper {
 
         return sum;
     }
+
+    /**
+    * Prints the contents of an instance
+    * 
+    * @param instance
+    * @return
+    */
+
+    public static Integer printInstance(ArrayList<ArrayList<Integer>> instance) {
+        Integer sum = 0;
+        for (int i = 0; i < instance.size(); i++) {
+            System.out.print("Bin " + i + " [");
+            for (int j = 0; j < instance.get(i).size(); j++) {
+                System.out.print(instance.get(i).get(j));
+                if (j != instance.get(i).size() - 1) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println("]");
+            sum += sumBin(instance.get(i));
+        }
+
+        return sum;
+    }
 }
