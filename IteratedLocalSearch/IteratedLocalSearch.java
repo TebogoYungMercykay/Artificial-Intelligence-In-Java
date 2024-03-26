@@ -188,6 +188,29 @@ public class IteratedLocalSearch extends Helper {
         }
     }
 
+    /**
+    * Finds a random bin and removes it, then reshuffles the values back into the
+    */
+
+    public void reshuffleRandom() {
+
+        Random random = new Random();
+        Integer randomIndex = random.nextInt(instance.size());
+
+        ArrayList<Integer> randomBin = instance.get(randomIndex);
+        
+        // * Swap with the last bin
+        instance.set(randomIndex, instance.get(instance.size() - 1));
+        instance.set(instance.size() - 1, randomBin);
+
+        // * Remove the random bin
+        instance.remove(instance.size() - 1);
+
+        for (int i = 0; i < randomBin.size(); i++) {
+            bestInsert(randomBin.get(i));
+        }
+    }
+
 
 
 }
