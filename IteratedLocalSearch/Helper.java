@@ -202,4 +202,20 @@ public class Helper {
 
         return caps;
     }
+
+    /**
+    * Determines the fitness of a given instance
+    * 
+    * @param instance
+    * @return
+    */
+
+    public Double Fitness(ArrayList<ArrayList<Integer>> testedInstance) {
+        Double fitness = 0.0;
+        for (int i = 0; i < testedInstance.size(); i++) {
+            fitness += Math.pow(sumBin(testedInstance.get(i)), 2);
+        }
+
+        return (1 - fitness / testedInstance.size());
+    }
 }
