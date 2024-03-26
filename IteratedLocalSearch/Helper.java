@@ -148,4 +148,28 @@ public class Helper {
 
         return copy;
     }
+
+    /**
+    * Organises the fileContents into a HashMap of file names and their respective
+    * bins
+    * 
+    * @param fileContents
+    * @param cap
+    * @return
+    */
+
+    public static HashMap<String, ArrayList<ArrayList<Integer>>> organiseInstances(HashMap<String, ArrayList<Integer>> fileContents) {
+
+        HashMap<String, ArrayList<ArrayList<Integer>>> instances = new HashMap<>();
+
+        for (String fileName : fileContents.keySet()) {
+
+            ArrayList<Integer> values = fileContents.get(fileName);
+            Integer cap = values.remove(0);
+
+            instances.put(fileName, bestFitInitial(values, cap));
+        }
+
+        return instances;
+    }
 }
