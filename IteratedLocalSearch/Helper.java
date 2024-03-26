@@ -218,4 +218,35 @@ public class Helper {
 
         return (1 - fitness / testedInstance.size());
     }
+
+    //************ Sorting Methods ************//
+
+    /**
+    * Sorts the values ArrayList into capped bins using First Fit Decreasing
+    * 
+    * @param values
+    * @param cap
+    * @return ArrayList<ArrayList<Integer>> bins
+    */
+
+    public static ArrayList<ArrayList<Integer>> firstFitDecreasing(ArrayList<Integer> values, Integer cap) {
+
+        ArrayList<ArrayList<Integer>> bins = new ArrayList<>();
+        // Add values to the current bin. If it is full, create a new bin and continue
+        // until all values have been added
+        for (int i = 0; i < values.size(); i++) {
+            Integer value = values.get(i);
+            // If the current bin is full, create a new bin
+            if (bins.size() == 0 || sumBin(bins.get(bins.size() - 1)) + value > cap) {
+                ArrayList<Integer> bin = new ArrayList<>();
+                bin.add(value);
+                bins.add(bin);
+            } else {
+                // Add the value to the current bin
+                bins.get(bins.size() - 1).add(value);
+            }
+        }
+
+        return bins;
+    }
 }
