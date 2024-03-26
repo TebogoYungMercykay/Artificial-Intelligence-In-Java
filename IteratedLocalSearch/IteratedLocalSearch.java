@@ -63,4 +63,16 @@ public class IteratedLocalSearch extends Helper {
         binCount = this.instance.size();
     }
 
+    /**
+    * Returns the runtime of the algorithm
+    * 
+    * @return runtime
+    */
+
+    public long getRuntime() {
+        return runtime.get();
+    }
+
+
+
 }
