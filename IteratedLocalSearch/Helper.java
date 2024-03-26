@@ -172,4 +172,20 @@ public class Helper {
 
         return instances;
     }
+
+    /**
+    * Removes the iterations from the fileContents and returns a HashMap of file
+    * 
+    * @param fileContents
+    * @return
+    */
+
+    public static HashMap<String, Integer> getIterations(HashMap<String, ArrayList<Integer>> fileContents) {
+        HashMap<String, Integer> iterations = new HashMap<>();
+        for (String fileName : fileContents.keySet()) {
+            iterations.put(fileName, fileContents.get(fileName).remove(0));
+        }
+    
+        return iterations;
+    }
 }
