@@ -1,16 +1,18 @@
-public class IteratedLocalSearch {
-    private Integer count;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
-    public IteratedLocalSearch(Integer count) {
-        this.count = count;
-    }
+// Class Containing IteratedLocalSearch Algorithm - Doxygen Comments for Documentation
 
-    public void run(Integer count) {
-        this.count += count;
-        System.out.println("Running Iterated Local Search with Count = " + count);
-    }
+public class IteratedLocalSearch extends Helper {
 
-    public Integer getCount() {
-        return count++;
-    }
+    private ArrayList<ArrayList<Integer>> instance;
+    private Integer cap;
+    private ArrayList<ArrayList<Integer>> bestInstance;
+    private Integer binCount = 0;
+    private AtomicLong runtime = new AtomicLong(0);
+    private Double bestFitness;
+
+    private int startValueCount = 0;
+
 }
