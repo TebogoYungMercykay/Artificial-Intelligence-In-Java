@@ -156,6 +156,38 @@ public class IteratedLocalSearch extends Helper {
         }
     }
 
+    /*
+    * Finds the bin with the smallest sum and removes it, then reshuffles the
+    * values back into the instance
+    */
+
+    public void reshuffleSmallest() {
+
+        Integer smallestIndex = 0;
+        Integer smallestSum = sumBin(instance.get(0));
+
+        for (int i = 1; i < instance.size(); i++) {
+            Integer sum = sumBin(instance.get(i));
+            if (sum < smallestSum) {
+                smallestSum = sum;
+                smallestIndex = i;
+            }
+        }
+
+        ArrayList<Integer> smallestBin = instance.get(smallestIndex);
+
+        // * Swap the smallest bin with the last bin
+        instance.set(smallestIndex, instance.get(instance.size() - 1));
+        instance.set(instance.size() - 1, smallestBin);
+
+        // * Remove the smallest bin
+        instance.remove(instance.size() - 1);
+
+        for (int i = 0; i < smallestBin.size(); i++) {
+            bestInsert(smallestBin.get(i));
+        }
+    }
+
 
 
 }
