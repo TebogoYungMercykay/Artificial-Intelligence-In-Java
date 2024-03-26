@@ -83,6 +83,51 @@ public class IteratedLocalSearch extends Helper {
         return binCount;
     }
 
+    /**
+    * Best Fit Algorithm
+    */
+
+    public void bestFit() {
+
+        ArrayList<ArrayList<Integer>> bestList = new ArrayList<>();
+
+        for (int i = 0; i < instance.size(); i++) {
+            for (int j = 0; j < instance.get(i).size(); j++) {
+                Integer value = instance.get(i).get(j);
+                Integer bestIndex = 0;
+
+                if (bestList.isEmpty()) {
+                    ArrayList<Integer> newList = new ArrayList<>();
+                    newList.add(value);
+                    bestList.add(newList);
+                    continue;
+                }
+
+                Integer bestSum = sumBin(bestList.get(0)) + value;
+
+                for (int k = 1; k < bestList.size(); k++) {
+                    Integer sum = sumBin(bestList.get(k)) + value;
+                    if (sum < bestSum) {
+                        bestSum = sum;
+                        bestIndex = k;
+                    }
+                }
+
+                if (bestSum <= cap) {
+                    bestList.get(bestIndex).add(value);
+                } else {
+                    ArrayList<Integer> newList = new ArrayList<>();
+                    newList.add(value);
+                    bestList.add(newList);
+                }
+            }
+        }
+
+        if (Fitness(bestList) < Fitness(instance)) {
+            instance = bestList;
+        }
+    }
+
 
 
 
