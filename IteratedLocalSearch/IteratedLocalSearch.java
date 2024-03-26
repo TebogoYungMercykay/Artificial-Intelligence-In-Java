@@ -247,7 +247,7 @@ public class IteratedLocalSearch extends Helper {
     /**
     * Calculates the sum of Values in the instance
     * 
-    */ 
+    */
 
     public int SumValues() {
         int sum = 0;
@@ -261,4 +261,12 @@ public class IteratedLocalSearch extends Helper {
         return sum;
     }
 
+    /**
+    * A getter for teh startValueCount variiable
+    * 
+    */
+    
+    public String getStartValueCount() {
+        return startValueCount + "";
+    }
 }
