@@ -188,4 +188,18 @@ public class Helper {
     
         return iterations;
     }
+
+    /**
+    * Removes the cap from the fileContents and returns a HashMap of file names and
+    * capacities
+    */
+
+    public static HashMap<String, Integer> getCaps(HashMap<String, ArrayList<Integer>> fileContents) {
+        HashMap<String, Integer> caps = new HashMap<>();
+        for (String fileName : fileContents.keySet()) {
+            caps.put(fileName, fileContents.get(fileName).remove(0));
+        }
+
+        return caps;
+    }
 }
