@@ -128,4 +128,24 @@ public class Helper {
 
         return sum;
     }
+
+    /**
+    * Creates a deep copy of an instance
+    * 
+    * @param instance
+    * @return
+    */
+
+    public ArrayList<ArrayList<Integer>> copyInstance(ArrayList<ArrayList<Integer>> instance) {
+        ArrayList<ArrayList<Integer>> copy = new ArrayList<>();
+        for (int i = 0; i < instance.size(); i++) {
+            ArrayList<Integer> bin = new ArrayList<>();
+            for (int j = 0; j < instance.get(i).size(); j++) {
+                bin.add(instance.get(i).get(j));
+            }
+            copy.add(bin);
+        }
+
+        return copy;
+    }
 }
