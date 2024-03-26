@@ -1,9 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        IteratedLocalSearch tempVariable = new IteratedLocalSearch(1);
-        
-        for(int i = tempVariable.getCount(); i < 10; i++) {
-            tempVariable.run(i);
-        }
+        System.out.println("Algorithm: Iterative Local Search");
+        System.out.println("Algorithm: Simulated Anneling Search");
     }
 }
