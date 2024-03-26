@@ -211,6 +211,38 @@ public class IteratedLocalSearch extends Helper {
         }
     }
 
+    /**
+    * Swap two random items in the instance
+    * 
+    */
+
+    public void Swap() {
+
+        Random random = new Random();
+        Integer index1 = random.nextInt(instance.size());
+        Integer index2 = random.nextInt(instance.size());
+
+        while (index1.equals(index2)) {
+            index2 = random.nextInt(instance.size());
+        }
+
+        ArrayList<Integer> item1 = instance.get(index1);
+        ArrayList<Integer> item2 = instance.get(index2);
+
+        Integer valueIndex1 = random.nextInt(item1.size());
+        Integer valueIndex2 = random.nextInt(item2.size());
+
+        Integer value1 = item1.get(valueIndex1);
+        Integer value2 = item2.get(valueIndex2);
+
+        Integer sum1 = sumBin(item1) - value1 + value2;
+        Integer sum2 = sumBin(item2) - value2 + value1;
+
+        if (sum1 <= cap && sum2 <= cap) {
+            item1.set(valueIndex1, value2);
+            item2.set(valueIndex2, value1);
+        }
+    }
 
 
 }
