@@ -13,26 +13,26 @@ A student needs to visit all the UP campuses where she had modules to get her cl
 	- Discussion and conclusion (critical comparative analysis of the results i.e of the two algorithms on the problem). (3 marks)
 
 ## TABLE 1: Cost Matrix Between Campuses.
---------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
  Campus		| Hatfield     	| Hillcrest	| Groenkloof    | Prinsof 	| Mamelodi
-----------------|---------------|---------------|---------------|---------------|-----------------
- Hatfield	| 0		| 15		| 20		| 22		| 30
- Hillcrest	| 15		| 0		| 10		| 12		| 25
- Groenkloof	| 20		| 10		| 0		| 8		| 22
- Prinsof	| 22		| 12		| 8		| 0		| 18
- Mamelodi	| 30		| 25		| 22		| 18		| 0
---------------------------------------------------------------------------------------------------
+------------|---------------|-----------|---------------|-----------|-----------------
+ Hatfield	| 0				| 15		| 20			| 22		| 30
+ Hillcrest	| 15			| 0			| 10			| 12		| 25
+ Groenkloof	| 20			| 10		| 0				| 8			| 22
+ Prinsof	| 22			| 12		| 8				| 0			| 18
+ Mamelodi	| 30			| 25		| 22			| 18		| 0
+--------------------------------------------------------------------------------------
 
 
 ## TABLE 2: Results (0.00 is Placeholder for Values)
---------------------------------------------------------
- Problem Set		| ILS     	| SA	
-------------------------|---------------|---------------	
+----------------------------------------------------
+ Problem Set			| ILS     	| SA	
+------------------------|-----------|---------------	
  Best Solution(route)	| 0.00		| 0.00		
  Objective Function Val	| 0.00		| 0.00		
- Runtime		| 0.00		| 0.00		
- Av Obj Function	| 0.00		| 0.00	
---------------------------------------------------------
+ Runtime				| 0.00		| 0.00		
+ Av Obj Function		| 0.00		| 0.00	
+----------------------------------------------------
 
 # Hint:
 You can use Iterated Local Search by first generating an initial solution, for example, using random selection. You can then apply a local search to the initial solution e.g swapping two consecutive campuses on a solution and then apply a perturbation operator to the solution, for example, by randomly swapping any two campuses. After the perturbation, you can use local search to optimize the solution. The process of perturbation and local search is repeated for a fixed number of iterations or until a stopping criterion is met such as no improvement after a set number of consecutive iterations.
