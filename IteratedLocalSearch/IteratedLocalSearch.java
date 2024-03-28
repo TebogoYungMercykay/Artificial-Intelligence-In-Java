@@ -21,29 +21,29 @@ public class IteratedLocalSearch {
 
         // Main loop of ILS
         for (int i = 0; i < MAX_ITERATIONS; i++) {
-            // Generate an initial solution
+            // Generating an initial solution
             Solution currentSolution = generateInitialSolution(DISTANCES);
 
-            // Perform local search on the initial solution
+            // Performing local search on the initial solution
             currentSolution = localSearch(currentSolution);
 
             long startTime = System.currentTimeMillis();
 
-            // Apply perturbation
+            // Applying perturbation
             Solution newSolution = perturb(currentSolution);
 
-            // Perform local search on the perturbed solution
+            // Performing local search on the perturbed solution
             newSolution = localSearch(newSolution);
 
             long endTime = System.currentTimeMillis();
             long runtime = endTime - startTime;
 
-            // Update current solution if the new solution is better
+            // Updating current solution if the new solution is better
             if (newSolution.getDistance() < currentSolution.getDistance()) {
                 currentSolution = newSolution;
             }
 
-            // Add solution details to the list
+            // Adding solution details to the list
             allDetails.add(new SolutionDetails(currentSolution, runtime));
         }
 
@@ -60,7 +60,7 @@ public class IteratedLocalSearch {
     }
 
     private Solution localSearch(Solution solution) {
-        // Apply 2-opt local search
+        // Applying 2-opt local search
         Solution bestSolution = solution;
         boolean improved;
         do {
@@ -80,7 +80,7 @@ public class IteratedLocalSearch {
     }
 
     private Solution perturb(Solution solution) {
-        // Apply perturbation by swapping two random campuses
+        // Applying perturbation by swapping two random campuses
         Random random = new Random();
         int index1 = random.nextInt(NUM_CAMPUSES);
         int index2;
