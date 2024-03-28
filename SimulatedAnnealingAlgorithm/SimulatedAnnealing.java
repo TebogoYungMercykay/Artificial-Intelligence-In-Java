@@ -19,13 +19,13 @@ public class SimulatedAnnealing {
 
         // Main loop of Simulated Annealing
         for (int i = 0; i < MAX_ITERATIONS; i++) {
-            // Generate an initial solution
+            // Generating an initial solution
             
             Solution currentSolution = generateInitialSolution(DISTANCES);
             
             long startTime = System.currentTimeMillis();
 
-            // Perform simulated annealing
+            // Performing simulated annealing
             Solution newSolution = simulatedAnnealing(currentSolution);
 
             long endTime = System.currentTimeMillis();
