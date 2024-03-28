@@ -1,281 +1,92 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
 
-// Class Containing IteratedLocalSearch Algorithm - Doxygen Comments for Documentation
+public class IteratedLocalSearch {
 
-public class IteratedLocalSearch extends Helper {
+    private static final int NUM_CAMPUSES = 5;
+    private static final int MAX_ITERATIONS = 1000;
 
-    private ArrayList<ArrayList<Integer>> instance;
-    private Integer cap;
-    private ArrayList<ArrayList<Integer>> bestInstance;
-    private Integer binCount = 0;
-    private AtomicLong runtime = new AtomicLong(0);
-    private Double bestFitness;
+    private static final int[][] DISTANCES = {
+            {0, 15, 20, 22, 30},
+            {15, 0, 10, 12, 25},
+            {20, 10, 0, 8, 22},
+            {22, 12, 8, 0, 18},
+            {30, 25, 22, 18, 0}
+    };
 
-    private int startValueCount = 0;
+    public List<SolutionDetails> run() {
+        List<SolutionDetails> allDetails = new ArrayList<>();
 
-    public IteratedLocalSearch(ArrayList<ArrayList<Integer>> instance, Integer cap, Integer iterations) {
+        // Main loop of ILS
+        for (int i = 0; i < MAX_ITERATIONS; i++) {
+            // Generate an initial solution
+            Solution currentSolution = generateInitialSolution(DISTANCES);
 
-        this.instance = instance;
-        this.cap = cap;
+            // Perform local search on the initial solution
+            currentSolution = localSearch(currentSolution);
 
-        startValueCount = SumValues();
+            long startTime = System.currentTimeMillis();
 
-        // * Starting The Timer
-        long startTime = System.currentTimeMillis();
+            // Apply perturbation
+            Solution newSolution = perturb(currentSolution);
 
-        // * The Initial Solution
-        bestFit();
-        this.bestInstance = copyInstance(instance);
-        this.bestFitness = Fitness(instance);
+            // Perform local search on the perturbed solution
+            newSolution = localSearch(newSolution);
 
-        for (int j = 0; j < iterations; j++) {
+            long endTime = System.currentTimeMillis();
+            long runtime = endTime - startTime;
 
-            // Saving The Current Best Instance
-            bestInstance = copyInstance(this.instance);
-
-            // * Pertubaton
-            Random random = new Random();
-            Integer randomValue = random.nextInt(iterations - j) + j;
-
-            if (randomValue < iterations / 2) {
-                reshuffleRandom();
-            } else if (randomValue > iterations * 0.75 && j % 4 == 0) {
-                reshuffleSmallest();
+            // Update current solution if the new solution is better
+            if (newSolution.getDistance() < currentSolution.getDistance()) {
+                currentSolution = newSolution;
             }
 
-            // Pertubaton CONT.
-            Swap();
-
-            // * LOCAL SEARCH / ACCEPT
-            Double newFitness = Fitness(this.instance);
-            if (newFitness <= bestFitness) {
-                bestFitness = newFitness;
-            } else {
-                this.instance = bestInstance;
-            }
+            // Add solution details to the list
+            allDetails.add(new SolutionDetails(currentSolution, runtime));
         }
 
-        this.instance = bestInstance;
-
-        runtime = new AtomicLong((System.currentTimeMillis() - startTime));
-        binCount = this.instance.size();
+        return allDetails;
     }
 
-    /**
-    * Returns the runtime of the algorithm
-    * 
-    * @return runtime
-    */
-
-    public long getRuntime() {
-        return runtime.get();
+    private Solution generateInitialSolution(int[][] distances) {
+        List<Integer> campuses = new ArrayList<>();
+        for (int i = 0; i < NUM_CAMPUSES; i++) {
+            campuses.add(i);
+        }
+        Collections.shuffle(campuses); // Randomly shuffle the campuses
+        return new Solution(campuses, distances);
     }
 
-    /**
-    * Returns bin count of the instance
-    * 
-    * @return binCount
-    */
-
-    public Integer getBinCount() {
-        return binCount;
-    }
-
-    /**
-    * Best Fit Algorithm
-    */
-
-    public void bestFit() {
-
-        ArrayList<ArrayList<Integer>> bestList = new ArrayList<>();
-
-        for (int i = 0; i < instance.size(); i++) {
-            for (int j = 0; j < instance.get(i).size(); j++) {
-                Integer value = instance.get(i).get(j);
-                Integer bestIndex = 0;
-
-                if (bestList.isEmpty()) {
-                    ArrayList<Integer> newList = new ArrayList<>();
-                    newList.add(value);
-                    bestList.add(newList);
-                    continue;
-                }
-
-                Integer bestSum = sumBin(bestList.get(0)) + value;
-
-                for (int k = 1; k < bestList.size(); k++) {
-                    Integer sum = sumBin(bestList.get(k)) + value;
-                    if (sum < bestSum) {
-                        bestSum = sum;
-                        bestIndex = k;
+    private Solution localSearch(Solution solution) {
+        // Apply 2-opt local search
+        Solution bestSolution = solution;
+        boolean improved;
+        do {
+            improved = false;
+            for (int i = 0; i < NUM_CAMPUSES - 1; i++) {
+                for (int j = i + 1; j < NUM_CAMPUSES; j++) {
+                    Solution newSolution = solution.twoOptSwap(i, j);
+                    if (newSolution.getDistance() < bestSolution.getDistance()) {
+                        bestSolution = newSolution;
+                        improved = true;
                     }
                 }
-
-                if (bestSum <= cap) {
-                    bestList.get(bestIndex).add(value);
-                } else {
-                    ArrayList<Integer> newList = new ArrayList<>();
-                    newList.add(value);
-                    bestList.add(newList);
-                }
             }
-        }
-
-        if (Fitness(bestList) < Fitness(instance)) {
-            instance = bestList;
-        }
+            solution = bestSolution;
+        } while (improved);
+        return bestSolution;
     }
 
-    /**
-    * Finds the best bin to insert a value into the instance
-    * 
-    * @param value
-    */
-
-    public void bestInsert(Integer value) {
-
-        Integer bestIndex = 0;
-        Integer bestSum = sumBin(instance.get(0)) + value;
-
-        for (int i = 1; i < instance.size(); i++) {
-            Integer sum = sumBin(instance.get(i)) + value;
-            if (sum < bestSum) {
-                bestSum = sum;
-                bestIndex = i;
-            }
-        }
-
-        if (bestSum <= cap) {
-            instance.get(bestIndex).add(value);
-        } else {
-            ArrayList<Integer> newList = new ArrayList<>();
-            newList.add(value);
-            instance.add(newList);
-        }
-    }
-
-    /*
-    * Finds the bin with the smallest sum and removes it, then reshuffles the
-    * values back into the instance
-    */
-
-    public void reshuffleSmallest() {
-
-        Integer smallestIndex = 0;
-        Integer smallestSum = sumBin(instance.get(0));
-
-        for (int i = 1; i < instance.size(); i++) {
-            Integer sum = sumBin(instance.get(i));
-            if (sum < smallestSum) {
-                smallestSum = sum;
-                smallestIndex = i;
-            }
-        }
-
-        ArrayList<Integer> smallestBin = instance.get(smallestIndex);
-
-        // * Swap the smallest bin with the last bin
-        instance.set(smallestIndex, instance.get(instance.size() - 1));
-        instance.set(instance.size() - 1, smallestBin);
-
-        // * Remove the smallest bin
-        instance.remove(instance.size() - 1);
-
-        for (int i = 0; i < smallestBin.size(); i++) {
-            bestInsert(smallestBin.get(i));
-        }
-    }
-
-    /**
-    * Finds a random bin and removes it, then reshuffles the values back into the
-    */
-
-    public void reshuffleRandom() {
-
+    private Solution perturb(Solution solution) {
+        // Apply perturbation by swapping two random campuses
         Random random = new Random();
-        Integer randomIndex = random.nextInt(instance.size());
-
-        ArrayList<Integer> randomBin = instance.get(randomIndex);
-        
-        // * Swap with the last bin
-        instance.set(randomIndex, instance.get(instance.size() - 1));
-        instance.set(instance.size() - 1, randomBin);
-
-        // * Remove the random bin
-        instance.remove(instance.size() - 1);
-
-        for (int i = 0; i < randomBin.size(); i++) {
-            bestInsert(randomBin.get(i));
-        }
-    }
-
-    /**
-    * Swap two random items in the instance
-    * 
-    */
-
-    public void Swap() {
-
-        Random random = new Random();
-        Integer index1 = random.nextInt(instance.size());
-        Integer index2 = random.nextInt(instance.size());
-
-        while (index1.equals(index2)) {
-            index2 = random.nextInt(instance.size());
-        }
-
-        ArrayList<Integer> item1 = instance.get(index1);
-        ArrayList<Integer> item2 = instance.get(index2);
-
-        Integer valueIndex1 = random.nextInt(item1.size());
-        Integer valueIndex2 = random.nextInt(item2.size());
-
-        Integer value1 = item1.get(valueIndex1);
-        Integer value2 = item2.get(valueIndex2);
-
-        Integer sum1 = sumBin(item1) - value1 + value2;
-        Integer sum2 = sumBin(item2) - value2 + value1;
-
-        if (sum1 <= cap && sum2 <= cap) {
-            item1.set(valueIndex1, value2);
-            item2.set(valueIndex2, value1);
-        }
-    }
-
-    /**
-    * Calculates the sum of Values in the instance
-    * 
-    */
-
-    public int SumValues() {
-        int sum = 0;
-
-        for (int i = 0; i < instance.size(); i++) {
-            for (int j = 0; j < instance.get(i).size(); j++) {
-                sum += instance.get(i).get(j);
-            }
-        }
-
-        return sum;
-    }
-
-    /**
-    * A getter for teh startValueCount variiable
-    * 
-    */
-    
-    public String getStartValueCount() {
-        return startValueCount + "";
-    }
-
-    /**
-    * Returns the current sum of the values in the instance
-    * 
-    */
-
-    public String getEndValueCount() {
-        return SumValues() + "";
+        int index1 = random.nextInt(NUM_CAMPUSES);
+        int index2;
+        do {
+            index2 = random.nextInt(NUM_CAMPUSES);
+        } while (index1 == index2);
+        return solution.swapCampuses(index1, index2);
     }
 }
