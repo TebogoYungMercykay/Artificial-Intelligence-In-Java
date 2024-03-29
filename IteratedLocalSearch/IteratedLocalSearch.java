@@ -17,6 +17,7 @@ public class IteratedLocalSearch {
     /**  Constants */
     private static final int NUM_CAMPUSES = 5;
     private static final int MAX_ITERATIONS = 100;
+    private static final Random random = new Random();
 
     /**
      * Runs the Iterated Local Search algorithm to find the best solution.
@@ -44,6 +45,7 @@ public class IteratedLocalSearch {
             long endTime = System.currentTimeMillis();
             long runtime = endTime - startTime;
             newBestSolution.setRuntime(runtime);
+            solutionsList.addSolution(newBestSolution);
 
             // Update the current solution if the new best solution is better
             if (newBestSolution.isBetterThan(currentSolution)) {
@@ -54,8 +56,6 @@ public class IteratedLocalSearch {
             if (currentSolution.isBetterThan(solutionsList.getBestSolution())) {
                 solutionsList.setBestSolution(currentSolution);
             }
-
-            solutionsList.addSolution(currentSolution);
         }
 
         return solutionsList;
@@ -75,24 +75,9 @@ public class IteratedLocalSearch {
         campuses.add(0);
 
         // Randomly shuffle the campuses from index 1 to NUM_CAMPUSES
-        this.shuffleRoute(campuses);
-
+        Collections.shuffle(campuses.subList(1, NUM_CAMPUSES));
+        System.out.println(new Solution(campuses, 0));
         return new Solution(campuses, 0);
-    }
-
-    /**
-     * Shuffles the route randomly, excluding the start and end campuses.
-     * @param route The route to shuffle.
-     */
-    private void shuffleRoute(List<Integer> route) {
-        Random random = new Random();
-        // Start from index 1 to exclude start and end campuses
-        for (int i = 1; i < route.size() - 1; i++) {
-            int j = random.nextInt(route.size() - 2) + 1; // Exclude the last index
-            int temp = route.get(i);
-            route.set(i, route.get(j));
-            route.set(j, temp);
-        }
     }
 
     /**
@@ -125,7 +110,6 @@ public class IteratedLocalSearch {
      * @return The perturbed solution.
      */
     private Solution perturb(Solution solution) {
-        Random random = new Random();
         int index1 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         int index2;
         do {
