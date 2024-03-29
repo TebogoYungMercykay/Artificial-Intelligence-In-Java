@@ -29,13 +29,14 @@ public class Main {
         double totalRuntimeSASecs = totalRuntimeSA / 1000.0;
         
         // Print summary table
-        System.out.println("--------------------------------------------");
-        System.out.println("| Problem Set            | SA              |");
-        System.out.println("|------------------------|-----------------|");
-        System.out.printf("| Best Solution(route)   | %-16s|%n", bestRouteSA);
-        System.out.printf("| Objective Function Val | %-16d|%n", bestDistanceSA);
-        System.out.printf("| Runtime (s)            | %-16.2f|%n", totalRuntimeSASecs);
-        System.out.printf("| Av Obj Function        | %-16.2f|%n", totalDistanceSA);
-        System.out.println("--------------------------------------------");
+        System.out.println("----------------------------------------------");
+        System.out.println("| Problem Set            | SA                |");
+        System.out.println("|------------------------|-------------------|");
+        System.out.printf("| Best Solution(route)   | %-18s|%n", bestRouteSA);
+        System.out.printf("| Objective Function Val | %-18d|%n", bestDistanceSA);
+        System.out.printf("| Runtime (s)            | %-18.2f|%n", totalRuntimeSASecs);
+        System.out.printf("| Runtime (ms)           | %-18.2f|%n", totalRuntimeSA);
+        System.out.printf("| Av Obj Function        | %-18.2f|%n", totalDistanceSA);
+        System.out.println("----------------------------------------------");
     }
 }

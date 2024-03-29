@@ -29,13 +29,14 @@ public class Main {
         double totalRuntimeILSSecs = totalRuntimeILS / 1000.0;
         
         // Print summary table
-        System.out.println("--------------------------------------------");
-        System.out.println("| Problem Set            | ILS             |");
-        System.out.println("|------------------------|-----------------|");
-        System.out.printf("| Best Solution(route)   | %-16s|%n", bestRouteILS);
-        System.out.printf("| Objective Function Val | %-16d|%n", bestDistanceILS);
-        System.out.printf("| Runtime (s)            | %-16.2f|%n", totalRuntimeILSSecs);
-        System.out.printf("| Av Obj Function        | %-16.2f|%n", totalDistanceILS);
-        System.out.println("--------------------------------------------");
+        System.out.println("----------------------------------------------");
+        System.out.println("| Problem Set            | ILS               |");
+        System.out.println("|------------------------|-------------------|");
+        System.out.printf("| Best Solution(route)   | %-18s|%n", bestRouteILS);
+        System.out.printf("| Objective Function Val | %-18d|%n", bestDistanceILS);
+        System.out.printf("| Runtime (s)            | %-18.2f|%n", totalRuntimeILSSecs);
+        System.out.printf("| Runtime (ms)           | %-18.2f|%n", totalRuntimeILS);
+        System.out.printf("| Av Obj Function        | %-18.2f|%n", totalDistanceILS);
+        System.out.println("----------------------------------------------");
     }
 }
