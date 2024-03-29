@@ -1,28 +1,29 @@
 import java.util.List;
 
+/**
+ * @file Main.java
+ * 
+ * @author Selepe Sello
+ * @date 29 March 2021
+ * @version 1.0
+ * @brief The Main class to run the Iterated Local Search algorithm.
+ */
+
 public class Main {
     public static void main(String[] args) {
         // Iterated Local Search (ILS) Algorithm
         IteratedLocalSearch ils = new IteratedLocalSearch();
         SolutionDetails detailsILS = ils.run();
-        int totalDistanceILS = 0;
-        int numSolutionsILS = detailsILS.getAllSolutions().size();
+        double totalDistanceILS = 0;
         int bestDistanceILS = Integer.MAX_VALUE;
-        long totalRuntimeILS = 0;
-        int[] bestRouteILS = null;
+        double totalRuntimeILS = 0;
+        String bestRouteILS = "null";
     
         // Calculate ILS statistics
-        for (Solution solution : detailsILS.getAllSolutions()) {
-            totalDistanceILS += solution.getDistance();
-            bestDistanceILS = Math.min(bestDistanceILS, solution.getDistance());
-            totalRuntimeILS += solution.getRuntime();
-        }
-    
-        if (detailsILS.getBestSolution() != null) {
-            bestRouteILS = detailsILS.getBestSolution().getRoute().stream()
-                .mapToInt(Integer::intValue)
-                .toArray();
-        }
+        totalDistanceILS = detailsILS.getAverageDistance();
+        bestDistanceILS = detailsILS.getBestSolution().getDistance();
+        totalRuntimeILS = detailsILS.getTotalRuntime();
+        bestRouteILS = detailsILS.getBestSolution().getRouteString();
     
         // Convert total runtime from milliseconds to seconds for ILS
         double totalRuntimeILSSecs = totalRuntimeILS / 1000.0;
@@ -31,23 +32,10 @@ public class Main {
         System.out.println("--------------------------------------------");
         System.out.println("| Problem Set            | ILS             |");
         System.out.println("|------------------------|-----------------|");
-        System.out.printf("| Best Solution(route)   | %-16s|%n", getRouteString(bestRouteILS));
+        System.out.printf("| Best Solution(route)   | %-16s|%n", bestRouteILS);
         System.out.printf("| Objective Function Val | %-16d|%n", bestDistanceILS);
         System.out.printf("| Runtime (s)            | %-16.2f|%n", totalRuntimeILSSecs);
-        System.out.printf("| Av Obj Function        | %-16.2f|%n", (double) totalDistanceILS / numSolutionsILS);
+        System.out.printf("| Av Obj Function        | %-16.2f|%n", totalDistanceILS);
         System.out.println("--------------------------------------------");
-    }
-    
-    private static String getRouteString(int[] route) {
-        if (route == null) return "N/A";
-        StringBuilder routeString = new StringBuilder("[");
-        for (int i = 0; i < route.length; i++) {
-            routeString.append(route[i]);
-            if (i < route.length - 1) {
-                routeString.append(", ");
-            }
-        }
-        routeString.append("]");
-        return routeString.toString();
     }
 }
