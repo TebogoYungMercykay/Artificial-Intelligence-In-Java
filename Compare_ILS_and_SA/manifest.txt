@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Specification-Title: Algorithms
+Specification-Version: 1.0
+Specification-Vendor: University of Pretoria (Student No: 20748052)
+
+# Algorithms (Technical Specification)
+
+# Iterated Local Search (ILS)
+Purpose: The ILS algorithm iteratively explores the solution(route) space by generating initial solutions(routes), performing local search to improve them, and perturbing the solutions(routes) to escape local optima.
+Main Components:
+  - IteratedLocalSearch.java: Represents the implementation of the ILS algorithm.
+  - Solution.java: Defines the structure of a solution(route) and provides methods for calculating distances, performing 2-opt swaps, and evaluating solution(route) quality.
+  - SolutionDetails.java: Manages multiple solutions(routes), tracks the best solution(route) found, and calculates statistics such as average distance and total runtime.
+Usage: The IteratedLocalSearch class orchestrates the execution of the algorithm and outputs the best solution(route) found along with relevant statistics.
+
+# Simulated Annealing (SA)
+Purpose: SA mimics the process of annealing in metallurgy to find optimal solutions(routes) by probabilistically accepting worse solutions(routes) initially and gradually decreasing the probability as the algorithm progresses.
+Main Components:
+  - SimulatedAnnealing.java: Implements the SA algorithm.
+  - Solution.java: Shared with ILS, providing the structure for solutions(routes) and methods for distance calculation and solution(route) evaluation.
+  - SolutionDetails.java: Shared with ILS, manages solutions(routes) and tracks the best solution(route) found.
+Usage: The SimulatedAnnealing class drives the SA algorithm execution, generating initial solutions(routes), perturbing them, and cooling the system temperature.
