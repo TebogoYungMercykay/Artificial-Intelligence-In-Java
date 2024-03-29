@@ -2,8 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class representing details of multiple solutions.
+ * @file SolutionDetails.java
+ * 
+ * @author Selepe Sello
+ * @date 29 March 2021
+ * @version 1.0
+ * @brief Class representing details of multiple solutions.
  */
+
 public class SolutionDetails {
     /** List of solutions. */
     private final List<Solution> solutions;
@@ -58,6 +64,19 @@ public class SolutionDetails {
             totalDistance += solution.getDistance();
         }
         return (double) totalDistance / solutions.size();
+    }
+
+    /**
+     * Calculate the total runtime of all solutions.
+     * @return The total runtime.
+     */
+    public double getTotalRuntime() {
+        if (solutions.isEmpty()) return 0.0;
+        int totalRuntime = 0;
+        for (Solution solution : solutions) {
+            totalRuntime += solution.getRuntime();
+        }
+        return (double) totalRuntime / solutions.size();
     }
 
     /**
