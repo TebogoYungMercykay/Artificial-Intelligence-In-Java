@@ -3,94 +3,101 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @file SimulatedAnnealing.java
+ * 
+ * @author Selepe Sello
+ * @date 29 March 2021
+ * @version 1.0
+ * @brief Simulated Annealing algorithm for solving the campus tour problem.
+ */
+
 public class SimulatedAnnealing {
+
+    /**  Constants */
     private static final int NUM_CAMPUSES = 5;
-    private static final int MAX_ITERATIONS = 1000;
-    private static final int[][] DISTANCES = {
-            {0, 15, 20, 22, 30},
-            {15, 0, 10, 12, 25},
-            {20, 10, 0, 8, 22},
-            {22, 12, 8, 0, 18},
-            {30, 25, 22, 18, 0}
-    };
+    private static final int MAX_ITERATIONS = 100;
+    private static final double INITIAL_TEMPERATURE = 1000;
+    private static final double COOLING_RATE = 0.99;
+    private static final Random random = new Random();
 
-    public List<SolutionDetails> run() {
-        List<SolutionDetails> allDetails = new ArrayList<>();
+    /**
+     * Runs the Simulated Annealing algorithm to find the best solution.
+     * 
+     * @return SolutionDetails containing the details of the best solution found
+     */
+    public SolutionDetails run() {
+        // Initialize SolutionDetails to store all solutions and other details
+        SolutionDetails solutionsList = new SolutionDetails();
+        Solution currentSolution = generateInitialSolution();
+        // solutionsList.addSolution(currentSolution);
 
-        // Main loop of Simulated Annealing
+        // Initialize temperature
+        double temperature = INITIAL_TEMPERATURE;
+
         for (int i = 0; i < MAX_ITERATIONS; i++) {
-            // Generating an initial solution
-            
-            Solution currentSolution = generateInitialSolution(DISTANCES);
-            
             long startTime = System.currentTimeMillis();
-
-            // Performing simulated annealing
-            Solution newSolution = simulatedAnnealing(currentSolution);
-
+            
+            // Perturb the current solution
+            Solution newSolution = perturb(currentSolution);
+            
+            // Calculate the change in distance between current and new solution
+            double deltaDistance = newSolution.getDistance() - currentSolution.getDistance();
+            
+            // Acceptance criterion based on the Metropolis criterion
+            if (deltaDistance < 0 || Math.exp(-deltaDistance / temperature) > random.nextDouble()) {
+                currentSolution = newSolution;
+            }
+            
+            // Cool down the temperature
+            temperature *= COOLING_RATE;
+            
             long endTime = System.currentTimeMillis();
-
             long runtime = endTime - startTime;
+            newSolution.setRuntime(runtime);
+            currentSolution.setRuntime(runtime);
 
-            allDetails.add(new SolutionDetails(newSolution, runtime));
+            solutionsList.addSolution(newSolution);
+
+            // Update the best solution in the SolutionDetails
+            if (currentSolution.isBetterThan(solutionsList.getBestSolution())) {
+                solutionsList.setBestSolution(currentSolution);
+            }
+
         }
 
-        return allDetails;
+        return solutionsList;
     }
 
-    private Solution generateInitialSolution(int[][] distances) {
+    /**
+     * Generates an initial solution by randomly shuffling campuses.
+     * @param distances the distance matrix
+     * @return the initial solution
+     */
+    private Solution generateInitialSolution() {
         List<Integer> campuses = new ArrayList<>();
         for (int i = 0; i < NUM_CAMPUSES; i++) {
             campuses.add(i);
         }
-        Collections.shuffle(campuses); // Randomly shuffle the campuses
-        return new Solution(campuses, distances);
+        // Adding the starting campus at the end
+        campuses.add(0);
+
+        // Randomly shuffle the campuses from index 1 to NUM_CAMPUSES
+        Collections.shuffle(campuses.subList(1, NUM_CAMPUSES));
+        return new Solution(campuses, 0);
     }
 
-    private Solution simulatedAnnealing(Solution solution) {
-        Random random = new Random();
-        double temperature = 10000;
-        double coolingRate = 0.003;
-
-        Solution bestSolution = new Solution(solution.getRoute(), DISTANCES);
-        int bestDistance = bestSolution.getDistance();
-
-        while (temperature > 1) {
-            Solution newSolution = new Solution(solution.getRoute(), DISTANCES);
-            perturb(newSolution.getRoute());
-
-            int currentDistance = solution.getDistance();
-            int newDistance = newSolution.getDistance();
-
-            if (acceptanceProbability(currentDistance, newDistance, temperature, random) > random.nextDouble()) {
-                solution = new Solution(newSolution.getRoute(), DISTANCES);
-            }
-
-            if (newDistance < bestDistance) {
-                bestSolution = new Solution(newSolution.getRoute(), DISTANCES);
-                bestDistance = newDistance;
-            }
-
-            temperature *= (1 - coolingRate);
-        }
-
-        return bestSolution;
-    }
-
-    private void perturb(List<Integer> route) {
-        Random random = new Random();
-        int index1 = random.nextInt(route.size());
+    /**
+     * Perturbs the given solution to explore new solutions.
+     * @param solution The solution to perturb.
+     * @return The perturbed solution.
+     */
+    private Solution perturb(Solution solution) {
+        int index1 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         int index2;
         do {
-            index2 = random.nextInt(route.size());
+            index2 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         } while (index1 == index2);
-        Collections.swap(route, index1, index2);
-    }
-
-    private double acceptanceProbability(int currentDistance, int newDistance, double temperature, Random random) {
-        if (newDistance < currentDistance) {
-            return 1.0;
-        }
-        return Math.exp((currentDistance - newDistance) / temperature);
+        return solution.swapCampuses(index1, index2);
     }
 }

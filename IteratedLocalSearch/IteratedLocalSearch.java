@@ -3,72 +3,96 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @file IteratedLocalSearch.java
+ * 
+ * @author Selepe Sello
+ * @date 29 March 2021
+ * @version 1.0
+ * @brief Class representing the Iterated Local Search algorithm for solving optimization problems.
+ */
+
 public class IteratedLocalSearch {
 
+    /**  Constants */
     private static final int NUM_CAMPUSES = 5;
-    private static final int MAX_ITERATIONS = 1000;
+    private static final int MAX_ITERATIONS = 100;
+    private static final Random random = new Random();
 
-    private static final int[][] DISTANCES = {
-            {0, 15, 20, 22, 30},
-            {15, 0, 10, 12, 25},
-            {20, 10, 0, 8, 22},
-            {22, 12, 8, 0, 18},
-            {30, 25, 22, 18, 0}
-    };
+    /**
+     * Runs the Iterated Local Search algorithm to find the best solution.
+     * 
+     * @return SolutionDetails containing the details of the best solution found
+     */
+    public SolutionDetails run() {
+        // Initialize SolutionDetails to store all solutions and other details
+        SolutionDetails solutionsList = new SolutionDetails();
 
-    public List<SolutionDetails> run() {
-        List<SolutionDetails> allDetails = new ArrayList<>();
-
-        // Main loop of ILS
+        // Main loop of the Iterated Local Search algorithm
         for (int i = 0; i < MAX_ITERATIONS; i++) {
-            // Generating an initial solution
-            Solution currentSolution = generateInitialSolution(DISTANCES);
-
-            // Performing local search on the initial solution
+            // Generate & Perform local search on the initial solution
+            Solution currentSolution = generateInitialSolution();
             currentSolution = localSearch(currentSolution);
 
             long startTime = System.currentTimeMillis();
 
-            // Applying perturbation
+            // Perturb the current solution
             Solution newSolution = perturb(currentSolution);
 
-            // Performing local search on the perturbed solution
-            newSolution = localSearch(newSolution);
+            // Perform local search on the perturbed solution
+            Solution newBestSolution = localSearch(newSolution);
 
             long endTime = System.currentTimeMillis();
             long runtime = endTime - startTime;
+            newBestSolution.setRuntime(runtime);
+            solutionsList.addSolution(newBestSolution);
 
-            // Updating current solution if the new solution is better
-            if (newSolution.getDistance() < currentSolution.getDistance()) {
-                currentSolution = newSolution;
+            // Update the current solution if the new best solution is better
+            if (newBestSolution.isBetterThan(currentSolution)) {
+                currentSolution = newBestSolution;
             }
 
-            // Adding solution details to the list
-            allDetails.add(new SolutionDetails(currentSolution, runtime));
+            // Update the best solution in the SolutionDetails
+            if (currentSolution.isBetterThan(solutionsList.getBestSolution())) {
+                solutionsList.setBestSolution(currentSolution);
+            }
         }
 
-        return allDetails;
+        return solutionsList;
     }
 
-    private Solution generateInitialSolution(int[][] distances) {
+    /**
+     * Generates an initial solution by randomly shuffling campuses.
+     * @param distances the distance matrix
+     * @return the initial solution
+     */
+    private Solution generateInitialSolution() {
         List<Integer> campuses = new ArrayList<>();
         for (int i = 0; i < NUM_CAMPUSES; i++) {
             campuses.add(i);
         }
-        Collections.shuffle(campuses); // Randomly shuffle the campuses
-        return new Solution(campuses, distances);
+        // Adding the starting campus at the end
+        campuses.add(0);
+
+        // Randomly shuffle the campuses from index 1 to NUM_CAMPUSES
+        Collections.shuffle(campuses.subList(1, NUM_CAMPUSES));
+        return new Solution(campuses, 0);
     }
 
+    /**
+     * Performs local search to improve the given solution.
+     * @param solution The solution to improve.
+     * @return The improved solution.
+     */
     private Solution localSearch(Solution solution) {
-        // Applying 2-opt local search
         Solution bestSolution = solution;
         boolean improved;
         do {
             improved = false;
-            for (int i = 0; i < NUM_CAMPUSES - 1; i++) {
-                for (int j = i + 1; j < NUM_CAMPUSES; j++) {
+            for (int i = 1; i < NUM_CAMPUSES; i++) {
+                for (int j = i + 1; j <= NUM_CAMPUSES; j++) {
                     Solution newSolution = solution.twoOptSwap(i, j);
-                    if (newSolution.getDistance() < bestSolution.getDistance()) {
+                    if (newSolution.isBetterThan(bestSolution)) {
                         bestSolution = newSolution;
                         improved = true;
                     }
@@ -79,13 +103,16 @@ public class IteratedLocalSearch {
         return bestSolution;
     }
 
+    /**
+     * Perturbs the given solution to explore new solutions.
+     * @param solution The solution to perturb.
+     * @return The perturbed solution.
+     */
     private Solution perturb(Solution solution) {
-        // Applying perturbation by swapping two random campuses
-        Random random = new Random();
-        int index1 = random.nextInt(NUM_CAMPUSES);
+        int index1 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         int index2;
         do {
-            index2 = random.nextInt(NUM_CAMPUSES);
+            index2 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         } while (index1 == index2);
         return solution.swapCampuses(index1, index2);
     }
