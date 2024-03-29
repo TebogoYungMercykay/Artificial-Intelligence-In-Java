@@ -1,10 +1,17 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Class representing the Iterated Local Search algorithm for solving optimization problems.
+ * @file IteratedLocalSearch.java
+ * 
+ * @author Selepe Sello
+ * @date 29 March 2021
+ * @version 1.0
+ * @brief Class representing the Iterated Local Search algorithm for solving optimization problems.
  */
+
 public class IteratedLocalSearch {
 
     /**  Constants */
@@ -55,19 +62,22 @@ public class IteratedLocalSearch {
     }
 
     /**
-     * Generates the initial solution for the Iterated Local Search algorithm.
-     * @return The initial solution.
+     * Generates an initial solution by randomly shuffling campuses.
+     * @param distances the distance matrix
+     * @return the initial solution
      */
     private Solution generateInitialSolution() {
-        List<Integer> route = new ArrayList<>();
-        // Generate the route [0, 1, 2, 3, 4, 0]
-        for (int i = 0; i <= NUM_CAMPUSES; i++) {
-            route.add(i % (NUM_CAMPUSES + 1));
+        List<Integer> campuses = new ArrayList<>();
+        for (int i = 0; i < NUM_CAMPUSES; i++) {
+            campuses.add(i);
         }
-        // Shuffle the route, excluding start and end campuses
-        shuffleRoute(route);
-        // Runtime is not used for initial solution
-        return new Solution(route, 0);
+        // Adding the starting campus at the end
+        campuses.add(0);
+
+        // Randomly shuffle the campuses from index 1 to NUM_CAMPUSES
+        this.shuffleRoute(campuses);
+
+        return new Solution(campuses, 0);
     }
 
     /**
@@ -77,8 +87,8 @@ public class IteratedLocalSearch {
     private void shuffleRoute(List<Integer> route) {
         Random random = new Random();
         // Start from index 1 to exclude start and end campuses
-        for (int i = 1; i < NUM_CAMPUSES; i++) {
-            int j = random.nextInt(NUM_CAMPUSES - 1) + 1;
+        for (int i = 1; i < route.size() - 1; i++) {
+            int j = random.nextInt(route.size() - 2) + 1; // Exclude the last index
             int temp = route.get(i);
             route.set(i, route.get(j));
             route.set(j, temp);
