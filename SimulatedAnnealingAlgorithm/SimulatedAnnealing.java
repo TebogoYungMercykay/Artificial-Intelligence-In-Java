@@ -19,15 +19,7 @@ public class SimulatedAnnealing {
     private static final int MAX_ITERATIONS = 1000;
     private static final double INITIAL_TEMPERATURE = 1000;
     private static final double COOLING_RATE = 0.99;
-
-    /**  Distance matrix  */
-    private static final int[][] DISTANCES = {
-            {0, 15, 20, 22, 30},
-            {15, 0, 10, 12, 25},
-            {20, 10, 0, 8, 22},
-            {22, 12, 8, 0, 18},
-            {30, 25, 22, 18, 0}
-    };
+    private static final Random random = new Random();
 
     /**
      * Runs the Simulated Annealing algorithm to find the best solution.
@@ -37,21 +29,21 @@ public class SimulatedAnnealing {
     public SolutionDetails run() {
         // Initialize SolutionDetails to store all solutions and other details
         SolutionDetails solutionsList = new SolutionDetails();
-        Random random = new Random();
         Solution currentSolution = generateInitialSolution();
+        // solutionsList.addSolution(currentSolution);
 
         // Initialize temperature
         double temperature = INITIAL_TEMPERATURE;
 
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             long startTime = System.currentTimeMillis();
-
+            
             // Perturb the current solution
             Solution newSolution = perturb(currentSolution);
-
+            
             // Calculate the change in distance between current and new solution
             double deltaDistance = newSolution.getDistance() - currentSolution.getDistance();
-
+            
             // Acceptance criterion based on the Metropolis criterion
             if (deltaDistance < 0 || Math.exp(-deltaDistance / temperature) > random.nextDouble()) {
                 currentSolution = newSolution;
@@ -59,18 +51,19 @@ public class SimulatedAnnealing {
             
             // Cool down the temperature
             temperature *= COOLING_RATE;
-
+            
             long endTime = System.currentTimeMillis();
             long runtime = endTime - startTime;
-
+            newSolution.setRuntime(runtime);
             currentSolution.setRuntime(runtime);
+
+            solutionsList.addSolution(newSolution);
 
             // Update the best solution in the SolutionDetails
             if (currentSolution.isBetterThan(solutionsList.getBestSolution())) {
                 solutionsList.setBestSolution(currentSolution);
             }
 
-            solutionsList.addSolution(currentSolution);
         }
 
         return solutionsList;
@@ -90,38 +83,20 @@ public class SimulatedAnnealing {
         campuses.add(0);
 
         // Randomly shuffle the campuses from index 1 to NUM_CAMPUSES
-        this.shuffleRoute(campuses);
-
+        Collections.shuffle(campuses.subList(1, NUM_CAMPUSES));
         return new Solution(campuses, 0);
     }
 
     /**
-     * Shuffles the route randomly, excluding the start and end campuses.
-     * @param route The route to shuffle.
-     */
-    private void shuffleRoute(List<Integer> route) {
-        Random random = new Random();
-        // Start from index 1 to exclude start and end campuses
-        for (int i = 1; i < route.size() - 1; i++) {
-            int j = random.nextInt(route.size() - 2) + 1; // Exclude the last index
-            int temp = route.get(i);
-            route.set(i, route.get(j));
-            route.set(j, temp);
-        }
-    }
-
-    /**
-     * Perturbs the current solution by swapping two random campuses.
-     * @param solution the current solution
-     * @return the perturbed solution
+     * Perturbs the given solution to explore new solutions.
+     * @param solution The solution to perturb.
+     * @return The perturbed solution.
      */
     private Solution perturb(Solution solution) {
-        Random random = new Random();
-        int index1 = random.nextInt(NUM_CAMPUSES);
+        int index1 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         int index2;
-
         do {
-            index2 = random.nextInt(NUM_CAMPUSES);
+            index2 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         } while (index1 == index2);
         return solution.swapCampuses(index1, index2);
     }
