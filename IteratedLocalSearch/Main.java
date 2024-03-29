@@ -4,22 +4,22 @@ public class Main {
     public static void main(String[] args) {
         // Iterated Local Search (ILS) Algorithm
         IteratedLocalSearch ils = new IteratedLocalSearch();
-        List<SolutionDetails> allDetailsIteratedLocalSearch = ils.run();
+        SolutionDetails detailsILS = ils.run();
         int totalDistanceILS = 0;
-        int numSolutionsILS = allDetailsIteratedLocalSearch.size();
+        int numSolutionsILS = detailsILS.getAllSolutions().size();
         int bestDistanceILS = Integer.MAX_VALUE;
         long totalRuntimeILS = 0;
         int[] bestRouteILS = null;
     
         // Calculate ILS statistics
-        for (SolutionDetails details : allDetailsIteratedLocalSearch) {
-            totalDistanceILS += details.getDistance();
-            bestDistanceILS = Math.min(bestDistanceILS, details.getDistance());
-            totalRuntimeILS += details.getRuntime();
+        for (Solution solution : detailsILS.getAllSolutions()) {
+            totalDistanceILS += solution.getDistance();
+            bestDistanceILS = Math.min(bestDistanceILS, solution.getDistance());
+            totalRuntimeILS += solution.getRuntime();
         }
     
-        if (!allDetailsIteratedLocalSearch.isEmpty()) {
-            bestRouteILS = allDetailsIteratedLocalSearch.get(0).getSolution().getRoute().stream()
+        if (detailsILS.getBestSolution() != null) {
+            bestRouteILS = detailsILS.getBestSolution().getRoute().stream()
                 .mapToInt(Integer::intValue)
                 .toArray();
         }
