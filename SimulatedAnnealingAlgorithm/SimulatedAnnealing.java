@@ -8,13 +8,13 @@ import java.util.Random;
  */
 public class SimulatedAnnealing {
 
-    // Constants
+    /**  Constants */
     private static final int NUM_CAMPUSES = 5;
     private static final int MAX_ITERATIONS = 1000;
     private static final double INITIAL_TEMPERATURE = 1000;
     private static final double COOLING_RATE = 0.99;
 
-    // Distance matrix
+    /**  Distance matrix  */
     private static final int[][] DISTANCES = {
             {0, 15, 20, 22, 30},
             {15, 0, 10, 12, 25},
@@ -25,19 +25,25 @@ public class SimulatedAnnealing {
 
     /**
      * Runs the Simulated Annealing algorithm to find the best solution.
+     * 
      * @return SolutionDetails containing the details of the best solution found
      */
     public SolutionDetails run() {
-        SolutionDetails allDetails = new SolutionDetails();
+        // Initialize SolutionDetails to store all solutions and other details
+        SolutionDetails solutionsList = new SolutionDetails();
         Random random = new Random();
-
         Solution currentSolution = generateInitialSolution(DISTANCES);
+
+        // Initialize temperature
         double temperature = INITIAL_TEMPERATURE;
 
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             long startTime = System.currentTimeMillis();
 
+            // Perturb the current solution
             Solution newSolution = perturb(currentSolution);
+
+            // Calculate the change in distance between current and new solution
             double deltaDistance = newSolution.getDistance() - currentSolution.getDistance();
 
             // Acceptance criterion based on the Metropolis criterion
@@ -45,6 +51,7 @@ public class SimulatedAnnealing {
                 currentSolution = newSolution;
             }
             
+            // Cool down the temperature
             temperature *= COOLING_RATE;
 
             long endTime = System.currentTimeMillis();
@@ -52,10 +59,15 @@ public class SimulatedAnnealing {
 
             currentSolution.setRuntime(runtime);
 
-            allDetails.addSolution(currentSolution);
+            // Update the best solution in the SolutionDetails
+            if (currentSolution.isBetterThan(solutionsList.getBestSolution())) {
+                solutionsList.setBestSolution(currentSolution);
+            }
+
+            solutionsList.addSolution(currentSolution);
         }
 
-        return allDetails;
+        return solutionsList;
     }
 
     /**
@@ -68,6 +80,7 @@ public class SimulatedAnnealing {
         for (int i = 0; i < NUM_CAMPUSES; i++) {
             campuses.add(i);
         }
+
         // Randomly shuffle the campuses
         Collections.shuffle(campuses);
         return new Solution(campuses, 0);
@@ -82,6 +95,7 @@ public class SimulatedAnnealing {
         Random random = new Random();
         int index1 = random.nextInt(NUM_CAMPUSES);
         int index2;
+
         do {
             index2 = random.nextInt(NUM_CAMPUSES);
         } while (index1 == index2);
