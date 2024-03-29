@@ -76,7 +76,6 @@ public class IteratedLocalSearch {
 
         // Randomly shuffle the campuses from index 1 to NUM_CAMPUSES
         Collections.shuffle(campuses.subList(1, NUM_CAMPUSES));
-        System.out.println(new Solution(campuses, 0));
         return new Solution(campuses, 0);
     }
 

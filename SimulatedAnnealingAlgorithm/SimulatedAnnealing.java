@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @file Solution.java
+ * @file SimulatedAnnealing.java
  * 
  * @author Selepe Sello
  * @date 29 March 2021
