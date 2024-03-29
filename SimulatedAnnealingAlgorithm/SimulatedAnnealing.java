@@ -16,7 +16,7 @@ public class SimulatedAnnealing {
 
     /**  Constants */
     private static final int NUM_CAMPUSES = 5;
-    private static final int MAX_ITERATIONS = 1000;
+    private static final int MAX_ITERATIONS = 100;
     private static final double INITIAL_TEMPERATURE = 1000;
     private static final double COOLING_RATE = 0.99;
     private static final Random random = new Random();
