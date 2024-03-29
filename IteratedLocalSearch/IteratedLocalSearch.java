@@ -16,35 +16,37 @@ public class IteratedLocalSearch {
             {30, 25, 22, 18, 0}
     };
 
-    public List<SolutionDetails> run() {
-        List<SolutionDetails> allDetails = new ArrayList<>();
+    public SolutionDetails run() {
+        SolutionDetails allDetails = new SolutionDetails();
 
         // Main loop of ILS
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             // Generating an initial solution
+            long startTime = System.currentTimeMillis();
+
             Solution currentSolution = generateInitialSolution(DISTANCES);
 
             // Performing local search on the initial solution
             currentSolution = localSearch(currentSolution);
-
-            long startTime = System.currentTimeMillis();
-
             // Applying perturbation
             Solution newSolution = perturb(currentSolution);
 
             // Performing local search on the perturbed solution
             newSolution = localSearch(newSolution);
 
-            long endTime = System.currentTimeMillis();
-            long runtime = endTime - startTime;
-
             // Updating current solution if the new solution is better
             if (newSolution.getDistance() < currentSolution.getDistance()) {
                 currentSolution = newSolution;
             }
+            
+            long endTime = System.currentTimeMillis();
+            long runtime = endTime - startTime;
+
+            System.out.println("Start Time" + startTime + ", End Time: " + endTime + " (" + runtime + " ms)");
+            currentSolution.setRuntime(runtime);
 
             // Adding solution details to the list
-            allDetails.add(new SolutionDetails(currentSolution, runtime));
+            allDetails.addSolution(currentSolution);
         }
 
         return allDetails;
@@ -55,8 +57,9 @@ public class IteratedLocalSearch {
         for (int i = 0; i < NUM_CAMPUSES; i++) {
             campuses.add(i);
         }
-        Collections.shuffle(campuses); // Randomly shuffle the campuses
-        return new Solution(campuses, distances);
+        // Randomly shuffle the campuses
+        Collections.shuffle(campuses);
+        return new Solution(campuses, 0);
     }
 
     private Solution localSearch(Solution solution) {
