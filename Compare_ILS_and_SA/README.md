@@ -41,7 +41,7 @@ The testing main used to produce this output is in the `Main.java` class.
 
 ## Graphical Plot Representation
 
-![Graphical Plot Representation Image](Graphical_Plot_Representation.png)
+![Graphical Plot Representation Image](Analysis.png)
 
 ## Critical Comparative Analysis 
 
