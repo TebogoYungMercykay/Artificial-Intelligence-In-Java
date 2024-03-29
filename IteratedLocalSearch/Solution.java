@@ -3,8 +3,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Class representing a solution to a problem.
+ * @file Solution.java
+ * 
+ * @author Selepe Sello
+ * @date 29 March 2021
+ * @version 1.0
+ * @brief Class representing a solution to a problem.
  */
+
 public class Solution {
     /** The route representing the solution. */
     private final List<Integer> route;
@@ -55,11 +61,11 @@ public class Solution {
         int distance = 0;
 
         for (int i = 0; i < this.route.size() - 1; i++) {
-            distance += this.distances[this.route.get(i)][this.route.get(i + 1)];
+            distance += this.distances[this.route.get(i) % 5][this.route.get(i + 1) % 5];
         }
 
         // Add the cost to the endpoint
-        distance += this.distances[this.route.get(this.route.size() - 1)][this.route.get(0)];
+        distance += this.distances[this.route.get(this.route.size() - 1) % 5][this.route.get(0) % 5];
         return distance;
     }
 
@@ -69,6 +75,7 @@ public class Solution {
      * @return True if this solution is better, false otherwise.
      */
     public Boolean isBetterThan(Solution other) {
+        if (other == null) return true;
         return this.getDistance() < other.getDistance();
     }
 
