@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  * @file Main.java
  * 
@@ -13,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         // Iterated Local Search (SA) Algorithm
         SimulatedAnnealing sa = new SimulatedAnnealing();
-        SolutionDetails detailsSA = sa.run();
+        RouteDetails detailsSA = sa.run();
         double totalDistanceSA = 0;
         int bestDistanceSA = Integer.MAX_VALUE;
         double totalRuntimeSA = 0;
@@ -21,9 +19,9 @@ public class Main {
     
         // Calculate SA statistics
         totalDistanceSA = detailsSA.getAverageDistance();
-        bestDistanceSA = detailsSA.getBestSolution().getDistance();
+        bestDistanceSA = detailsSA.getBestRoute().getDistance();
         totalRuntimeSA = detailsSA.getTotalRuntime();
-        bestRouteSA = detailsSA.getBestSolution().getRouteString();
+        bestRouteSA = detailsSA.getBestRoute().getRouteString();
     
         // Convert total runtime from milliseconds to seconds for SA
         double totalRuntimeSASecs = totalRuntimeSA / 1000.0;
