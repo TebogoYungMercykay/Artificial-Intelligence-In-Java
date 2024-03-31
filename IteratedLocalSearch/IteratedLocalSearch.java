@@ -16,57 +16,54 @@ public class IteratedLocalSearch {
 
     /**  Constants */
     private static final int NUM_CAMPUSES = 5;
-    private static final int MAX_ITERATIONS = 100;
+    private static final int MAX_ITERATIONS = 3;
     private static final Random random = new Random();
+    private static final RouteDetails routesList = new RouteDetails();
 
     /**
-     * Runs the Iterated Local Search algorithm to find the best solution.
+     * Runs the Iterated Local Search algorithm to find the best Route.
      * 
-     * @return SolutionDetails containing the details of the best solution found
+     * @return RouteDetails containing the details of the best Route found
      */
-    public SolutionDetails run() {
-        // Initialize SolutionDetails to store all solutions and other details
-        SolutionDetails solutionsList = new SolutionDetails();
-
+    public RouteDetails run() {
         // Main loop of the Iterated Local Search algorithm
+        long startTime = System.currentTimeMillis();
+
         for (int i = 0; i < MAX_ITERATIONS; i++) {
-            // Generate & Perform local search on the initial solution
-            Solution currentSolution = generateInitialSolution();
-            currentSolution = localSearch(currentSolution);
+            // Generate & Perform local search on the initial Route
+            Route currentRoute = generateInitialRoute();
+            currentRoute = localSearch(currentRoute);
 
-            long startTime = System.currentTimeMillis();
-
-            // Perturb the current solution
-            Solution newSolution = perturb(currentSolution);
-
-            // Perform local search on the perturbed solution
-            Solution newBestSolution = localSearch(newSolution);
-
-            long endTime = System.currentTimeMillis();
-            long runtime = endTime - startTime;
-            newBestSolution.setRuntime(runtime);
-            solutionsList.addSolution(newBestSolution);
-
-            // Update the current solution if the new best solution is better
-            if (newBestSolution.isBetterThan(currentSolution)) {
-                currentSolution = newBestSolution;
+            // Perturb the current Route
+            Route newRoute = perturb(currentRoute);
+            
+            // Perform local search on the perturbed Route
+            Route newBestRoute = localSearch(newRoute);
+            
+            // Update the current Route if the new best Route is better
+            if (newBestRoute.isBetterThan(currentRoute)) {
+                currentRoute = newBestRoute;
             }
-
-            // Update the best solution in the SolutionDetails
-            if (currentSolution.isBetterThan(solutionsList.getBestSolution())) {
-                solutionsList.setBestSolution(currentSolution);
+            
+            // Update the best Route in the RouteDetails
+            if (currentRoute.isBetterThan(routesList.getBestRoute())) {
+                routesList.setBestRoute(currentRoute);
             }
         }
+        
+        long endTime = System.currentTimeMillis();
+        long runtime = endTime - startTime;
+        routesList.setRuntime(runtime);
 
-        return solutionsList;
+        return routesList;
     }
 
     /**
-     * Generates an initial solution by randomly shuffling campuses.
+     * Generates an initial Route by randomly shuffling campuses.
      * @param distances the distance matrix
-     * @return the initial solution
+     * @return the initial Route
      */
-    private Solution generateInitialSolution() {
+    private Route generateInitialRoute() {
         List<Integer> campuses = new ArrayList<>();
         for (int i = 0; i < NUM_CAMPUSES; i++) {
             campuses.add(i);
@@ -76,44 +73,45 @@ public class IteratedLocalSearch {
 
         // Randomly shuffle the campuses from index 1 to NUM_CAMPUSES
         Collections.shuffle(campuses.subList(1, NUM_CAMPUSES));
-        return new Solution(campuses, 0);
+        return new Route(campuses, 0);
     }
 
     /**
-     * Performs local search to improve the given solution.
-     * @param solution The solution to improve.
-     * @return The improved solution.
+     * Performs local search to improve the given Route.
+     * @param Route The Route to improve.
+     * @return The improved Route.
      */
-    private Solution localSearch(Solution solution) {
-        Solution bestSolution = solution;
+    private Route localSearch(Route Route) {
+        Route bestRoute = Route;
         boolean improved;
         do {
             improved = false;
             for (int i = 1; i < NUM_CAMPUSES; i++) {
                 for (int j = i + 1; j <= NUM_CAMPUSES; j++) {
-                    Solution newSolution = solution.twoOptSwap(i, j);
-                    if (newSolution.isBetterThan(bestSolution)) {
-                        bestSolution = newSolution;
+                    Route newRoute = Route.twoOptSwap(i, j);
+                    routesList.addRoute(newRoute);
+                    if (newRoute.isBetterThan(bestRoute)) {
+                        bestRoute = newRoute;
                         improved = true;
                     }
                 }
             }
-            solution = bestSolution;
+            Route = bestRoute;
         } while (improved);
-        return bestSolution;
+        return bestRoute;
     }
 
     /**
-     * Perturbs the given solution to explore new solutions.
-     * @param solution The solution to perturb.
-     * @return The perturbed solution.
+     * Perturbs the given Route to explore new Routes.
+     * @param Route The Route to perturb.
+     * @return The perturbed Route.
      */
-    private Solution perturb(Solution solution) {
+    private Route perturb(Route Route) {
         int index1 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         int index2;
         do {
             index2 = 1 + random.nextInt(NUM_CAMPUSES - 1);
         } while (index1 == index2);
-        return solution.swapCampuses(index1, index2);
+        return Route.swapCampuses(index1, index2);
     }
 }

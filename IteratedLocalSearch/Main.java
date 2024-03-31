@@ -1,5 +1,3 @@
-import java.util.List;
-
 /**
  * @file Main.java
  * 
@@ -13,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         // Iterated Local Search (ILS) Algorithm
         IteratedLocalSearch ils = new IteratedLocalSearch();
-        SolutionDetails detailsILS = ils.run();
+        RouteDetails detailsILS = ils.run();
         double totalDistanceILS = 0;
         int bestDistanceILS = Integer.MAX_VALUE;
         double totalRuntimeILS = 0;
@@ -21,9 +19,9 @@ public class Main {
     
         // Calculate ILS statistics
         totalDistanceILS = detailsILS.getAverageDistance();
-        bestDistanceILS = detailsILS.getBestSolution().getDistance();
+        bestDistanceILS = detailsILS.getBestRoute().getDistance();
         totalRuntimeILS = detailsILS.getTotalRuntime();
-        bestRouteILS = detailsILS.getBestSolution().getRouteString();
+        bestRouteILS = detailsILS.getBestRoute().getRouteString();
     
         // Convert total runtime from milliseconds to seconds for ILS
         double totalRuntimeILSSecs = totalRuntimeILS / 1000.0;

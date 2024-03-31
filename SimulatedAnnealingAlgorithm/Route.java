@@ -3,19 +3,19 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @file Solution.java
+ * @file Route.java
  * 
  * @author Selepe Sello
  * @date 29 March 2021
  * @version 1.0
- * @brief Class representing a solution to a problem.
+ * @brief Class representing a Route to a problem.
  */
 
-public class Solution {
-    /** The route representing the solution. */
+public class Route {
+    /** The route representing the Route. */
     private final List<Integer> route;
 
-    /** The runtime of the algorithm to obtain the solution. */
+    /** The runtime of the algorithm to obtain the Route. */
     private long runtime;
 
     /** The distance matrix between campuses. */
@@ -28,17 +28,17 @@ public class Solution {
     };
 
     /**
-     * Constructor to initialize a solution.
-     * @param route The route representing the solution.
-     * @param runtime The runtime of the algorithm to obtain the solution.
+     * Constructor to initialize a Route.
+     * @param route The route representing the Route.
+     * @param runtime The runtime of the algorithm to obtain the Route.
      */
-    public Solution(List<Integer> route, long runtime) {
+    public Route(List<Integer> route, long runtime) {
         this.route = route;
         this.runtime = runtime;
     }
 
     /**
-     * Get the runtime of the algorithm to obtain the solution.
+     * Get the runtime of the algorithm to obtain the Route.
      * @return The runtime in milliseconds.
      */
     public long getRuntime() {
@@ -46,7 +46,7 @@ public class Solution {
     }
 
     /**
-     * Set the runtime of the algorithm to obtain the solution.
+     * Set the runtime of the algorithm to obtain the Route.
      * @param runtime The runtime to set in milliseconds.
      */
     public void setRuntime(long runtime) {
@@ -70,11 +70,11 @@ public class Solution {
     }
 
     /**
-     * Check if this solution is better than another solution.
-     * @param other The other solution to compare with.
-     * @return True if this solution is better, false otherwise.
+     * Check if this Route is better than another Route.
+     * @param other The other Route to compare with.
+     * @return True if this Route is better, false otherwise.
      */
-    public Boolean isBetterThan(Solution other) {
+    public Boolean isBetterThan(Route other) {
         if (other == null) return true;
         return this.getDistance() < other.getDistance();
     }
@@ -102,9 +102,9 @@ public class Solution {
      * Perform a 2-opt swap on the route.
      * @param i The index of the start of the segment to swap.
      * @param j The index of the end of the segment to swap.
-     * @return The new solution after performing the swap.
+     * @return The new Route after performing the swap.
      */
-    public Solution twoOptSwap(int i, int j) {
+    public Route twoOptSwap(int i, int j) {
         List<Integer> newRoute = new ArrayList<>(route.subList(0, i));
 
         for (int k = j; k >= i; k--) {
@@ -112,26 +112,26 @@ public class Solution {
         }
         newRoute.addAll(route.subList(j + 1, route.size()));
         
-        // Runtime is not used for the swapped solution
-        return new Solution(newRoute, 0);
+        // Runtime is not used for the swapped Route
+        return new Route(newRoute, 0);
     }
 
     /**
      * Swap the campuses at two given indexes in the route.
      * @param index1 The index of the first campus to swap.
      * @param index2 The index of the second campus to swap.
-     * @return The new solution after swapping the campuses.
+     * @return The new Route after swapping the campuses.
      */
-    public Solution swapCampuses(int index1, int index2) {
+    public Route swapCampuses(int index1, int index2) {
         List<Integer> newRoute = new ArrayList<>(this.route);
         Collections.swap(newRoute, index1, index2);
         
-        // Runtime is not used for the swapped solution
-        return new Solution(newRoute, 0);
+        // Runtime is not used for the swapped Route
+        return new Route(newRoute, 0);
     }
 
     /**
-     * Get the route representing the solution.
+     * Get the route representing the Route.
      * @return The route.
      */
     public List<Integer> getRoute() {
@@ -139,7 +139,7 @@ public class Solution {
     }
 
     /**
-     * Get a string representation of the solution.
+     * Get a string representation of the Route.
      * @return The string representation.
      */
     @Override
