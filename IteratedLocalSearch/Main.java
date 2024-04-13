@@ -12,16 +12,12 @@ public class Main {
         // Iterated Local Search (ILS) Algorithm
         IteratedLocalSearch ils = new IteratedLocalSearch();
         RouteDetails detailsILS = ils.run();
-        double totalDistanceILS = 0;
-        int bestDistanceILS = Integer.MAX_VALUE;
-        double totalRuntimeILS = 0;
-        String bestRouteILS = "null";
-    
+
         // Calculate ILS statistics
-        totalDistanceILS = detailsILS.getAverageDistance();
-        bestDistanceILS = detailsILS.getBestRoute().getDistance();
-        totalRuntimeILS = detailsILS.getTotalRuntime();
-        bestRouteILS = detailsILS.getBestRoute().getRouteString();
+        double totalDistanceILS = detailsILS.getAverageDistance();
+        int bestDistanceILS = detailsILS.getBestRoute().getDistance();
+        double totalRuntimeILS = detailsILS.getTotalRuntime();
+        String bestRouteILS = detailsILS.getBestRoute().getRouteString();
     
         // Convert total runtime from milliseconds to seconds for ILS
         double totalRuntimeILSSecs = totalRuntimeILS / 1000.0;

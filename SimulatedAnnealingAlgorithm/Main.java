@@ -12,16 +12,12 @@ public class Main {
         // Iterated Local Search (SA) Algorithm
         SimulatedAnnealing sa = new SimulatedAnnealing();
         RouteDetails detailsSA = sa.run();
-        double totalDistanceSA = 0;
-        int bestDistanceSA = Integer.MAX_VALUE;
-        double totalRuntimeSA = 0;
-        String bestRouteSA = "null";
     
         // Calculate SA statistics
-        totalDistanceSA = detailsSA.getAverageDistance();
-        bestDistanceSA = detailsSA.getBestRoute().getDistance();
-        totalRuntimeSA = detailsSA.getTotalRuntime();
-        bestRouteSA = detailsSA.getBestRoute().getRouteString();
+        double totalDistanceSA = detailsSA.getAverageDistance();
+        int bestDistanceSA = detailsSA.getBestRoute().getDistance();
+        double totalRuntimeSA = detailsSA.getTotalRuntime();
+        String bestRouteSA = detailsSA.getBestRoute().getRouteString();
     
         // Convert total runtime from milliseconds to seconds for SA
         double totalRuntimeSASecs = totalRuntimeSA / 1000.0;
