@@ -27,7 +27,7 @@ A student needs to visit all the UP campuses where she had modules to get her cl
 ## TABLE 2: Results (0.00 is Placeholder for Values)
 ----------------------------------------------------
  Problem Set			| ILS     	| SA	
-------------------------|-----------|---------------	
+------------------------|-----------|---------------
  Best Solution(route)	| 0.00		| 0.00		
  Objective Function Val	| 0.00		| 0.00		
  Runtime				| 0.00		| 0.00		
