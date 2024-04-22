@@ -1,31 +1,34 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ACO extends Helper {
 
-    Knapsack knapsack;
-    ArrayList<Boolean[]> ants;
-    Boolean[] bestKnapsack;
-    double bestFitness;
-    int noImprovement = 0;
-    double averageFitness = 0;
-    double timeTaken = 0;
-    int bestIteration = 0;
+    private static final int seed = 8;
+    private static final Random random = new Random(seed);
+
+    private Knapsack knapsack;
+    private ArrayList<Boolean[]> ants;
+    private Boolean[] bestKnapsack;
+    private double bestFitness;
+    private int noImprovement = 0;
+    private double timeTaken = 0;
+    private int bestIteration = 0;
 
     // ACO parameters (constants)
-    final int MAX_ITERATIONS = 200;
-    final int STOPPING_ITERATIONS = 100;
-    final double ALPHA = 0.5;
-    final double BETA = 2;
-    final double EVAPORATION_RATE = 0.95;
-    final double INITIAL_PHEROMONE = 0.5;
-    final double UPDATE_STRENGTH = 0.5;
-    final int LS_METHOD = 0; // 0 = none, 1 = Replace the worst item, 2 = Assess all single item flips and
-                             // choose the best
+    private static final int MAX_ITERATIONS = 200;
+    private static final int STOPPING_ITERATIONS = 100;
+    private static final double ALPHA = 0.5;
+    private static final double BETA = 2;
+    private static final double EVAPORATION_RATE = 0.95;
+    private static final double INITIAL_PHEROMONE = 0.5;
+    private static final double UPDATE_STRENGTH = 0.5;
+    // 0 = none, 1 = Replace the worst item, 2 = Assess all single item flips and choose the best
+    private static final int LS_METHOD = 0;
 
     // ACO parameters (variables)
     int numAnts;
-    double pheromone[];
-    double Q;
+    private double[] pheromone;
+    private double Q;
 
     public ACO(Knapsack initalKnapsack) {
 
@@ -71,20 +74,12 @@ public class ACO extends Helper {
      * @brief Run the ACO algorithm
      */
     public void run() {
-
         // Create new set of ants
         ants = new ArrayList<Boolean[]>();
-
         constructCandidateSolution();
-
         findBestSolution();
-
         updatePheromones();
-
-        // printPheromones();
-
         localSearch();
-
     }
 
     /**
@@ -108,17 +103,7 @@ public class ACO extends Helper {
                 double sum = 0;
 
                 // Calculate the probability of selecting each item
-                for (int i = 0; i < knapsack.getItems().size(); i++) {
-                    if (!solution[i] && weight + knapsack.getItems().get(i).getWeight() <= knapsack.getCapacity()) {
-                        probabilities[i] = decisionRule(i);
-                        sum += probabilities[i];
-                    } else {
-                        probabilities[i] = 0.0;
-                    }
-                }
-
-                // Generate a random number between 0 and sum
-                double random = Math.random() * sum;
+                double randomNumber = random.nextInt((int) sum);
                 double cumulativeProbability = 0;
                 int selected = -1;
 
@@ -127,7 +112,7 @@ public class ACO extends Helper {
                 for (int i = 0; i < knapsack.getItems().size(); i++) {
                     if (probabilities[i] > 0) {
                         cumulativeProbability += probabilities[i];
-                        if (cumulativeProbability >= random) {
+                        if (cumulativeProbability >= randomNumber) {
                             selected = i;
                             break;
                         }
@@ -241,7 +226,7 @@ public class ACO extends Helper {
                 continue;
             }
 
-            int add = outItems.get((int) (Math.random() * outItems.size()));
+            int add = outItems.get((int)(random.nextInt() * outItems.size()));
 
             // Remove the item with the lowest value to weight ratio and add a random item
             ants.get(i)[remove] = false;
@@ -310,23 +295,6 @@ public class ACO extends Helper {
     }
 
     /**
-     * @brief print out the pheromone matrix
-     */
-    private void printPheromones() {
-        // print to 2 decimal places
-        for (int j = 0; j < pheromone.length; j++) {
-            if (pheromone[j] <= 0.25) {
-                System.out.print("\033[31m" + String.format("%.2f", pheromone[j]) + "\033[0m ");
-            } else if (pheromone[j] <= 0.60) {
-                System.out.print("\033[33m" + String.format("%.2f", pheromone[j]) + "\033[0m ");
-            } else {
-                System.out.print("\033[32m" + String.format("%.2f", pheromone[j]) + "\033[0m ");
-            }
-        }
-        System.out.println();
-    }
-
-    /**
      * @brief finds the best solution in the list of ants
      */
     private void findBestSolution() {
@@ -342,32 +310,6 @@ public class ACO extends Helper {
                 bestFitness = fitness;
             }
         }
-    }
-
-    /**
-     * @brief print out the parameters of the algorithm
-     */
-    public void printParameters() {
-
-        System.out.println("\n=== ACO Parameters ===");
-        System.out.println("| Max Iterations:          " + MAX_ITERATIONS);
-        System.out.println("| Stopping Criteria:       " + STOPPING_ITERATIONS);
-        System.out.println("| Alpha Max:               " + ALPHA);
-        System.out.println("| Beta Reduction Rate:     " + BETA);
-        System.out.println("| Evaporation Rate:        " + EVAPORATION_RATE);
-        System.out.println("| Inital Pheromone:        " + INITIAL_PHEROMONE);
-        System.out.println("| Update Strength:         " + UPDATE_STRENGTH);
-        System.out.println("| Number of Ants:          " + numAnts);
-        System.out.print("| Local Search Method:     ");
-        if (LS_METHOD == 0) {
-            System.out.println("None");
-        } else if (LS_METHOD == 1) {
-            System.out.println("Replace Worst");
-        } else if (LS_METHOD == 2) {
-            System.out.println("Best flip");
-        }
-        System.out.println("| Q:                       " + Q);
-        System.out.println("=== === ===");
     }
 
     /**
@@ -390,5 +332,4 @@ public class ACO extends Helper {
     public double getTimeElapsed() {
         return timeTaken;
     }
-
 }
