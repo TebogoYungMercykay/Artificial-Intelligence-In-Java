@@ -1,7 +1,12 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ACO extends Helper {
+    // Random Seed
+    long seed = System.currentTimeMillis ();
+    Random rand = new Random(seed);
 
+    // Knapsack and Population
     Knapsack knapsack;
     ArrayList<Boolean[]> ants;
     Boolean[] bestKnapsack;
@@ -20,7 +25,7 @@ public class ACO extends Helper {
     final double INITIAL_PHEROMONE = 0.5;
     final double UPDATE_STRENGTH = 0.5;
     final int LS_METHOD = 0; // 0 = none, 1 = Replace the worst item, 2 = Assess all single item flips and
-                             // choose the best
+    // choose the best
 
     // ACO parameters (variables)
     int numAnts;
@@ -43,11 +48,8 @@ public class ACO extends Helper {
         }
 
         for (int i = 0; i < MAX_ITERATIONS; i++) {
-
             previousBestFitness = bestFitness;
-
             run();
-
             if (bestFitness > previousBestFitness) {
                 bestIteration += noImprovement;
                 noImprovement = 0;
@@ -61,10 +63,8 @@ public class ACO extends Helper {
                 }
             }
         }
-
         // seconds
         timeTaken = (System.nanoTime() - startTime) / 1000000000;
-
     }
 
     /**
@@ -74,17 +74,10 @@ public class ACO extends Helper {
 
         // Create new set of ants
         ants = new ArrayList<Boolean[]>();
-
         constructCandidateSolution();
-
         findBestSolution();
-
         updatePheromones();
-
-        // printPheromones();
-
         localSearch();
-
     }
 
     /**
@@ -349,7 +342,7 @@ public class ACO extends Helper {
      */
     public void printParameters() {
 
-        System.out.println("\n=== ACO Parameters ===");
+        System.out.println("\n=== ACO (Local Search) Parameters ===");
         System.out.println("| Max Iterations:          " + MAX_ITERATIONS);
         System.out.println("| Stopping Criteria:       " + STOPPING_ITERATIONS);
         System.out.println("| Alpha Max:               " + ALPHA);
@@ -357,6 +350,7 @@ public class ACO extends Helper {
         System.out.println("| Evaporation Rate:        " + EVAPORATION_RATE);
         System.out.println("| Inital Pheromone:        " + INITIAL_PHEROMONE);
         System.out.println("| Update Strength:         " + UPDATE_STRENGTH);
+        System.out.println("| Best Solution:         " + getBestFitness());
         System.out.println("| Number of Ants:          " + numAnts);
         System.out.print("| Local Search Method:     ");
         if (LS_METHOD == 0) {
