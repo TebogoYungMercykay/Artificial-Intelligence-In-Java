@@ -1,8 +1,13 @@
 import java.util.ArrayList;
+import  java.util.Random;
 
 // Genetic Algorithm For the Knapsack Problem
 public class GA extends Helper {
+    // Random Seed
+    long seed = System.currentTimeMillis ();
+    Random rand = new Random(seed);
 
+    // Knapsack and Population
     Knapsack knapsack;
     ArrayList<Boolean[]> knapsackPopulation;
     ArrayList<Boolean[]> nextGenerationPopulation;
@@ -378,6 +383,7 @@ public class GA extends Helper {
         System.out.println("| Max Generations:         " + MAX_GENERATIONS);
         System.out.println("| Stopping Iterations:     " + STOPPING_ITERATIONS);
         System.out.println("| Penalty Factor:          " + PENALTY_FACTOR);
+        System.out.println("| Best Solution:         " + getBestFitness());
         System.out.println("| Tournament Portion:      " + TOURNAMENT_PORTION);
         System.out.println("| Initial Bit Probability: " + INITIAL_BIT_PROBABILITY);
         System.out.println("=== === ===");
