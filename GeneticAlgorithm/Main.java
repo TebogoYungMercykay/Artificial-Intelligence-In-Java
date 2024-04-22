@@ -71,7 +71,7 @@ public class Main extends Helper {
                 if (hits >= Math.floor(RUN_COUNT / 2) && hits != 0) {
                     System.out.print("\033[32mMajority Optimal:\033[0m Avg Time: ");
                     System.out.printf("%.3f", averageTime);
-                    System.out.println(" seconds");
+                    System.out.println(" seconds | Best: " + bestFitness);
                 } else {
                     System.out.print("\033[31mMajority Not Optimal:\033[0m Avg Time: ");
                     System.out.printf("%.3f", averageTime);
@@ -132,7 +132,7 @@ public class Main extends Helper {
                 if (hits >= Math.floor(RUN_COUNT / 2) && hits != 0) {
                     System.out.print("\033[32mMajority Optimal:\033[0m Avg Time: ");
                     System.out.printf("%.3f", averageTime);
-                    System.out.println(" seconds");
+                    System.out.println(" seconds | Best: " + bestFitness);
 
                 } else {
                     System.out.print("\033[31mMajority Not Optimal:\033[0m Avg Time: ");
@@ -147,6 +147,6 @@ public class Main extends Helper {
             }
         }
 
-        System.out.println("Done");
+        System.out.println("Searching Complete!!");
     }
 }
