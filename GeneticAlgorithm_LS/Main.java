@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Main extends Helper {
     public static void main(String[] args) {
@@ -7,6 +9,8 @@ public class Main extends Helper {
 
         boolean runGA = true;
         boolean runASO = true;
+        List<Result> resultsGeneticAlgorithm = new ArrayList<>();
+        List<Result> resultsGeneticAlgorithmILS = new ArrayList<>();
 
         HashMap<String, Double> optimums = new HashMap<String, Double>();
         optimums.put("f1_l-d_kp_10_269", 295.0);
@@ -24,129 +28,80 @@ public class Main extends Helper {
         HashMap<String, Knapsack> knapsacks = new HashMap<String, Knapsack>();
         knapsacks = readKnapsackData("Knapsack Instances");
 
-        boolean first = true;
-
         // Run through the genetic algorithm for each knapsack
         if (runGA) {
             for (String key : knapsacks.keySet()) {
-
                 Knapsack knapsack = knapsacks.get(key);
-
-                int averageIterations = 0;
-                int hits = 0;
-                int averageOutBy = 0;
+                long seed = 7;
                 double averageTime = 0;
                 double bestFitness = 0;
 
                 for (int i = 0; i < RUN_COUNT; i++) {
                     GA ga = new GA(knapsack);
-
-                    if (first) {
-                        first = false;
-                        ga.printParameters();
-                    }
-
-                    averageIterations += ga.getBestIteration();
-
-                    if (ga.getBestFitness() == optimums.get(key)) {
-                        hits++;
-                    } else {
-                        averageOutBy += (-1 * (ga.getBestFitness() - optimums.get(key)));
-                    }
                     averageTime += ga.getTimeElapsed();
 
                     if (ga.getBestFitness() > bestFitness) {
                         bestFitness = ga.getBestFitness();
                     }
-
                 }
 
-                averageIterations /= RUN_COUNT;
                 averageTime /= RUN_COUNT;
-
-                if (hits < RUN_COUNT) {
-                    averageOutBy /= (RUN_COUNT - hits);
-                }
-
-                if (hits >= Math.floor(RUN_COUNT / 2) && hits != 0) {
-                    System.out.print("\033[32mMajority Optimal:\033[0m Avg Time: ");
-                    System.out.printf("%.3f", averageTime);
-                    System.out.println(" seconds");
-                } else {
-                    System.out.print("\033[31mMajority Not Optimal:\033[0m Avg Time: ");
-                    System.out.printf("%.3f", averageTime);
-                    System.out.println(" seconds | Best: " + bestFitness);
-                }
-
-                System.out.println(key + " - Optimal: " + optimums.get(key) + " | Average Iterations: "
-                        + (averageIterations) + " | Found Optimal: " + hits + "/" + RUN_COUNT
-                        + " | Average Out By: " + averageOutBy);
-
+                Result gaResult = new Result(key, "GA", seed, bestFitness, optimums.get(key), averageTime);
+                resultsGeneticAlgorithm.add(gaResult);
             }
         }
 
         // run through ACO for each knapsack
         if (runASO) {
-
-            first = true;
-
             for (String key : knapsacks.keySet()) {
-
                 Knapsack knapsack = knapsacks.get(key);
-
-                int averageIterations = 0;
-                int hits = 0;
-                int averageOutBy = 0;
+                long seed = 7;
                 double averageTime = 0;
                 double bestFitness = 0;
 
                 for (int i = 0; i < RUN_COUNT; i++) {
                     ACO aco = new ACO(knapsack);
-
-                    if (first) {
-                        first = false;
-                        aco.printParameters();
-                    }
-
-                    averageIterations += aco.getBestIteration();
-                    if (aco.getBestFitness() == optimums.get(key)) {
-                        hits++;
-                    } else {
-                        averageOutBy += (-1 * (aco.getBestFitness() - optimums.get(key)));
-                    }
+                    averageTime += aco.getTimeElapsed();
 
                     if (bestFitness < aco.getBestFitness()) {
                         bestFitness = aco.getBestFitness();
                     }
-
-                    averageTime += aco.getTimeElapsed();
-
                 }
 
-                averageIterations /= RUN_COUNT;
                 averageTime /= RUN_COUNT;
-
-                if (hits < RUN_COUNT) {
-                    averageOutBy /= (RUN_COUNT - hits);
-                }
-                if (hits >= Math.floor(RUN_COUNT / 2) && hits != 0) {
-                    System.out.print("\033[32mMajority Optimal:\033[0m Avg Time: ");
-                    System.out.printf("%.3f", averageTime);
-                    System.out.println(" seconds");
-
-                } else {
-                    System.out.print("\033[31mMajority Not Optimal:\033[0m Avg Time: ");
-                    System.out.printf("%.3f", averageTime);
-                    System.out.println(" seconds | Best: " + bestFitness);
-                }
-
-                System.out.println(key + " - Optimal: " + optimums.get(key) + " | Average Iterations: "
-                        + averageIterations + " | Found Optimal: " + hits + "/" +
-                        RUN_COUNT
-                        + " | Average Out By: " + averageOutBy);
+                Result gaResult = new Result(key, "GA - ILS", seed, bestFitness, optimums.get(key), averageTime);
+                resultsGeneticAlgorithmILS.add(gaResult);
             }
         }
 
-        System.out.println("Done");
+        // print results
+        System.out.printf("%-20s | %-10s | %-10s | %-15s | %-13s | %-15s%n", 
+            "Problem Instance", 
+            "Algorithm", 
+            "Seed Value", 
+            "Best Solution", 
+            "Known Optimum", 
+            "Runtime (seconds)"
+        );
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        for (int i = 0; i < resultsGeneticAlgorithmILS.size(); i++) {
+            Result result = resultsGeneticAlgorithm.get(i);
+            Result result_1 = resultsGeneticAlgorithmILS.get(i);
+            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-15.2f%n", 
+                result.getProblemInstance(), 
+                result.getAlgorithm(), 
+                result.getSeedValue(), 
+                result.getBestSolution(), 
+                result.getKnownOptimum(), 
+                result.getRuntimeSeconds());
+            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-15.2f%n", 
+                " ", 
+                result_1.getAlgorithm(), 
+                result_1.getSeedValue(), 
+                result_1.getBestSolution(), 
+                result_1.getKnownOptimum(), 
+                result_1.getRuntimeSeconds());
+            System.out.println("----------------------------------------------------------------------------------------------------");
+        }
     }
 }
