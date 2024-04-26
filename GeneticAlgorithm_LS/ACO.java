@@ -45,6 +45,8 @@ public class ACO {
     private double[] pheromone;
     private double Q;
 
+    // Member Functions for Ant Colony Optimization
+
     public ACO(Knapsack initalKnapsack, Integer seed) {
         this.seed = seed;
         this.random = new Random(this.seed);
@@ -52,38 +54,37 @@ public class ACO {
         double startTime = System.nanoTime();
         double previousBestFitness;
 
-        knapsack = initalKnapsack;
-        numAnts = knapsack.getItems().size();
-        Q = knapsack.getCapacity() * UPDATE_STRENGTH;
+        this.knapsack = initalKnapsack;
+        this.numAnts = this.knapsack.getItems().size();
+        this.Q = this.knapsack.getCapacity() * UPDATE_STRENGTH;
 
         // Initialize the pheromone matrix
-        pheromone = new double[knapsack.getItems().size()];
-        for (int i = 0; i < knapsack.getItems().size(); i++) {
-            pheromone[i] = INITIAL_PHEROMONE;
+        this.pheromone = new double[this.knapsack.getItems().size()];
+        for (int i = 0; i < this.knapsack.getItems().size(); i++) {
+            this.pheromone[i] = INITIAL_PHEROMONE;
         }
 
         for (int i = 0; i < MAX_ITERATIONS; i++) {
-
-            previousBestFitness = bestFitness;
+            previousBestFitness = this.bestFitness;
 
             run();
 
-            if (bestFitness > previousBestFitness) {
-                bestIteration += noImprovement;
-                noImprovement = 0;
+            if (this.bestFitness > previousBestFitness) {
+                this.bestIteration += this.noImprovement;
+                this.noImprovement = 0;
             } else {
-                noImprovement++;
-                if (noImprovement > STOPPING_ITERATIONS) {
+                this.noImprovement++;
+                if (this.noImprovement > STOPPING_ITERATIONS) {
                     // reset the pheromone matrix
-                    for (int j = 0; j < knapsack.getItems().size(); j++) {
-                        pheromone[j] = INITIAL_PHEROMONE;
+                    for (int j = 0; j < this.knapsack.getItems().size(); j++) {
+                        this.pheromone[j] = INITIAL_PHEROMONE;
                     }
                 }
             }
         }
 
         // seconds
-        timeTaken = (System.nanoTime() - startTime) / 1000000000;
+        this.timeTaken = (System.nanoTime() - startTime) / 1000000000;
     }
 
     /**
@@ -91,11 +92,11 @@ public class ACO {
      */
     public void run() {
         // Create new set of ants
-        ants = new ArrayList<Boolean[]>();
-        constructCandidateSolution();
-        findBestSolution();
-        updatePheromones();
-        localSearch();
+        this.ants = new ArrayList<Boolean[]>();
+        this.constructCandidateSolution();
+        this.findBestSolution();
+        this.updatePheromones();
+        this.localSearch();
     }
 
     /**
@@ -103,9 +104,9 @@ public class ACO {
      */
     private void constructCandidateSolution() {
 
-        for (int ant = 0; ant < numAnts; ant++) {
-            Boolean[] solution = new Boolean[knapsack.getItems().size()];
-            for (int i = 0; i < knapsack.getItems().size(); i++) {
+        for (int ant = 0; ant < this.numAnts; ant++) {
+            Boolean[] solution = new Boolean[this.knapsack.getItems().size()];
+            for (int i = 0; i < this.knapsack.getItems().size(); i++) {
                 solution[i] = false;
             }
 
@@ -114,14 +115,14 @@ public class ACO {
             // Construct a solution. Keep adding items until the knapsack is full
             while (true) {
                 // List of probabilities for each item
-                Double[] probabilities = new Double[knapsack.getItems().size()];
+                Double[] probabilities = new Double[this.knapsack.getItems().size()];
                 // Sum of probabilities
                 double sum = 0;
 
                 // Calculate the probability of selecting each item
-                for (int i = 0; i < knapsack.getItems().size(); i++) {
-                    if (!solution[i] && weight + knapsack.getItems().get(i).getWeight() <= knapsack.getCapacity()) {
-                        probabilities[i] = decisionRule(i);
+                for (int i = 0; i < this.knapsack.getItems().size(); i++) {
+                    if (!solution[i] && weight + this.knapsack.getItems().get(i).getWeight() <= this.knapsack.getCapacity()) {
+                        probabilities[i] = this.decisionRule(i);
                         sum += probabilities[i];
                     } else {
                         probabilities[i] = 0.0;
@@ -129,16 +130,16 @@ public class ACO {
                 }
 
                 // Generate a random number between 0 and sum
-                double random = this.random.nextDouble() * sum;
+                double randomNum = this.random.nextDouble() * sum;
                 double cumulativeProbability = 0;
                 int selected = -1;
 
                 // Select an item. Items with higher probabilities make up a larger portion of
                 // the sum and thus are more likely to be selected
-                for (int i = 0; i < knapsack.getItems().size(); i++) {
+                for (int i = 0; i < this.knapsack.getItems().size(); i++) {
                     if (probabilities[i] > 0) {
                         cumulativeProbability += probabilities[i];
-                        if (cumulativeProbability >= random) {
+                        if (cumulativeProbability >= randomNum) {
                             selected = i;
                             break;
                         }
@@ -152,10 +153,10 @@ public class ACO {
 
                 // Add the item to the knapsack
                 solution[selected] = true;
-                weight += knapsack.getItems().get(selected).getWeight();
+                weight += this.knapsack.getItems().get(selected).getWeight();
             }
 
-            ants.add(solution);
+            this.ants.add(solution);
         }
     }
 
@@ -167,36 +168,36 @@ public class ACO {
      */
     private double decisionRule(int item) {
         // Possibly change how the heuristic is defined
-        double heuristic = knapsack.getItems().get(item).getValue() / knapsack.getItems().get(item).getWeight();
-        return Math.pow(pheromone[item], ALPHA) * Math.pow(heuristic, BETA);
+        double heuristic = this.knapsack.getItems().get(item).getValue() / this.knapsack.getItems().get(item).getWeight();
+        return Math.pow(this.pheromone[item], ALPHA) * Math.pow(heuristic, BETA);
     }
 
     /**
      * @brief Update the pheromone matrix
      */
     private void updatePheromones() {
-        for (int ant = 0; ant < numAnts; ant++) {
-            double fitness = getSumFitness(ants.get(ant));
+        for (int ant = 0; ant < this.numAnts; ant++) {
+            double fitness = getSumFitness(this.ants.get(ant));
 
             double sumPheromone = 0;
-            for (int j = 0; j < knapsack.getItems().size(); j++) {
-                if (ants.get(ant)[j]) {
-                    sumPheromone += pheromone[j];
+            for (int j = 0; j < this.knapsack.getItems().size(); j++) {
+                if (this.ants.get(ant)[j]) {
+                    sumPheromone += this.pheromone[j];
                 }
             }
 
             // Update the pheromone matrix
-            for (int j = 0; j < knapsack.getItems().size(); j++) {
-                if (ants.get(ant)[j]) {
-                    pheromone[j] = pheromone[j] + (Q / fitness) * (pheromone[j] / sumPheromone);
+            for (int j = 0; j < this.knapsack.getItems().size(); j++) {
+                if (this.ants.get(ant)[j]) {
+                    this.pheromone[j] = this.pheromone[j] + (this.Q / fitness) * (this.pheromone[j] / sumPheromone);
                 }
             }
         }
 
-        for (int i = 0; i < knapsack.getItems().size(); i++) {
-            pheromone[i] = (1 - EVAPORATION_RATE) * pheromone[i];
-            if (pheromone[i] > 1) {
-                pheromone[i] = 1;
+        for (int i = 0; i < this.knapsack.getItems().size(); i++) {
+            this.pheromone[i] = (1 - EVAPORATION_RATE) * this.pheromone[i];
+            if (this.pheromone[i] > 1) {
+                this.pheromone[i] = 1;
             }
         }
     }
@@ -206,27 +207,27 @@ public class ACO {
      */
     private void localSearch() {
         if (LS_METHOD == 1) {
-            LSReplaceWorst();
+            this.LSReplaceWorst();
         } else if (LS_METHOD == 2) {
-            LSBestFlip();
+            this.LSBestFlip();
         }
 
-        findBestSolution();
+        this.findBestSolution();
     }
 
     /**
      * @brief Add remove one item and replace it with another
      */
     private void LSReplaceWorst() {
-        for (int i = 0; i < numAnts; i++) {
-            double oldFitness = getSumFitness(ants.get(i));
+        for (int i = 0; i < this.numAnts; i++) {
+            double oldFitness = this.getSumFitness(this.ants.get(i));
 
             // Find the best item to remove (the one with the lowest value to weight ratio)
             int remove = -1;
             double minRatio = Double.MAX_VALUE;
-            for (int j = 0; j < knapsack.getItems().size(); j++) {
-                if (ants.get(i)[j]) {
-                    double ratio = knapsack.getItems().get(j).getValue() / knapsack.getItems().get(j).getWeight();
+            for (int j = 0; j < this.knapsack.getItems().size(); j++) {
+                if (this.ants.get(i)[j]) {
+                    double ratio = this.knapsack.getItems().get(j).getValue() / this.knapsack.getItems().get(j).getWeight();
                     if (ratio < minRatio) {
                         minRatio = ratio;
                         remove = j;
@@ -236,8 +237,8 @@ public class ACO {
 
             // find random item to add (one that is not already in the knapsack)
             ArrayList<Integer> outItems = new ArrayList<Integer>();
-            for (int j = 0; j < knapsack.getItems().size(); j++) {
-                if (!ants.get(i)[j]) {
+            for (int j = 0; j < this.knapsack.getItems().size(); j++) {
+                if (!this.ants.get(i)[j]) {
                     outItems.add(j);
                 }
             }
@@ -249,15 +250,15 @@ public class ACO {
             int add = outItems.get((int) (this.random.nextDouble() * outItems.size()));
 
             // Remove the item with the lowest value to weight ratio and add a random item
-            ants.get(i)[remove] = false;
-            ants.get(i)[add] = true;
+            this.ants.get(i)[remove] = false;
+            this.ants.get(i)[add] = true;
 
-            double newFitness = getSumFitness(ants.get(i));
+            double newFitness = this.getSumFitness(this.ants.get(i));
 
             // If the new solution is worse, revert back to the old solution
             if (newFitness < oldFitness) {
-                ants.get(i)[remove] = true;
-                ants.get(i)[add] = false;
+                this.ants.get(i)[remove] = true;
+                this.ants.get(i)[add] = false;
             }
         }
     }
@@ -267,19 +268,19 @@ public class ACO {
      *        best of these solutions
      */
     private void LSBestFlip() {
-        for (int i = 0; i < numAnts; i++) {
-            double oldFitness = getSumFitness(ants.get(i));
+        for (int i = 0; i < this.numAnts; i++) {
+            double oldFitness = this.getSumFitness(this.ants.get(i));
             double newFitness = 0;
             int fitnessIndex = -1;
 
             // Create a list of solutions by flipping each bit once
-            Boolean[][] solutions = new Boolean[knapsack.getItems().size()][knapsack.getItems().size()];
-            for (int j = 0; j < knapsack.getItems().size(); j++) {
-                for (int k = 0; k < knapsack.getItems().size(); k++) {
-                    solutions[j][k] = ants.get(i)[k];
+            Boolean[][] solutions = new Boolean[this.knapsack.getItems().size()][this.knapsack.getItems().size()];
+            for (int j = 0; j < this.knapsack.getItems().size(); j++) {
+                for (int k = 0; k < this.knapsack.getItems().size(); k++) {
+                    solutions[j][k] = this.ants.get(i)[k];
                 }
                 solutions[j][j] = !solutions[j][j];
-                newFitness = getSumFitness(solutions[j]);
+                newFitness = this.getSumFitness(solutions[j]);
                 if (newFitness > oldFitness) {
                     fitnessIndex = j;
                     oldFitness = newFitness;
@@ -287,7 +288,7 @@ public class ACO {
             }
 
             if (fitnessIndex != -1) {
-                ants.set(i, solutions[fitnessIndex]);
+                this.ants.set(i, solutions[fitnessIndex]);
             }
         }
     }
@@ -298,7 +299,7 @@ public class ACO {
      */
     public double getSumFitness(Boolean[] solution) {
         double fitness = 0;
-        if (knapsack.getWeight(solution) <= knapsack.getCapacity()) {
+        if (this.knapsack.getWeight(solution) <= this.knapsack.getCapacity()) {
             fitness = knapsack.getValue(solution);
         }
 
@@ -313,16 +314,16 @@ public class ACO {
      * @brief Helper function - finds the best solution in the list of ants
      */
     private void findBestSolution() {
-        if (bestKnapsack == null) {
-            bestKnapsack = ants.get(0);
+        if (this.bestKnapsack == null) {
+            this.bestKnapsack = this.ants.get(0);
         }
 
-        bestFitness = getSumFitness(bestKnapsack);
-        for (int i = 1; i < numAnts; i++) {
-            double fitness = getSumFitness(ants.get(i));
-            if (fitness > bestFitness) {
-                bestKnapsack = ants.get(i);
-                bestFitness = fitness;
+        this.bestFitness = this.getSumFitness(this.bestKnapsack);
+        for (int i = 1; i < this.numAnts; i++) {
+            double fitness = this.getSumFitness(this.ants.get(i));
+            if (fitness > this.bestFitness) {
+                this.bestKnapsack = this.ants.get(i);
+                this.bestFitness = fitness;
             }
         }
     }
@@ -331,20 +332,20 @@ public class ACO {
      * @brief Helper function - returns the best iteration
      */
     public int getBestIteration() {
-        return bestIteration;
+        return this.bestIteration;
     }
 
     /**
      * @brief Helper function - returns the best fitness
      */
     public double getBestFitness() {
-        return getSumFitness(bestKnapsack);
+        return this.getSumFitness(this.bestKnapsack);
     }
 
     /**
      * @brief Helper function - returns the time taken to find the best solution
      */
     public double getTimeElapsed() {
-        return timeTaken;
+        return this.timeTaken;
     }
 }
