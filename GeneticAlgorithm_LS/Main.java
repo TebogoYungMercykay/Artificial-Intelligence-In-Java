@@ -109,17 +109,16 @@ public class Main {
      */
     public static void runGeneticAlgorithm(
         HashMap<String, Knapsack> knapsacks, HashMap<String, Double> optimums,
-        List<AlgorithmResult> resultsGeneticAlgorithm, int RUN_COUNT
+        List<AlgorithmResult> resultsGeneticAlgorithm, int RUN_COUNT, Integer seed
     ) {
         // Run the genetic algorithm for each knapsack instance
         for (String key : knapsacks.keySet()) {
             Knapsack knapsack = knapsacks.get(key);
-            long seed = 7;
             double averageTime = 0;
             double bestFitness = 0;
 
             for (int i = 0; i < RUN_COUNT; i++) {
-                GA ga = new GA(knapsack);
+                GA ga = new GA(knapsack, seed);
                 averageTime += ga.getTimeElapsed();
 
                 if (ga.getBestFitness() > bestFitness) {
@@ -143,17 +142,16 @@ public class Main {
      */
     public static void runAntColonyOptimization(
         HashMap<String, Knapsack> knapsacks, HashMap<String, Double> optimums,
-        List<AlgorithmResult> resultsGeneticAlgorithmILS, int RUN_COUNT
+        List<AlgorithmResult> resultsGeneticAlgorithmILS, int RUN_COUNT, Integer seed
     ) {
         // Run the ant colony optimization algorithm for each knapsack instance
         for (String key : knapsacks.keySet()) {
             Knapsack knapsack = knapsacks.get(key);
-            long seed = 7;
             double averageTime = 0;
             double bestFitness = 0;
 
             for (int i = 0; i < RUN_COUNT; i++) {
-                ACO aco = new ACO(knapsack);
+                ACO aco = new ACO(knapsack, seed);
                 averageTime += aco.getTimeElapsed();
 
                 if (bestFitness < aco.getBestFitness()) {
@@ -175,6 +173,7 @@ public class Main {
     public static void main(String[] args) {
 
         int RUN_COUNT = 1;
+        int SEED_VALUE = 1;
         System.out.println("Running Genetic Algorithm and Ant Colony Optimization for the Knapsack Problem");
         boolean exeGeneticAlgorithm = true;
         boolean exeAntColonyOptimization = true;
@@ -189,17 +188,17 @@ public class Main {
         if (exeGeneticAlgorithm && exeAntColonyOptimization) {
             // Run the genetic algorithm and ant colony optimization algorithm
             System.out.println("\t=> Now Running the Genetic Algorithm for the Knapsack Problem");
-            runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
+            runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT, SEED_VALUE);
             System.out.println("\t=> Now Running the Ant Colony Optimization for the Knapsack Problem");
-            runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
+            runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT, SEED_VALUE);
         } else if (exeGeneticAlgorithm) {
             // Run the genetic algorithm
-            System.out.println("\tNow Running the Genetic Algorithm for the Knapsack Problem");
-            runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
+            System.out.println("\t=> Now Running the Genetic Algorithm for the Knapsack Problem");
+            runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT, SEED_VALUE);
         } else if (exeAntColonyOptimization) {
             // Run the ant colony optimization algorithm
-            System.out.println("\tNow Running the Ant Colony Optimization for the Knapsack Problem");
-            runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
+            System.out.println("\t=> Now Running the Ant Colony Optimization for the Knapsack Problem");
+            runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT, SEED_VALUE);
         } else {
             System.out.println("Please set exeGeneticAlgorithm or exeAntColonyOptimization to true to run the genetic algorithm or ACO respectively.");
         }
