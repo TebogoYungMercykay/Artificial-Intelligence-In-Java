@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import  java.util.Random;
 
 // Genetic Algorithm For the Knapsack Problem
-public class GA extends Helper {
+public class GA {
     // Random Seed
     long seed = System.currentTimeMillis ();
     Random rand = new Random(seed);
