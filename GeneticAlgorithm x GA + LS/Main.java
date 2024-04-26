@@ -173,7 +173,7 @@ public class Main {
     public static void main(String[] args) {
 
         int RUN_COUNT = 1;
-        Integer SEED_VALUE = 1;
+        Integer SEED_VALUE = 24;
         System.out.println("Running Genetic Algorithm and Ant Colony Optimization for the Knapsack Problem");
         boolean exeGeneticAlgorithm = true;
         boolean exeAntColonyOptimization = true;
