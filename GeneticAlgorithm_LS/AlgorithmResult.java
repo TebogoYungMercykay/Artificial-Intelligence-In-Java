@@ -1,6 +1,12 @@
 /**
- * The AlgorithmResult class represents the result of a problem instance solved by an algorithm.
+ * @file AlgorithmResult.java
+ * 
+ * @author Selepe Sello
+ * @date 26 April 2024
+ * @version 1.0
+ * @brief The AlgorithmResult class represents the result of a problem instance solved by an algorithm.
  */
+
 public class AlgorithmResult {
     private String problemInstance;
     private String algorithm;
