@@ -24,12 +24,22 @@ public class KnapsackItem {
     }
 
     /**
+     * Constructs a new KnapsackItem object by copying the values from another KnapsackItem object.
+     *
+     * @param other the KnapsackItem object to copy from
+     */
+    public KnapsackItem(KnapsackItem other) {
+        this.weight = other.weight;
+        this.value = other.value;
+    }
+
+    /**
      * Returns the weight of the item.
      *
      * @return the weight of the item
      */
     public Double getWeight() {
-        return weight;
+        return this.weight;
     }
 
     /**
@@ -38,7 +48,7 @@ public class KnapsackItem {
      * @return the value of the item
      */
     public Double getValue() {
-        return value;
+        return this.value;
     }
 
     /**
@@ -47,6 +57,6 @@ public class KnapsackItem {
      * @return a string representation of the KnapsackItem object
      */
     public String toString() {
-        return "Weight: " + weight + " Value: " + value;
+        return "Weight: " + this.weight + " Value: " + this.value;
     }
 }
