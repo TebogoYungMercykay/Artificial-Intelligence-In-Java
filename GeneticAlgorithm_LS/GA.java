@@ -2,14 +2,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Genetic Algorithm for the Knapsack Problem.
+ * @file GA.java
+ * 
+ * @author Selepe Sello
+ * @date 26 April 2024
+ * @version 1.0
+ * @brief Genetic Algorithm for the Knapsack Problem.
  */
-public class GA extends Helper {
 
-    private static final int seed = 8;
-    private static final Random random = new Random(seed);
+public class GA {
+    // Member Variables
 
-    // random.nextInt()
+    private Integer seed;
+    private Random random;
 
     private Knapsack knapsack;
     private ArrayList<Boolean[]> knapsackPopulation;
@@ -32,6 +37,7 @@ public class GA extends Helper {
     private static final double TOURNAMENT_PORTION = 0.2;
     private static final double INITIAL_BIT_PROBABILITY = 0.1;
 
+    // Genetic Algorithm parameters (variables)
     private int populationSize;
     private int tournamentSize;
 
@@ -39,7 +45,10 @@ public class GA extends Helper {
      * Constructor for the GA class.
      * @param initialKnapsack The initial knapsack.
      */
-    public GA(Knapsack initialKnapsack) {
+    public GA(Knapsack initialKnapsack, Integer seed) {
+        this.seed = seed;
+        this.random = new Random(this.seed);
+
         long startTime = System.nanoTime();
 
         // Create the initial population
@@ -57,7 +66,7 @@ public class GA extends Helper {
         for (int i = 0; i < populationSize; i++) {
             Boolean[] chromosome = new Boolean[knapsack.getItems().size()];
             for (int j = 0; j < knapsack.getItems().size(); j++) {
-                chromosome[j] = random.nextInt() < INITIAL_BIT_PROBABILITY;
+                chromosome[j] = this.random.nextInt() < INITIAL_BIT_PROBABILITY;
             }
             knapsackPopulation.add(chromosome);
         }
@@ -94,7 +103,7 @@ public class GA extends Helper {
             // Select random knapsacks from the population to compete in the tournament
             ArrayList<Boolean[]> competitors = new ArrayList<>();
             for (int i = 0; i < tournamentSize; i++) {
-                int randomIndex = (int)(random.nextInt() * knapsackPopulation.size());
+                int randomIndex = (int)(this.random.nextInt() * knapsackPopulation.size());
                 competitors.add(knapsackPopulation.get(randomIndex));
             }
 
@@ -124,9 +133,9 @@ public class GA extends Helper {
             Boolean[] parent2 = winners.get(i + 1);
 
             // Determine if crossover will occur
-            if (random.nextInt() < CROSSOVER_RATE) {
+            if (this.random.nextInt() < CROSSOVER_RATE) {
                 // Determine the crossover point
-                int crossoverPoint = (int)(random.nextInt() * knapsack.getItems().size());
+                int crossoverPoint = (int)(this.random.nextInt() * knapsack.getItems().size());
 
                 // Perform crossover
                 Boolean[] child1 = new Boolean[knapsack.getItems().size()];
@@ -157,9 +166,9 @@ public class GA extends Helper {
     public void bitFlipMutation() {
         for (Boolean[] chromosome : nextGenerationPopulation) {
             // Determine if mutation will occur
-            if (random.nextInt() < MUTATION_RATE) {
+            if (this.random.nextInt() < MUTATION_RATE) {
                 // Determine the mutation point
-                int mutationPoint = (int)(random.nextInt() * knapsack.getItems().size());
+                int mutationPoint = (int)(this.random.nextInt() * knapsack.getItems().size());
                 // Perform mutation
                 chromosome[mutationPoint] = !chromosome[mutationPoint];
             }
@@ -185,7 +194,7 @@ public class GA extends Helper {
             while (nextGenerationPopulation.size() < populationSize) {
                 Boolean[] chromosome = new Boolean[knapsack.getItems().size()];
                 for (int j = 0; j < knapsack.getItems().size(); j++) {
-                    chromosome[j] = random.nextInt() < 0.5;
+                    chromosome[j] = this.random.nextInt() < 0.5;
                 }
                 nextGenerationPopulation.add(chromosome);
             }
@@ -282,7 +291,15 @@ public class GA extends Helper {
      * @return The time elapsed.
      */
     public double getTimeElapsed() {
-        return timeTaken;
+        return this.timeTaken;
+    }
+
+    /**
+     * Get the seed value.
+     * @return The seed value.
+     */
+    public double getSeedValue() {
+        return this.seed;
     }
 
     /**
