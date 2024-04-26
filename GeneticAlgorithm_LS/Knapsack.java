@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Knapsack {
 
     private int capacity;
-    private ArrayList<Item> items;
+    private ArrayList<KnapsackItem> items;
 
     /**
      * Constructs a new Knapsack with the specified capacity and number of items.
@@ -33,7 +33,7 @@ public class Knapsack {
      *
      * @return the items in the knapsack
      */
-    public ArrayList<Item> getItems() {
+    public ArrayList<KnapsackItem> getItems() {
         return items;
     }
 
@@ -42,7 +42,7 @@ public class Knapsack {
      *
      * @param item the item to add
      */
-    public void addItem(Item item) {
+    public void addItem(KnapsackItem item) {
         items.add(item);
     }
 
@@ -51,7 +51,7 @@ public class Knapsack {
      *
      * @param item the item to remove
      */
-    public void removeItem(Item item) {
+    public void removeItem(KnapsackItem item) {
         items.remove(item);
     }
 
