@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ACO extends Helper {
+public class ACO {
     // Random Seed
     long seed = System.currentTimeMillis ();
     Random rand = new Random(seed);
