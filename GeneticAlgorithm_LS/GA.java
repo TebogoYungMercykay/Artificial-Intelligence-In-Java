@@ -42,7 +42,7 @@ public class GA {
     private int tournamentSize;
 
     /**
-     * Constructor for the GA class.
+     * @brief Constructor for the GA class.
      * @param initialKnapsack The initial knapsack.
      */
     public GA(Knapsack initialKnapsack, Integer seed) {
@@ -66,7 +66,7 @@ public class GA {
         for (int i = 0; i < populationSize; i++) {
             Boolean[] chromosome = new Boolean[knapsack.getItems().size()];
             for (int j = 0; j < knapsack.getItems().size(); j++) {
-                chromosome[j] = this.random.nextInt() < INITIAL_BIT_PROBABILITY;
+                chromosome[j] = this.random.nextDouble() < INITIAL_BIT_PROBABILITY;
             }
             knapsackPopulation.add(chromosome);
         }
@@ -79,22 +79,22 @@ public class GA {
         }
 
         setBestKnapsack();
-        timeTaken = (System.nanoTime() - startTime) / 1000000000;
+        this.timeTaken = (System.nanoTime() - startTime) / 1000000000;
     }
 
     /**
-     * Run the GA algorithm.
+     * @brief Run the GA algorithm.
      */
     public void run() {
         tournamentSelection();
         onePointCrossover();
         bitFlipMutation();
         replacePopulation();
-        knapsackPopulation = nextGenerationPopulation;
+        this.knapsackPopulation = this.nextGenerationPopulation;
     }
 
     /**
-     * Selects a knapsack from the population using tournament selection.
+     * @brief Selects a knapsack from the population using tournament selection.
      */
     public void tournamentSelection() {
         winners = new ArrayList<>();
@@ -103,7 +103,7 @@ public class GA {
             // Select random knapsacks from the population to compete in the tournament
             ArrayList<Boolean[]> competitors = new ArrayList<>();
             for (int i = 0; i < tournamentSize; i++) {
-                int randomIndex = (int)(this.random.nextInt() * knapsackPopulation.size());
+                int randomIndex = (int)(this.random.nextDouble() * knapsackPopulation.size());
                 competitors.add(knapsackPopulation.get(randomIndex));
             }
 
@@ -123,7 +123,7 @@ public class GA {
     }
 
     /**
-     * Performs one point crossover on two knapsacks.
+     * @brief Performs one point crossover on two knapsacks.
      */
     public void onePointCrossover() {
         nextGenerationPopulation = new ArrayList<>();
@@ -133,9 +133,9 @@ public class GA {
             Boolean[] parent2 = winners.get(i + 1);
 
             // Determine if crossover will occur
-            if (this.random.nextInt() < CROSSOVER_RATE) {
+            if (this.random.nextDouble() < CROSSOVER_RATE) {
                 // Determine the crossover point
-                int crossoverPoint = (int)(this.random.nextInt() * knapsack.getItems().size());
+                int crossoverPoint = (int)(this.random.nextDouble() * knapsack.getItems().size());
 
                 // Perform crossover
                 Boolean[] child1 = new Boolean[knapsack.getItems().size()];
@@ -161,14 +161,14 @@ public class GA {
     }
 
     /**
-     * Performs bit flip mutation on a chromosome.
+     * @brief Performs bit flip mutation on a chromosome.
      */
     public void bitFlipMutation() {
         for (Boolean[] chromosome : nextGenerationPopulation) {
             // Determine if mutation will occur
-            if (this.random.nextInt() < MUTATION_RATE) {
+            if (this.random.nextDouble() < MUTATION_RATE) {
                 // Determine the mutation point
-                int mutationPoint = (int)(this.random.nextInt() * knapsack.getItems().size());
+                int mutationPoint = (int)(this.random.nextDouble() * knapsack.getItems().size());
                 // Perform mutation
                 chromosome[mutationPoint] = !chromosome[mutationPoint];
             }
@@ -176,7 +176,7 @@ public class GA {
     }
 
     /**
-     * Replaces the old population with the new population, or keeps the old
+     * @brief Replaces the old population with the new population, or keeps the old
      * population if the new population is worse.
      */
     public void replacePopulation() {
@@ -194,17 +194,17 @@ public class GA {
             while (nextGenerationPopulation.size() < populationSize) {
                 Boolean[] chromosome = new Boolean[knapsack.getItems().size()];
                 for (int j = 0; j < knapsack.getItems().size(); j++) {
-                    chromosome[j] = this.random.nextInt() < 0.5;
+                    chromosome[j] = this.random.nextDouble() < 0.5;
                 }
                 nextGenerationPopulation.add(chromosome);
             }
 
             knapsackPopulation = nextGenerationPopulation;
         }
-    }
+    } 
 
     /**
-     * Find the best knapsack in the population and set it as the best
+     * @brief Helper Function - Find the best knapsack in the population and set it as the best
      * knapsack, also set the best fitness.
      */
     public void setBestKnapsack() {
@@ -224,7 +224,7 @@ public class GA {
     }
 
     /**
-     * Gets the best knapsack and returns it.
+     * @brief Helper Function - Gets the best knapsack and returns it.
      * @return The best knapsack.
      */
     public Boolean[] getBestKnapsack() {
@@ -232,7 +232,7 @@ public class GA {
     }
 
     /**
-     * Gets the best fitness and returns it.
+     * @brief Helper Function - Gets the best fitness and returns it.
      * @return The best fitness.
      */
     public double getBestFitness() {
@@ -240,7 +240,7 @@ public class GA {
     }
 
     /**
-     * Gets the best iteration and returns it.
+     * @brief Helper Function - Gets the best iteration and returns it.
      * @return The best iteration.
      */
     public int getBestIteration() {
@@ -248,7 +248,7 @@ public class GA {
     }
 
     /**
-     * Determines the fitness of a knapsack using a penalty if the weight
+     * @brief Helper Function - Determines the fitness of a knapsack using a penalty if the weight
      * exceeds the capacity.
      * @param chromosome The chromosome.
      * @return The fitness.
@@ -256,26 +256,32 @@ public class GA {
     public double getPenaltyFitness(Boolean[] chromosome) {
         double weight = knapsack.getWeight(chromosome);
         double penalty = Math.max(0, weight - knapsack.getCapacity()) * PENALTY_FACTOR;
+
         return knapsack.getValue(chromosome) - penalty;
     }
 
     /**
-     * Determines the fitness of a knapsack by summing the value of the items
-     * in the knapsack. If the knapsack is over capacity, the fitness is 0.
-     * @param chromosome The chromosome.
-     * @return The fitness.
+     * @brief Helper Function - Determines the fitness of a knapsack by summing the value of the items in the knapsack.
+     * If the knapsack is over capacity, the fitness is 0. A higher fitness is better.
+     * @param chromosome
+     * @return fitness
      */
     public double getSumFitness(Boolean[] chromosome) {
-        double weight = knapsack.getWeight(chromosome);
-        double value = knapsack.getValue(chromosome);
-        if (weight > knapsack.getCapacity()) {
-            return 0;
+        double fitness = 0;
+
+        if (knapsack.getWeight(chromosome) <= knapsack.getCapacity()) {
+            fitness = knapsack.getValue(chromosome);
         }
-        return value;
+
+        if (fitness % 1 > 0.0001) {
+            return Math.round(fitness * 10000.0) / 10000.0;
+        }
+
+        return fitness;
     }
 
     /**
-     * Determines the average fitness of the population.
+     * @brief Helper Function - Determines the average fitness of the population.
      * @return The average fitness.
      */
     public double getAverageFitness() {
@@ -283,11 +289,12 @@ public class GA {
         for (Boolean[] individual : knapsackPopulation) {
             totalFitness += getPenaltyFitness(individual);
         }
+
         return totalFitness / populationSize;
     }
 
     /**
-     * Get the time elapsed.
+     * @brief Helper Function - Get the time elapsed.
      * @return The time elapsed.
      */
     public double getTimeElapsed() {
@@ -303,13 +310,16 @@ public class GA {
     }
 
     /**
-     * Create a deep copy of a chromosome.
+     * @brief Helper Function - Create a deep copy of a chromosome.
      * @param chromosome The chromosome.
      * @return The copy of the chromosome.
      */
     public Boolean[] copyChromosome(Boolean[] chromosome) {
         Boolean[] copy = new Boolean[chromosome.length];
-        System.arraycopy(chromosome, 0, copy, 0, chromosome.length);
+        for (int i = 0; i < chromosome.length; i++) {
+            copy[i] = chromosome[i];
+        }
+
         return copy;
     }
 }
