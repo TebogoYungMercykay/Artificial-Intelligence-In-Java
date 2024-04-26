@@ -84,7 +84,6 @@ public class ACO {
 
         // seconds
         timeTaken = (System.nanoTime() - startTime) / 1000000000;
-
     }
 
     /**
@@ -120,7 +119,17 @@ public class ACO {
                 double sum = 0;
 
                 // Calculate the probability of selecting each item
-                double randomNumber = this.random.nextInt((int) sum);
+                for (int i = 0; i < knapsack.getItems().size(); i++) {
+                    if (!solution[i] && weight + knapsack.getItems().get(i).getWeight() <= knapsack.getCapacity()) {
+                        probabilities[i] = decisionRule(i);
+                        sum += probabilities[i];
+                    } else {
+                        probabilities[i] = 0.0;
+                    }
+                }
+
+                // Generate a random number between 0 and sum
+                double random = this.random.nextDouble() * sum;
                 double cumulativeProbability = 0;
                 int selected = -1;
 
@@ -129,7 +138,7 @@ public class ACO {
                 for (int i = 0; i < knapsack.getItems().size(); i++) {
                     if (probabilities[i] > 0) {
                         cumulativeProbability += probabilities[i];
-                        if (cumulativeProbability >= randomNumber) {
+                        if (cumulativeProbability >= random) {
                             selected = i;
                             break;
                         }
@@ -144,7 +153,6 @@ public class ACO {
                 // Add the item to the knapsack
                 solution[selected] = true;
                 weight += knapsack.getItems().get(selected).getWeight();
-
             }
 
             ants.add(solution);
@@ -167,9 +175,7 @@ public class ACO {
      * @brief Update the pheromone matrix
      */
     private void updatePheromones() {
-
         for (int ant = 0; ant < numAnts; ant++) {
-
             double fitness = getSumFitness(ants.get(ant));
 
             double sumPheromone = 0;
@@ -199,7 +205,6 @@ public class ACO {
      * @brief Choose a local search method and run it
      */
     private void localSearch() {
-
         if (LS_METHOD == 1) {
             LSReplaceWorst();
         } else if (LS_METHOD == 2) {
@@ -213,9 +218,7 @@ public class ACO {
      * @brief Add remove one item and replace it with another
      */
     private void LSReplaceWorst() {
-
         for (int i = 0; i < numAnts; i++) {
-
             double oldFitness = getSumFitness(ants.get(i));
 
             // Find the best item to remove (the one with the lowest value to weight ratio)
@@ -243,7 +246,7 @@ public class ACO {
                 continue;
             }
 
-            int add = outItems.get((int)(this.random.nextInt() * outItems.size()));
+            int add = outItems.get((int) (this.random.nextDouble() * outItems.size()));
 
             // Remove the item with the lowest value to weight ratio and add a random item
             ants.get(i)[remove] = false;
@@ -264,9 +267,7 @@ public class ACO {
      *        best of these solutions
      */
     private void LSBestFlip() {
-
         for (int i = 0; i < numAnts; i++) {
-
             double oldFitness = getSumFitness(ants.get(i));
             double newFitness = 0;
             int fitnessIndex = -1;
@@ -288,14 +289,11 @@ public class ACO {
             if (fitnessIndex != -1) {
                 ants.set(i, solutions[fitnessIndex]);
             }
-
         }
     }
 
-    // === Helper functions ===
-
     /**
-     * @brief Determines the fitness of a knapsack using the sum of the values of
+     * @brief Helper function - Determines the fitness of a knapsack using the sum of the values of
      *        the knapsack
      */
     public double getSumFitness(Boolean[] solution) {
@@ -312,7 +310,7 @@ public class ACO {
     }
 
     /**
-     * @brief finds the best solution in the list of ants
+     * @brief Helper function - finds the best solution in the list of ants
      */
     private void findBestSolution() {
         if (bestKnapsack == null) {
@@ -330,21 +328,21 @@ public class ACO {
     }
 
     /**
-     * @brief returns the best iteration
+     * @brief Helper function - returns the best iteration
      */
     public int getBestIteration() {
         return bestIteration;
     }
 
     /**
-     * @brief returns the best fitness
+     * @brief Helper function - returns the best fitness
      */
     public double getBestFitness() {
         return getSumFitness(bestKnapsack);
     }
 
     /**
-     * @brief returns the time taken to find the best solution
+     * @brief Helper function - returns the time taken to find the best solution
      */
     public double getTimeElapsed() {
         return timeTaken;
