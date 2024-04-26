@@ -7,7 +7,7 @@ import java.util.Random;
  * @file IteratedLocalSearch.java
  * 
  * @author Selepe Sello
- * @date 29 March 2021
+ * @date 29 March 2024
  * @version 1.0
  * @brief Class representing the Iterated Local Search algorithm for solving optimization problems.
  */

@@ -1,7 +1,13 @@
 /**
- * The Result class represents the result of a problem instance solved by an algorithm.
+ * @file AlgorithmResult.java
+ * 
+ * @author Selepe Sello
+ * @date 26 April 2024
+ * @version 1.0
+ * @brief The AlgorithmResult class represents the result of a problem instance solved by an algorithm.
  */
-public class Result {
+
+public class AlgorithmResult {
     private String problemInstance;
     private String algorithm;
     private long seedValue;
@@ -19,7 +25,7 @@ public class Result {
      * @param knownOptimum the known optimum of the problem instance
      * @param runtimeSeconds the runtime in seconds
      */
-    public Result(String problemInstance, String algorithm, long seedValue, double bestSolution, double knownOptimum, double runtimeSeconds) {
+    public AlgorithmResult(String problemInstance, String algorithm, long seedValue, double bestSolution, double knownOptimum, double runtimeSeconds) {
         this.problemInstance = problemInstance;
         this.algorithm = algorithm;
         this.seedValue = seedValue;

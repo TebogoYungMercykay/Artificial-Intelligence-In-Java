@@ -1,22 +1,47 @@
 import java.util.ArrayList;
-
 /**
- * The Knapsack class represents a knapsack problem.
+ * @file Knapsack.java
+ * 
+ * @author Selepe Sello
+ * @date 26 April 2024
+ * @version 1.0
+ * @brief The Knapsack class represents a knapsack problem.
  */
+
 public class Knapsack {
 
     private int capacity;
-    private ArrayList<Item> items;
+    private ArrayList<KnapsackItem> items;
+
+    /**
+     * Constructs a new Knapsack with the specified capacity.
+     *
+     * @param capacity the capacity of the knapsack
+     */
+    public Knapsack(int capacity) {
+        this.capacity = capacity;
+        this.items = new ArrayList<>();
+    }
 
     /**
      * Constructs a new Knapsack with the specified capacity and number of items.
      *
      * @param capacity the capacity of the knapsack
-     * @param numItems the number of items
+     * @param numItems the numItems in the knapsack
      */
     public Knapsack(int capacity, int numItems) {
         this.capacity = capacity;
         this.items = new ArrayList<>();
+    }
+
+    /**
+     * Constructs a new Knapsack by copying another Knapsack.
+     *
+     * @param other the Knapsack to copy
+     */
+    public Knapsack(Knapsack other) {
+        this.capacity = other.capacity;
+        this.items = new ArrayList<>(other.items);
     }
 
     /**
@@ -25,7 +50,7 @@ public class Knapsack {
      * @return the capacity of the knapsack
      */
     public int getCapacity() {
-        return capacity;
+        return this.capacity;
     }
 
     /**
@@ -33,8 +58,8 @@ public class Knapsack {
      *
      * @return the items in the knapsack
      */
-    public ArrayList<Item> getItems() {
-        return items;
+    public ArrayList<KnapsackItem> getItems() {
+        return this.items;
     }
 
     /**
@@ -42,8 +67,8 @@ public class Knapsack {
      *
      * @param item the item to add
      */
-    public void addItem(Item item) {
-        items.add(item);
+    public void addItem(KnapsackItem item) {
+        this.items.add(item);
     }
 
     /**
@@ -51,8 +76,8 @@ public class Knapsack {
      *
      * @param item the item to remove
      */
-    public void removeItem(Item item) {
-        items.remove(item);
+    public void removeItem(KnapsackItem item) {
+        this.items.remove(item);
     }
 
     /**
@@ -63,11 +88,12 @@ public class Knapsack {
      */
     public double getWeight(Boolean[] solution) {
         double totalWeight = 0;
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < this.items.size(); i++) {
             if (solution[i]) {
-                totalWeight += items.get(i).getWeight();
+                totalWeight += this.items.get(i).getWeight();
             }
         }
+
         return totalWeight;
     }
 
@@ -79,11 +105,12 @@ public class Knapsack {
      */
     public double getValue(Boolean[] solution) {
         double totalValue = 0;
-        for (int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < this.items.size(); i++) {
             if (solution[i]) {
-                totalValue += items.get(i).getValue();
+                totalValue += this.items.get(i).getValue();
             }
         }
+
         return totalValue;
     }
 
@@ -94,9 +121,10 @@ public class Knapsack {
      */
     public double getTotalWeight() {
         double totalWeight = 0;
-        for (int i = 0; i < items.size(); i++) {
-            totalWeight += items.get(i).getWeight();
+        for (int i = 0; i < this.items.size(); i++) {
+            totalWeight += this.items.get(i).getWeight();
         }
+
         return totalWeight;
     }
 
@@ -107,9 +135,10 @@ public class Knapsack {
      */
     public double getTotalValue() {
         double totalValue = 0;
-        for (int i = 0; i < items.size(); i++) {
-            totalValue += items.get(i).getValue();
+        for (int i = 0; i < this.items.size(); i++) {
+            totalValue += this.items.get(i).getValue();
         }
+
         return totalValue;
     }
 }
