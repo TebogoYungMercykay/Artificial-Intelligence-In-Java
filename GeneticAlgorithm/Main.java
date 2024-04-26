@@ -194,11 +194,11 @@ public class Main {
             runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
         } else if (exeGeneticAlgorithm) {
             // Run the genetic algorithm
-            System.out.println("\tNow Running the Genetic Algorithm for the Knapsack Problem");
+            System.out.println("\t=> Now Running the Genetic Algorithm for the Knapsack Problem");
             runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
         } else if (exeAntColonyOptimization) {
             // Run the ant colony optimization algorithm
-            System.out.println("\tNow Running the Ant Colony Optimization for the Knapsack Problem");
+            System.out.println("\t=> Now Running the Ant Colony Optimization for the Knapsack Problem");
             runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
         } else {
             System.out.println("Please set exeGeneticAlgorithm or exeAntColonyOptimization to true to run the genetic algorithm or ACO respectively.");
