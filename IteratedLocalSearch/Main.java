@@ -2,7 +2,7 @@
  * @file Main.java
  * 
  * @author Selepe Sello
- * @date 29 March 2021
+ * @date 29 March 2024
  * @version 1.0
  * @brief The Main class to run the Iterated Local Search algorithm.
  */
