@@ -1,18 +1,92 @@
-import java.util.HashMap;
+import java.io.*;
+import java.io.File;
 import java.util.List;
+import java.util.HashMap;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.io.BufferedReader;
 
-public class Main extends Helper {
-    public static void main(String[] args) {
+/**
+ * @file Main.java
+ * 
+ * @author Selepe Sello
+ * @date 26 April 2024
+ * @version 1.0
+ * @brief The Main class is the entry point of the program. It contains the main method
+ * that executes the genetic algorithm and ant colony optimization algorithms
+ * for solving the knapsack problem.
+ */
 
-        int RUN_COUNT = 1;
+public class Main {
+    /**
+     * Reads knapsack data from files in a specified folder.
+     *
+     * @param folderName the name of the folder containing the files
+     * @return a HashMap where the keys are file names and the values are Knapsack objects
+     */
+    public static HashMap<String, Knapsack> readKnapsackData(String folderName) {
+        HashMap<String, Knapsack> knapsacks = new HashMap<>();
+        File folder = new File("./Code" + File.separator + folderName);
+        if (!folder.exists()) {
+            folder = new File("./" + folderName);
+        }
 
-        boolean runGA = true;
-        boolean runASO = true;
-        List<Result> resultsGeneticAlgorithm = new ArrayList<>();
-        List<Result> resultsGeneticAlgorithmILS = new ArrayList<>();
+        File[] listOfFiles = folder.listFiles();
 
-        HashMap<String, Double> optimums = new HashMap<String, Double>();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                Knapsack knapsack = null;
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                    String line = br.readLine();
+                    int capacity = Integer.parseInt(line.split(" ")[1]);
+                    knapsack = new Knapsack(capacity);
+                    while ((line = br.readLine()) != null) {
+                        String[] lineSplit = line.split(" ");
+                        KnapsackItem item = new KnapsackItem(Double.parseDouble(lineSplit[0]), Double.parseDouble(lineSplit[1]));
+                        knapsack.addItem(item);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (knapsack != null) {
+                    knapsacks.put(file.getName(), knapsack);
+                }
+            }
+        }
+
+        return knapsacks;
+    }
+
+    /**
+     * Prints a solution.
+     *
+     * @param solution the solution to print
+     */
+    public void printSolution(Boolean[] solution) {
+        System.out.print("[");
+        for (int i = 0; i < solution.length; i++) {
+            if (solution[i] == null) {
+                System.out.print("_");
+            } else if (solution[i]) {
+                System.out.print(" 1 ");
+            } else {
+                System.out.print(" 0 ");
+            }
+            if (i != solution.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+
+    /**
+     * Initializes the data required for running the algorithms.
+     *
+     * @param optimums  The map of known optimum values for each knapsack instance.
+     */
+    public static void initializeData(HashMap<String, Double> optimums) {
+        // Initialize the known optimum values for each knapsack instance
         optimums.put("f1_l-d_kp_10_269", 295.0);
         optimums.put("f2_l-d_kp_20_878", 1024.0);
         optimums.put("f3_l-d_kp_4_20", 35.0);
@@ -24,57 +98,110 @@ public class Main extends Helper {
         optimums.put("f9_l-d_kp_5_80", 130.0);
         optimums.put("f10_l-d_kp_20_879", 1025.0);
         optimums.put("knapPI_1_100_1000_1", 9147.0);
+    }
 
-        HashMap<String, Knapsack> knapsacks = new HashMap<String, Knapsack>();
-        knapsacks = readKnapsackData("Knapsack Instances");
+    /**
+     * Runs the genetic algorithm for each knapsack instance and stores the results.
+     *
+     * @param knapsacks               The map of knapsack instances.
+     * @param optimums                The map of known optimum values for each knapsack instance.
+     * @param resultsGeneticAlgorithm The list to store the results of the genetic algorithm.
+     * @param RUN_COUNT               The number of times to run the genetic algorithm.
+     */
+    public static void runGeneticAlgorithm(
+        HashMap<String, Knapsack> knapsacks, HashMap<String, Double> optimums,
+        List<AlgorithmResult> resultsGeneticAlgorithm, int RUN_COUNT
+    ) {
+        // Run the genetic algorithm for each knapsack instance
+        for (String key : knapsacks.keySet()) {
+            Knapsack knapsack = knapsacks.get(key);
+            long seed = 7;
+            double averageTime = 0;
+            double bestFitness = 0;
 
-        // Run through the genetic algorithm for each knapsack
-        if (runGA) {
-            for (String key : knapsacks.keySet()) {
-                Knapsack knapsack = knapsacks.get(key);
-                long seed = 7;
-                double averageTime = 0;
-                double bestFitness = 0;
+            for (int i = 0; i < RUN_COUNT; i++) {
+                GA ga = new GA(knapsack);
+                averageTime += ga.getTimeElapsed();
 
-                for (int i = 0; i < RUN_COUNT; i++) {
-                    GA ga = new GA(knapsack);
-                    averageTime += ga.getTimeElapsed();
-
-                    if (ga.getBestFitness() > bestFitness) {
-                        bestFitness = ga.getBestFitness();
-                    }
+                if (ga.getBestFitness() > bestFitness) {
+                    bestFitness = ga.getBestFitness();
                 }
-
-                averageTime /= RUN_COUNT;
-                Result gaResult = new Result(key, "GA", seed, bestFitness, optimums.get(key), averageTime);
-                resultsGeneticAlgorithm.add(gaResult);
             }
+
+            averageTime /= RUN_COUNT;
+            AlgorithmResult gaResult = new AlgorithmResult(key, "GA", seed, bestFitness, optimums.get(key), averageTime);
+            resultsGeneticAlgorithm.add(gaResult);
+        }
+    }
+
+    /**
+     * Runs the ant colony optimization algorithm for each knapsack instance and stores the results.
+     *
+     * @param knapsacks                        The map of knapsack instances.
+     * @param optimums                         The map of known optimum values for each knapsack instance.
+     * @param resultsGeneticAlgorithmILS       The list to store the results of the genetic algorithm with ILS.
+     * @param RUN_COUNT                        The number of times to run the ant colony optimization algorithm.
+     */
+    public static void runAntColonyOptimization(
+        HashMap<String, Knapsack> knapsacks, HashMap<String, Double> optimums,
+        List<AlgorithmResult> resultsGeneticAlgorithmILS, int RUN_COUNT
+    ) {
+        // Run the ant colony optimization algorithm for each knapsack instance
+        for (String key : knapsacks.keySet()) {
+            Knapsack knapsack = knapsacks.get(key);
+            long seed = 7;
+            double averageTime = 0;
+            double bestFitness = 0;
+
+            for (int i = 0; i < RUN_COUNT; i++) {
+                ACO aco = new ACO(knapsack);
+                averageTime += aco.getTimeElapsed();
+
+                if (bestFitness < aco.getBestFitness()) {
+                    bestFitness = aco.getBestFitness();
+                }
+            }
+
+            averageTime /= RUN_COUNT;
+            AlgorithmResult gaResult = new AlgorithmResult(key, "GA - ILS", seed, bestFitness, optimums.get(key), averageTime);
+            resultsGeneticAlgorithmILS.add(gaResult);
+        }
+    }
+
+    /**
+     * The main method of the program.
+     *
+     * @param args The command-line arguments.
+     */
+    public static void main(String[] args) {
+
+        int RUN_COUNT = 1;
+
+        boolean exeGeneticAlgorithm = true;
+        boolean exeAntColonyOptimization = true;
+        List<AlgorithmResult> resultsGeneticAlgorithm = new ArrayList<>();
+        List<AlgorithmResult> resultsGeneticAlgorithmILS = new ArrayList<>();
+
+        HashMap<String, Double> optimums = new HashMap<String, Double>();
+        // Read the knapsack data from the specified directory
+        HashMap<String, Knapsack> knapsacks = readKnapsackData("Knapsack Instances");
+        initializeData(optimums);        
+        
+        if (exeGeneticAlgorithm && exeAntColonyOptimization) {
+            // Run the genetic algorithm and ant colony optimization algorithm
+            runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
+            runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
+        } else if (exeGeneticAlgorithm) {
+            // Run the genetic algorithm
+            runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
+        } else if (exeAntColonyOptimization) {
+            // Run the ant colony optimization algorithm
+            runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
+        } else {
+            System.out.println("Please set exeGeneticAlgorithm or exeAntColonyOptimization to true to run the genetic algorithm or ACO respectively.");
         }
 
-        // run through ACO for each knapsack
-        if (runASO) {
-            for (String key : knapsacks.keySet()) {
-                Knapsack knapsack = knapsacks.get(key);
-                long seed = 7;
-                double averageTime = 0;
-                double bestFitness = 0;
-
-                for (int i = 0; i < RUN_COUNT; i++) {
-                    ACO aco = new ACO(knapsack);
-                    averageTime += aco.getTimeElapsed();
-
-                    if (bestFitness < aco.getBestFitness()) {
-                        bestFitness = aco.getBestFitness();
-                    }
-                }
-
-                averageTime /= RUN_COUNT;
-                Result gaResult = new Result(key, "GA - ILS", seed, bestFitness, optimums.get(key), averageTime);
-                resultsGeneticAlgorithmILS.add(gaResult);
-            }
-        }
-
-        // print results
+        // Print the results
         System.out.printf("%-20s | %-10s | %-10s | %-15s | %-13s | %-15s%n", 
             "Problem Instance", 
             "Algorithm", 
@@ -85,8 +212,8 @@ public class Main extends Helper {
         );
         System.out.println("----------------------------------------------------------------------------------------------------");
         for (int i = 0; i < resultsGeneticAlgorithmILS.size(); i++) {
-            Result result = resultsGeneticAlgorithm.get(i);
-            Result result_1 = resultsGeneticAlgorithmILS.get(i);
+            AlgorithmResult result = resultsGeneticAlgorithm.get(i);
+            AlgorithmResult result1 = resultsGeneticAlgorithmILS.get(i);
             System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-15.2f%n", 
                 result.getProblemInstance(), 
                 result.getAlgorithm(), 
@@ -96,11 +223,11 @@ public class Main extends Helper {
                 result.getRuntimeSeconds());
             System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-15.2f%n", 
                 " ", 
-                result_1.getAlgorithm(), 
-                result_1.getSeedValue(), 
-                result_1.getBestSolution(), 
-                result_1.getKnownOptimum(), 
-                result_1.getRuntimeSeconds());
+                result1.getAlgorithm(), 
+                result1.getSeedValue(), 
+                result1.getBestSolution(), 
+                result1.getKnownOptimum(), 
+                result1.getRuntimeSeconds());
             System.out.println("----------------------------------------------------------------------------------------------------");
         }
     }
