@@ -14,11 +14,22 @@ public class Knapsack {
     private ArrayList<KnapsackItem> items;
 
     /**
-     * Constructs a new Knapsack with the specified capacity and number of items.
+     * Constructs a new Knapsack with the specified capacity.
      *
      * @param capacity the capacity of the knapsack
      */
     public Knapsack(int capacity) {
+        this.capacity = capacity;
+        this.items = new ArrayList<>();
+    }
+
+    /**
+     * Constructs a new Knapsack with the specified capacity and number of items.
+     *
+     * @param capacity the capacity of the knapsack
+     * @param numItems the numItems in the knapsack
+     */
+    public Knapsack(int capacity, int numItems) {
         this.capacity = capacity;
         this.items = new ArrayList<>();
     }
