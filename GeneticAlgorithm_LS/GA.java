@@ -52,27 +52,27 @@ public class GA {
         long startTime = System.nanoTime();
 
         // Create the initial population
-        knapsack = initialKnapsack;
-        populationSize = (int)(initialKnapsack.getItems().size() * POPULATION_MULTIPLIER);
-        tournamentSize = (int)(populationSize * TOURNAMENT_PORTION);
-        if (tournamentSize < 2) {
-            tournamentSize = 2;
-        } else if (tournamentSize % 2 == 1) {
-            tournamentSize++;
+        this.knapsack = initialKnapsack;
+        this.populationSize = (int)(initialKnapsack.getItems().size() * POPULATION_MULTIPLIER);
+        this.tournamentSize = (int)(this.populationSize * TOURNAMENT_PORTION);
+        if (this.tournamentSize < 2) {
+            this.tournamentSize = 2;
+        } else if (this.tournamentSize % 2 == 1) {
+            this.tournamentSize++;
         }
 
-        knapsackPopulation = new ArrayList<>();
+        this.knapsackPopulation = new ArrayList<>();
 
-        for (int i = 0; i < populationSize; i++) {
-            Boolean[] chromosome = new Boolean[knapsack.getItems().size()];
-            for (int j = 0; j < knapsack.getItems().size(); j++) {
+        for (int i = 0; i < this.populationSize; i++) {
+            Boolean[] chromosome = new Boolean[this.knapsack.getItems().size()];
+            for (int j = 0; j < this.knapsack.getItems().size(); j++) {
                 chromosome[j] = this.random.nextDouble() < INITIAL_BIT_PROBABILITY;
             }
-            knapsackPopulation.add(chromosome);
+            this.knapsackPopulation.add(chromosome);
         }
 
         for (int i = 0; i < MAX_GENERATIONS; i++) {
-            if (noImprovement >= STOPPING_ITERATIONS) {
+            if (this.noImprovement >= STOPPING_ITERATIONS) {
                 break;
             }
             run();
@@ -97,17 +97,17 @@ public class GA {
      * @brief Selects a knapsack from the population using tournament selection.
      */
     public void tournamentSelection() {
-        winners = new ArrayList<>();
+        this.winners = new ArrayList<>();
 
-        while (knapsackPopulation.size() > 0 && winners.size() < populationSize) {
+        while (this.knapsackPopulation.size() > 0 && this.winners.size() < this.populationSize) {
             // Select random knapsacks from the population to compete in the tournament
             ArrayList<Boolean[]> competitors = new ArrayList<>();
-            for (int i = 0; i < tournamentSize; i++) {
-                int randomIndex = (int)(this.random.nextDouble() * knapsackPopulation.size());
-                competitors.add(knapsackPopulation.get(randomIndex));
+            for (int i = 0; i < this.tournamentSize; i++) {
+                int randomIndex = (int)(this.random.nextDouble() * this.knapsackPopulation.size());
+                competitors.add(this.knapsackPopulation.get(randomIndex));
             }
 
-            Boolean[] winner = new Boolean[knapsack.getItems().size()];
+            Boolean[] winner = new Boolean[this.knapsack.getItems().size()];
             double winnerFitness = -1 * Double.MAX_VALUE;
 
             for (Boolean[] competitor : competitors) {
@@ -118,7 +118,7 @@ public class GA {
                 }
             }
 
-            winners.add(winner);
+            this.winners.add(winner);
         }
     }
 
@@ -126,36 +126,36 @@ public class GA {
      * @brief Performs one point crossover on two knapsacks.
      */
     public void onePointCrossover() {
-        nextGenerationPopulation = new ArrayList<>();
+        this.nextGenerationPopulation = new ArrayList<>();
 
-        for (int i = 0; i < winners.size(); i += 2) {
-            Boolean[] parent1 = winners.get(i);
-            Boolean[] parent2 = winners.get(i + 1);
+        for (int i = 0; i < this.winners.size(); i += 2) {
+            Boolean[] parent1 = this.winners.get(i);
+            Boolean[] parent2 = this.winners.get(i + 1);
 
             // Determine if crossover will occur
             if (this.random.nextDouble() < CROSSOVER_RATE) {
                 // Determine the crossover point
-                int crossoverPoint = (int)(this.random.nextDouble() * knapsack.getItems().size());
+                int crossoverPoint = (int)(this.random.nextDouble() * this.knapsack.getItems().size());
 
                 // Perform crossover
-                Boolean[] child1 = new Boolean[knapsack.getItems().size()];
-                Boolean[] child2 = new Boolean[knapsack.getItems().size()];
+                Boolean[] child1 = new Boolean[this.knapsack.getItems().size()];
+                Boolean[] child2 = new Boolean[this.knapsack.getItems().size()];
 
                 for (int j = 0; j < crossoverPoint; j++) {
                     child1[j] = parent1[j];
                     child2[j] = parent2[j];
                 }
 
-                for (int j = crossoverPoint; j < knapsack.getItems().size(); j++) {
+                for (int j = crossoverPoint; j < this.knapsack.getItems().size(); j++) {
                     child1[j] = parent2[j];
                     child2[j] = parent1[j];
                 }
 
-                nextGenerationPopulation.add(child1);
-                nextGenerationPopulation.add(child2);
+                this.nextGenerationPopulation.add(child1);
+                this.nextGenerationPopulation.add(child2);
             } else {
-                nextGenerationPopulation.add(parent1);
-                nextGenerationPopulation.add(parent2);
+                this.nextGenerationPopulation.add(parent1);
+                this.nextGenerationPopulation.add(parent2);
             }
         }
     }
@@ -164,11 +164,11 @@ public class GA {
      * @brief Performs bit flip mutation on a chromosome.
      */
     public void bitFlipMutation() {
-        for (Boolean[] chromosome : nextGenerationPopulation) {
+        for (Boolean[] chromosome : this.nextGenerationPopulation) {
             // Determine if mutation will occur
             if (this.random.nextDouble() < MUTATION_RATE) {
                 // Determine the mutation point
-                int mutationPoint = (int)(this.random.nextDouble() * knapsack.getItems().size());
+                int mutationPoint = (int)(this.random.nextDouble() * this.knapsack.getItems().size());
                 // Perform mutation
                 chromosome[mutationPoint] = !chromosome[mutationPoint];
             }
@@ -182,24 +182,24 @@ public class GA {
     public void replacePopulation() {
         double currentAverageFitness = getAverageFitness();
 
-        if (currentAverageFitness > averageFitness) {
-            averageFitness = currentAverageFitness;
-            bestIteration += noImprovement;
-            noImprovement = 0;
+        if (currentAverageFitness > this.averageFitness) {
+            this.averageFitness = currentAverageFitness;
+            this.bestIteration += this.noImprovement;
+            this.noImprovement = 0;
             // Clear out the old population
-            knapsackPopulation = new ArrayList<>();
+            this.knapsackPopulation = new ArrayList<>();
         } else {
-            noImprovement++;
+            this.noImprovement++;
 
-            while (nextGenerationPopulation.size() < populationSize) {
-                Boolean[] chromosome = new Boolean[knapsack.getItems().size()];
-                for (int j = 0; j < knapsack.getItems().size(); j++) {
+            while (this.nextGenerationPopulation.size() < this.populationSize) {
+                Boolean[] chromosome = new Boolean[this.knapsack.getItems().size()];
+                for (int j = 0; j < this.knapsack.getItems().size(); j++) {
                     chromosome[j] = this.random.nextDouble() < 0.5;
                 }
-                nextGenerationPopulation.add(chromosome);
+                this.nextGenerationPopulation.add(chromosome);
             }
 
-            knapsackPopulation = nextGenerationPopulation;
+            this.knapsackPopulation = this.nextGenerationPopulation;
         }
     } 
 
@@ -209,18 +209,18 @@ public class GA {
      */
     public void setBestKnapsack() {
         int bestIndex = 0;
-        double bestFitness = 0;
+        double currBestFitness = 0;
 
-        for (int i = 0; i < populationSize; i++) {
-            double fitness = getSumFitness(knapsackPopulation.get(i));
-            if (fitness > bestFitness) {
-                bestFitness = fitness;
+        for (int i = 0; i < this.populationSize; i++) {
+            double fitness = getSumFitness(this.knapsackPopulation.get(i));
+            if (fitness > currBestFitness) {
+                currBestFitness = fitness;
                 bestIndex = i;
             }
         }
 
-        bestKnapsack = knapsackPopulation.get(bestIndex);
-        this.bestFitness = bestFitness;
+        this.bestKnapsack = this.knapsackPopulation.get(bestIndex);
+        this.bestFitness = currBestFitness;
     }
 
     /**
@@ -228,7 +228,7 @@ public class GA {
      * @return The best knapsack.
      */
     public Boolean[] getBestKnapsack() {
-        return bestKnapsack;
+        return this.bestKnapsack;
     }
 
     /**
@@ -236,7 +236,7 @@ public class GA {
      * @return The best fitness.
      */
     public double getBestFitness() {
-        return bestFitness;
+        return this.bestFitness;
     }
 
     /**
@@ -244,7 +244,7 @@ public class GA {
      * @return The best iteration.
      */
     public int getBestIteration() {
-        return bestIteration;
+        return this.bestIteration;
     }
 
     /**
@@ -254,10 +254,10 @@ public class GA {
      * @return The fitness.
      */
     public double getPenaltyFitness(Boolean[] chromosome) {
-        double weight = knapsack.getWeight(chromosome);
-        double penalty = Math.max(0, weight - knapsack.getCapacity()) * PENALTY_FACTOR;
+        double weight = this.knapsack.getWeight(chromosome);
+        double penalty = Math.max(0, weight - this.knapsack.getCapacity()) * PENALTY_FACTOR;
 
-        return knapsack.getValue(chromosome) - penalty;
+        return this.knapsack.getValue(chromosome) - penalty;
     }
 
     /**
@@ -269,8 +269,8 @@ public class GA {
     public double getSumFitness(Boolean[] chromosome) {
         double fitness = 0;
 
-        if (knapsack.getWeight(chromosome) <= knapsack.getCapacity()) {
-            fitness = knapsack.getValue(chromosome);
+        if (this.knapsack.getWeight(chromosome) <= this.knapsack.getCapacity()) {
+            fitness = this.knapsack.getValue(chromosome);
         }
 
         if (fitness % 1 > 0.0001) {
@@ -286,11 +286,11 @@ public class GA {
      */
     public double getAverageFitness() {
         double totalFitness = 0;
-        for (Boolean[] individual : knapsackPopulation) {
+        for (Boolean[] individual : this.knapsackPopulation) {
             totalFitness += getPenaltyFitness(individual);
         }
 
-        return totalFitness / populationSize;
+        return totalFitness / this.populationSize;
     }
 
     /**
