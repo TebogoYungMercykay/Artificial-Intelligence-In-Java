@@ -1,10 +1,20 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ACO extends Helper {
+/**
+ * @file ACO.java
+ * 
+ * @author Selepe Sello
+ * @date 26 April 2024
+ * @version 1.0
+ * @brief Ant Colony Optimization for the Knapsack Problem.
+ */
 
-    private static final int seed = 8;
-    private static final Random random = new Random(seed);
+public class ACO {
+    // Member Variables
+
+    private Integer seed;
+    private Random random;
 
     private Knapsack knapsack;
     private ArrayList<Boolean[]> ants;
@@ -14,7 +24,7 @@ public class ACO extends Helper {
     private double timeTaken = 0;
     private int bestIteration = 0;
 
-    // ACO parameters (constants)
+    // Ant Colony Optimization parameters (constants)
     private static final int MAX_ITERATIONS = 200;
     private static final int STOPPING_ITERATIONS = 100;
     private static final double ALPHA = 0.5;
@@ -22,15 +32,22 @@ public class ACO extends Helper {
     private static final double EVAPORATION_RATE = 0.95;
     private static final double INITIAL_PHEROMONE = 0.5;
     private static final double UPDATE_STRENGTH = 0.5;
-    // 0 = none, 1 = Replace the worst item, 2 = Assess all single item flips and choose the best
+
+    /*
+        0 = none,
+        1 = Replace the worst item,
+        2 = Assess all single item flips and choose the best
+     */
     private static final int LS_METHOD = 0;
 
-    // ACO parameters (variables)
+    // Ant Colony Optimization parameters (variables)
     int numAnts;
     private double[] pheromone;
     private double Q;
 
-    public ACO(Knapsack initalKnapsack) {
+    public ACO(Knapsack initalKnapsack, Integer seed) {
+        this.seed = seed;
+        this.random = new Random(this.seed);
 
         double startTime = System.nanoTime();
         double previousBestFitness;
@@ -103,7 +120,7 @@ public class ACO extends Helper {
                 double sum = 0;
 
                 // Calculate the probability of selecting each item
-                double randomNumber = random.nextInt((int) sum);
+                double randomNumber = this.random.nextInt((int) sum);
                 double cumulativeProbability = 0;
                 int selected = -1;
 
@@ -226,7 +243,7 @@ public class ACO extends Helper {
                 continue;
             }
 
-            int add = outItems.get((int)(random.nextInt() * outItems.size()));
+            int add = outItems.get((int)(this.random.nextInt() * outItems.size()));
 
             // Remove the item with the lowest value to weight ratio and add a random item
             ants.get(i)[remove] = false;
