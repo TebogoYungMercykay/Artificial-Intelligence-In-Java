@@ -176,7 +176,7 @@ public class Main {
     public static void main(String[] args) {
 
         int RUN_COUNT = 1;
-
+        System.out.println("Running Genetic Algorithm and Ant Colony Optimization for the Knapsack Problem");
         boolean exeGeneticAlgorithm = true;
         boolean exeAntColonyOptimization = true;
         List<AlgorithmResult> resultsGeneticAlgorithm = new ArrayList<>();
@@ -189,17 +189,23 @@ public class Main {
         
         if (exeGeneticAlgorithm && exeAntColonyOptimization) {
             // Run the genetic algorithm and ant colony optimization algorithm
+            System.out.println("\tNow Running the Genetic Algorithm for the Knapsack Problem");
             runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
+            System.out.println("\tNow Running the Ant Colony Optimization for the Knapsack Problem");
             runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
         } else if (exeGeneticAlgorithm) {
             // Run the genetic algorithm
+            System.out.println("\tNow Running the Genetic Algorithm for the Knapsack Problem");
             runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
         } else if (exeAntColonyOptimization) {
             // Run the ant colony optimization algorithm
+            System.out.println("\tNow Running the Ant Colony Optimization for the Knapsack Problem");
             runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
         } else {
             System.out.println("Please set exeGeneticAlgorithm or exeAntColonyOptimization to true to run the genetic algorithm or ACO respectively.");
         }
+
+        System.out.println("\nPresenting Results for the Knapsack Problem.\n");
 
         // Print the results
         System.out.printf("%-20s | %-10s | %-10s | %-15s | %-13s | %-15s%n", 
