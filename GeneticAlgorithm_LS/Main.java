@@ -1,4 +1,3 @@
-import java.io.*;
 import java.io.File;
 import java.util.List;
 import java.util.HashMap;
@@ -185,13 +184,13 @@ public class Main {
         HashMap<String, Double> optimums = new HashMap<String, Double>();
         // Read the knapsack data from the specified directory
         HashMap<String, Knapsack> knapsacks = readKnapsackData("Knapsack Instances");
-        initializeData(optimums);        
+        initializeData(optimums);
         
         if (exeGeneticAlgorithm && exeAntColonyOptimization) {
             // Run the genetic algorithm and ant colony optimization algorithm
-            System.out.println("\tNow Running the Genetic Algorithm for the Knapsack Problem");
+            System.out.println("\t=> Now Running the Genetic Algorithm for the Knapsack Problem");
             runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT);
-            System.out.println("\tNow Running the Ant Colony Optimization for the Knapsack Problem");
+            System.out.println("\t=> Now Running the Ant Colony Optimization for the Knapsack Problem");
             runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT);
         } else if (exeGeneticAlgorithm) {
             // Run the genetic algorithm
