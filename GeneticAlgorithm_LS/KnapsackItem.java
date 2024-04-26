@@ -2,7 +2,7 @@
  * @file KnapsackItem.java
  * 
  * @author Selepe Sello
- * @date 29 March 2021
+ * @date 26 April 2024
  * @version 1.0
  * @brief Class representing the Items (W_i, V_i) in a Knapsack.
  */

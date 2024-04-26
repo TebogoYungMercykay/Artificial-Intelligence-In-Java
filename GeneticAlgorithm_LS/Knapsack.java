@@ -1,8 +1,13 @@
 import java.util.ArrayList;
-
 /**
- * The Knapsack class represents a knapsack problem.
+ * @file Knapsack.java
+ * 
+ * @author Selepe Sello
+ * @date 26 April 2024
+ * @version 1.0
+ * @brief The Knapsack class represents a knapsack problem.
  */
+
 public class Knapsack {
 
     private int capacity;
