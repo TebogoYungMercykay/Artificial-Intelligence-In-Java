@@ -7,7 +7,7 @@ import java.util.Random;
  * @file SimulatedAnnealing.java
  * 
  * @author Selepe Sello
- * @date 29 March 2021
+ * @date 29 March 2024
  * @version 1.0
  * @brief Simulated Annealing algorithm for solving the campus tour problem.
  */
