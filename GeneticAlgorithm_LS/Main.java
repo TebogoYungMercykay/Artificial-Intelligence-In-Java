@@ -187,17 +187,17 @@ public class Main {
         
         if (exeGeneticAlgorithm && exeAntColonyOptimization) {
             // Run the genetic algorithm and ant colony optimization algorithm
-            System.out.println("\t=> Now Running the Genetic Algorithm for the Knapsack Problem");
+            System.out.println("\t=> Currently Running the Genetic Algorithm for the Knapsack Problem");
             runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT, SEED_VALUE);
-            System.out.println("\t=> Now Running the Ant Colony Optimization for the Knapsack Problem");
+            System.out.println("\t=> Currently Running the Ant Colony Optimization for the Knapsack Problem");
             runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT, SEED_VALUE);
         } else if (exeGeneticAlgorithm) {
             // Run the genetic algorithm
-            System.out.println("\t=> Now Running the Genetic Algorithm for the Knapsack Problem");
+            System.out.println("\t=> Currently Running the Genetic Algorithm for the Knapsack Problem");
             runGeneticAlgorithm(knapsacks, optimums, resultsGeneticAlgorithm, RUN_COUNT, SEED_VALUE);
         } else if (exeAntColonyOptimization) {
             // Run the ant colony optimization algorithm
-            System.out.println("\t=> Now Running the Ant Colony Optimization for the Knapsack Problem");
+            System.out.println("\t=> Currently Running the Ant Colony Optimization for the Knapsack Problem");
             runAntColonyOptimization(knapsacks, optimums, resultsGeneticAlgorithmILS, RUN_COUNT, SEED_VALUE);
         } else {
             System.out.println("Please set exeGeneticAlgorithm or exeAntColonyOptimization to true to run the genetic algorithm or ACO respectively.");
