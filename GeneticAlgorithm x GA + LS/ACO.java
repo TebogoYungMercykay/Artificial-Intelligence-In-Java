@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @file ACO.java
@@ -351,17 +353,15 @@ public class ACO {
 
     public void printACOParameters(String state) {
         if (state.toUpperCase() == "INITIAL") {
-            System.out.println("Ant Colony Optimization Parameters (Initial):");
+            System.out.println("\t\tAnt Colony Optimization Runtime Parameters (Initial):");
         } else {
-            System.out.println("Ant Colony Optimization Parameters (Final):");
+            System.out.println("\t\tAnt Colony Optimization Runtime Parameters (Final):");
         }
-        System.out.println("Max Iterations: " + MAX_ITERATIONS);
-        System.out.println("Stopping Iterations: " + STOPPING_ITERATIONS);
-        System.out.println("Alpha: " + ALPHA);
-        System.out.println("Beta: " + BETA);
-        System.out.println("Evaporation Rate: " + EVAPORATION_RATE);
-        System.out.println("Initial Pheromone: " + INITIAL_PHEROMONE);
-        System.out.println("Update Strength: " + UPDATE_STRENGTH);
-        System.out.println("Local Search Method: " + LS_METHOD);
+        // System.out.println("\t\tAnts: " + ants.stream().map(Arrays::toString).collect(Collectors.joining(", ")));
+        System.out.println("\t\tBest Knapsack: " + Arrays.toString(bestKnapsack));
+        System.out.println("\t\tBest Fitness: " + bestFitness);
+        System.out.println("\t\tNo Improvement: " + noImprovement);
+        System.out.println("\t\tTime Taken: " + timeTaken);
+        System.out.println("\t\tBest Iteration: " + bestIteration);
     }
 }
