@@ -322,4 +322,20 @@ public class GA {
 
         return copy;
     }
+
+    public void printGAParameters(String state) {
+        if (state.toUpperCase() == "INITIAL") {
+            System.out.println("Genetic Algorithm Parameters (Initial):");
+        } else {
+            System.out.println("Genetic Algorithm Parameters (Final):");
+        }
+        System.out.println("Population Multiplier: " + POPULATION_MULTIPLIER);
+        System.out.println("Crossover Rate: " + CROSSOVER_RATE);
+        System.out.println("Mutation Rate: " + MUTATION_RATE);
+        System.out.println("Max Generations: " + MAX_GENERATIONS);
+        System.out.println("Stopping Iterations: " + STOPPING_ITERATIONS);
+        System.out.println("Penalty Factor: " + PENALTY_FACTOR);
+        System.out.println("Tournament Portion: " + TOURNAMENT_PORTION);
+        System.out.println("Initial Bit Probability: " + INITIAL_BIT_PROBABILITY);
+    }
 }
