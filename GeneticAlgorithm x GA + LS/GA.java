@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -321,5 +322,20 @@ public class GA {
         }
 
         return copy;
+    }
+
+    public void printGAParameters(String state) {
+        if (state.toUpperCase() == "INITIAL") {
+            System.out.println("\t\tGenetic Algorithm Runtime Parameters (Initial):");
+        } else {
+            System.out.println("\t\tGenetic Algorithm Runtime Parameters (Final):");
+        }
+        System.out.println("\t\tBest Knapsack: " + Arrays.toString(bestKnapsack));
+        System.out.println("\t\tBest Fitness: " + bestFitness);
+        System.out.println("\t\tNo Improvement: " + noImprovement);
+        System.out.println("\t\tAverage Fitness: " + averageFitness);
+        System.out.println("\t\tTime Taken: " + timeTaken);
+        // System.out.println("\t\tWinners: " + winners.stream().map(Arrays::toString).collect(Collectors.joining(", ")));
+        System.out.println("\t\tBest Iteration: " + bestIteration);
     }
 }

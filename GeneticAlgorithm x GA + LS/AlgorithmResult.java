@@ -7,13 +7,14 @@
  * @brief The AlgorithmResult class represents the result of a problem instance solved by an algorithm.
  */
 
-public class AlgorithmResult {
+ public class AlgorithmResult {
     private String problemInstance;
     private String algorithm;
     private long seedValue;
     private double bestSolution;
     private double knownOptimum;
     private double runtimeSeconds;
+    private boolean majorityOptimal;
 
     /**
      * Constructs a new Result with the specified values.
@@ -25,13 +26,14 @@ public class AlgorithmResult {
      * @param knownOptimum the known optimum of the problem instance
      * @param runtimeSeconds the runtime in seconds
      */
-    public AlgorithmResult(String problemInstance, String algorithm, long seedValue, double bestSolution, double knownOptimum, double runtimeSeconds) {
+    public AlgorithmResult(String problemInstance, String algorithm, long seedValue, double bestSolution, double knownOptimum, double runtimeSeconds, boolean majorityOptimal) {
         this.problemInstance = problemInstance;
         this.algorithm = algorithm;
         this.seedValue = seedValue;
         this.bestSolution = bestSolution;
         this.knownOptimum = knownOptimum;
         this.runtimeSeconds = runtimeSeconds;
+        this.majorityOptimal = majorityOptimal;
     }
 
     /**
@@ -122,6 +124,24 @@ public class AlgorithmResult {
      */
     public void setKnownOptimum(double knownOptimum) {
         this.knownOptimum = knownOptimum;
+    }
+
+    /**
+     * Returns the majorityOptimal of the problem instance.
+     *
+     * @return the majorityOptimal optimum
+     */
+    public boolean getMajorityOptimal() {
+        return this.majorityOptimal;
+    }
+
+    /**
+     * Sets the majorityOptimal of the problem instance.
+     *
+     * @param majorityOptimal the majorityOptimal optimum
+     */
+    public void setMajorityOptimal(boolean majorityOptimal) {
+        this.majorityOptimal = majorityOptimal;
     }
 
     /**
