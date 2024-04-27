@@ -1,226 +1,171 @@
 Running Genetic Algorithm and Ant Colony Optimization for the Knapsack Problem
         => Currently Running the Genetic Algorithm for the Knapsack Problem
+                Problem Instance: f9_l-d_kp_5_80                Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, false]
+                Best Fitness: 130.0
+                No Improvement: 250
+                Average Fitness: 108.6
+                Time Taken: 0
+                Best Iteration: 198
 
-Problem Instance: f9_l-d_kp_5_80Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f1_l-d_kp_10_269              Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [false, true, true, true, false, false, false, true, true, true]
+                Best Fitness: 295.0
+                No Improvement: 9
+                Average Fitness: 168.2875
+                Time Taken: 0
+                Best Iteration: 483
 
-Problem Instance: f1_l-d_kp_10_269Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f3_l-d_kp_4_20                Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [true, true, false, true]
+                Best Fitness: 35.0
+                No Improvement: 250
+                Average Fitness: 28.8125
+                Time Taken: 0
+                Best Iteration: 211
 
-Problem Instance: f3_l-d_kp_4_20Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: knapPI_1_100_1000_1           Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [false, false, false, false, false, false, true, false, false, false, true, false, false, true, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, true, false, true, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+                Best Fitness: 9147.0
+                No Improvement: 40
+                Average Fitness: 2210.78375
+                Time Taken: 6
+                Best Iteration: 452
 
-Problem Instance: knapPI_1_100_1000_1Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f6_l-d_kp_10_60               Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [false, false, true, true, true, false, true, false, false, false]
+                Best Fitness: 52.0
+                No Improvement: 240
+                Average Fitness: 27.3125
+                Time Taken: 0
+                Best Iteration: 254
 
-Problem Instance: f6_l-d_kp_10_60Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f5_l-d_kp_15_375              Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [false, false, true, false, true, false, true, true, false, true, true, true, false, true, true]
+                Best Fitness: 481.0694
+                No Improvement: 250
+                Average Fitness: 382.51520775000046
+                Time Taken: 0
+                Best Iteration: 133
 
-Problem Instance: f5_l-d_kp_15_375Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f8_l-d_kp_23_10000            Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, true, true, true, true, false, false, true, false, false, false, false, true, true, false, false, false, false, false, false]
+                Best Fitness: 9767.0
+                No Improvement: 250
+                Average Fitness: 8618.483695652174
+                Time Taken: 0
+                Best Iteration: 20
 
-Problem Instance: f8_l-d_kp_23_10000Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f10_l-d_kp_20_879             Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, true, true, true, true, true, false, true, true, true, true, false, true, false, true, true, true]
+                Best Fitness: 1025.0
+                No Improvement: 198
+                Average Fitness: 936.43125
+                Time Taken: 0
+                Best Iteration: 284
 
-Problem Instance: f10_l-d_kp_20_879Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f4_l-d_kp_4_11                Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [false, true, false, true]
+                Best Fitness: 23.0
+                No Improvement: 205
+                Average Fitness: 17.625
+                Time Taken: 0
+                Best Iteration: 281
 
-Problem Instance: f4_l-d_kp_4_11Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f7_l-d_kp_7_50                Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [true, true, false, false, false, true, true]
+                Best Fitness: 105.0
+                No Improvement: 250
+                Average Fitness: 83.19642857142857
+                Time Taken: 0
+                Best Iteration: 41
 
-Problem Instance: f7_l-d_kp_7_50Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
+                Problem Instance: f2_l-d_kp_20_878              Genetic Algorithm Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, false, true, false, true, true]
+                Best Fitness: 1024.0
+                No Improvement: 250
+                Average Fitness: 934.04375
+                Time Taken: 0
+                Best Iteration: 15
 
-Problem Instance: f2_l-d_kp_20_878Genetic Algorithm Parameters (Final):
-Population Multiplier: 8
-Crossover Rate: 0.3
-Mutation Rate: 0.4
-Max Generations: 500
-Stopping Iterations: 250
-Penalty Factor: 10
-Tournament Portion: 0.2
-Initial Bit Probability: 0.1
         => Currently Running the Ant Colony Optimization for the Knapsack Problem
+                Problem Instance: f9_l-d_kp_5_80                Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, false]
+                Best Fitness: 130.0
+                No Improvement: 199
+                Time Taken: 0.005447222
+                Best Iteration: 0
 
-Problem Instance: f9_l-d_kp_5_80Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f1_l-d_kp_10_269              Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [false, true, true, true, false, false, false, true, true, true]
+                Best Fitness: 295.0
+                No Improvement: 199
+                Time Taken: 0.004054961
+                Best Iteration: 0
 
-Problem Instance: f1_l-d_kp_10_269Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f3_l-d_kp_4_20                Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [true, true, false, true]
+                Best Fitness: 35.0
+                No Improvement: 199
+                Time Taken: 8.67723E-4
+                Best Iteration: 0
 
-Problem Instance: f3_l-d_kp_4_20Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: knapPI_1_100_1000_1           Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [false, false, false, false, false, false, true, false, false, false, true, false, false, true, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, true, false, true, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+                Best Fitness: 9147.0
+                No Improvement: 198
+                Time Taken: 0.201132734
+                Best Iteration: 0
 
-Problem Instance: knapPI_1_100_1000_1Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f6_l-d_kp_10_60               Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [false, false, true, true, false, true, true, true, true, true]
+                Best Fitness: 52.0
+                No Improvement: 199
+                Time Taken: 0.001659985
+                Best Iteration: 0
 
-Problem Instance: f6_l-d_kp_10_60Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f5_l-d_kp_15_375              Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [false, false, true, false, true, false, true, true, false, true, true, true, false, true, true]
+                Best Fitness: 481.0694
+                No Improvement: 199
+                Time Taken: 0.006540896
+                Best Iteration: 0
 
-Problem Instance: f5_l-d_kp_15_375Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f8_l-d_kp_23_10000            Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, true, false, true, false, true, true, true, false, true, true, false, false, true, false, false, false, false, false, false]
+                Best Fitness: 9750.0
+                No Improvement: 70
+                Time Taken: 0.017124835
+                Best Iteration: 126
 
-Problem Instance: f8_l-d_kp_23_10000Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f10_l-d_kp_20_879             Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, true, true, true, true, true, false, true, true, true, true, false, true, false, true, true, true]
+                Best Fitness: 1025.0
+                No Improvement: 199
+                Time Taken: 0.01355111
+                Best Iteration: 0
 
-Problem Instance: f10_l-d_kp_20_879Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f4_l-d_kp_4_11                Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [false, true, false, true]
+                Best Fitness: 23.0
+                No Improvement: 198
+                Time Taken: 2.56363E-4
+                Best Iteration: 0
 
-Problem Instance: f4_l-d_kp_4_11Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f7_l-d_kp_7_50                Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [true, false, false, true, false, false, false]
+                Best Fitness: 107.0
+                No Improvement: 199
+                Time Taken: 7.16806E-4
+                Best Iteration: 0
 
-Problem Instance: f7_l-d_kp_7_50Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
+                Problem Instance: f2_l-d_kp_20_878              Ant Colony Optimization Runtime Parameters (Final):
+                Best Knapsack: [true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, false, true, false, true, true]
+                Best Fitness: 1024.0
+                No Improvement: 199
+                Time Taken: 0.013830108
+                Best Iteration: 0
 
-Problem Instance: f2_l-d_kp_20_878Ant Colony Optimization Parameters (Final):
-Max Iterations: 200
-Stopping Iterations: 100
-Alpha: 0.5
-Beta: 2.0
-Evaporation Rate: 0.95
-Initial Pheromone: 0.5
-Update Strength: 0.5
-Local Search Method: 0
 
 Presenting Results for the Knapsack Problem.
 
@@ -236,7 +181,7 @@ f3_l-d_kp_4_20       | GA         | 24         | 35.00           | 35.00        
                      | GA - ILS   | 24         | 35.00           | 35.00         | 0.00           
 ----------------------------------------------------------------------------------------------------
 knapPI_1_100_1000_1  | GA         | 24         | 9147.00         | 9147.00       | 6.00           
-                     | GA - ILS   | 24         | 9147.00         | 9147.00       | 0.23           
+                     | GA - ILS   | 24         | 9147.00         | 9147.00       | 0.20           
 ----------------------------------------------------------------------------------------------------
 f6_l-d_kp_10_60      | GA         | 24         | 52.00           | 52.00         | 0.00           
                      | GA - ILS   | 24         | 52.00           | 52.00         | 0.00           
@@ -257,5 +202,5 @@ f7_l-d_kp_7_50       | GA         | 24         | 105.00          | 107.00       
                      | GA - ILS   | 24         | 107.00          | 107.00        | 0.00           
 ----------------------------------------------------------------------------------------------------
 f2_l-d_kp_20_878     | GA         | 24         | 1024.00         | 1024.00       | 0.00           
-                     | GA - ILS   | 24         | 1024.00         | 1024.00       | 0.02           
+                     | GA - ILS   | 24         | 1024.00         | 1024.00       | 0.01           
 ----------------------------------------------------------------------------------------------------
