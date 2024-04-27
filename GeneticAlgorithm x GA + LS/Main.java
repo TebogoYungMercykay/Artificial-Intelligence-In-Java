@@ -116,6 +116,8 @@ public class Main {
             Knapsack knapsack = knapsacks.get(key);
             double averageTime = 0;
             double bestFitness = 0;
+            boolean majorityOptimal = false;
+            int optimalHits = 0;
 
             for (int i = 0; i < RUN_COUNT; i++) {
                 GA ga = new GA(knapsack, seed);
@@ -128,10 +130,18 @@ public class Main {
                 if (ga.getBestFitness() > bestFitness) {
                     bestFitness = ga.getBestFitness();
                 }
+
+                if (ga.getBestFitness() == optimums.get(key)) {
+                    optimalHits++;
+                }
+            }
+
+            if (optimalHits >= RUN_COUNT / 2 && optimalHits != 0) {
+                majorityOptimal = true;
             }
 
             averageTime /= RUN_COUNT;
-            AlgorithmResult gaResult = new AlgorithmResult(key, "GA", seed, bestFitness, optimums.get(key), averageTime);
+            AlgorithmResult gaResult = new AlgorithmResult(key, "GA", seed, bestFitness, optimums.get(key), averageTime, majorityOptimal);
             resultsGeneticAlgorithm.add(gaResult);
         }
     }
@@ -153,6 +163,8 @@ public class Main {
             Knapsack knapsack = knapsacks.get(key);
             double averageTime = 0;
             double bestFitness = 0;
+            boolean majorityOptimal = false;
+            int optimalHits = 0;
 
             for (int i = 0; i < RUN_COUNT; i++) {
                 ACO aco = new ACO(knapsack, seed);
@@ -165,10 +177,18 @@ public class Main {
                 if (bestFitness < aco.getBestFitness()) {
                     bestFitness = aco.getBestFitness();
                 }
+
+                if (aco.getBestFitness() == optimums.get(key)) {
+                    optimalHits++;
+                }
+            }
+
+            if (optimalHits >= RUN_COUNT / 2 && optimalHits != 0) {
+                majorityOptimal = true;
             }
 
             averageTime /= RUN_COUNT;
-            AlgorithmResult gaResult = new AlgorithmResult(key, "GA - ILS", seed, bestFitness, optimums.get(key), averageTime);
+            AlgorithmResult gaResult = new AlgorithmResult(key, "GA - ILS", seed, bestFitness, optimums.get(key), averageTime, majorityOptimal);
             resultsGeneticAlgorithmILS.add(gaResult);
         }
     }
@@ -214,33 +234,36 @@ public class Main {
         System.out.println("\nPresenting Results for the Knapsack Problem.\n");
 
         // Print the results
-        System.out.printf("%-20s | %-10s | %-10s | %-15s | %-13s | %-15s%n", 
+        System.out.printf("%-20s | %-10s | %-10s | %-15s | %-13s | %-15s | %-15s%n", 
             "Problem Instance", 
             "Algorithm", 
             "Seed Value", 
             "Best Solution", 
             "Known Optimum", 
-            "Runtime (seconds)"
+            "Runtime (seconds)",
+            "Majority Optimal"
         );
-        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------");
         for (int i = 0; i < resultsGeneticAlgorithmILS.size(); i++) {
             AlgorithmResult result = resultsGeneticAlgorithm.get(i);
             AlgorithmResult result1 = resultsGeneticAlgorithmILS.get(i);
-            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-15.2f%n", 
+            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-17.2f | %-15s%n", 
                 result.getProblemInstance(), 
                 result.getAlgorithm(), 
                 result.getSeedValue(), 
                 result.getBestSolution(), 
                 result.getKnownOptimum(), 
-                result.getRuntimeSeconds());
-            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-15.2f%n", 
+                result.getRuntimeSeconds(),
+                result.getMajorityOptimal() ? "Yes" : "No");
+            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-17.2f | %-15s%n", 
                 " ", 
                 result1.getAlgorithm(), 
                 result1.getSeedValue(), 
                 result1.getBestSolution(), 
                 result1.getKnownOptimum(), 
-                result1.getRuntimeSeconds());
-            System.out.println("----------------------------------------------------------------------------------------------------");
+                result1.getRuntimeSeconds(),
+                result.getMajorityOptimal() ? "Yes" : "No");
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------");
         }
     }
 }
