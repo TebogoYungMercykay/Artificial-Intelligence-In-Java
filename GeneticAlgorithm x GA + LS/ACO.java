@@ -348,4 +348,20 @@ public class ACO {
     public double getTimeElapsed() {
         return this.timeTaken;
     }
+
+    public void printACOParameters(String state) {
+        if (state.toUpperCase() == "INITIAL") {
+            System.out.println("Ant Colony Optimization Parameters (Initial):");
+        } else {
+            System.out.println("Ant Colony Optimization Parameters (Final):");
+        }
+        System.out.println("Max Iterations: " + MAX_ITERATIONS);
+        System.out.println("Stopping Iterations: " + STOPPING_ITERATIONS);
+        System.out.println("Alpha: " + ALPHA);
+        System.out.println("Beta: " + BETA);
+        System.out.println("Evaporation Rate: " + EVAPORATION_RATE);
+        System.out.println("Initial Pheromone: " + INITIAL_PHEROMONE);
+        System.out.println("Update Strength: " + UPDATE_STRENGTH);
+        System.out.println("Local Search Method: " + LS_METHOD);
+    }
 }
