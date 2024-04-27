@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @file GA.java
@@ -325,17 +327,16 @@ public class GA {
 
     public void printGAParameters(String state) {
         if (state.toUpperCase() == "INITIAL") {
-            System.out.println("Genetic Algorithm Parameters (Initial):");
+            System.out.println("\t\tGenetic Algorithm Runtime Parameters (Initial):");
         } else {
-            System.out.println("Genetic Algorithm Parameters (Final):");
+            System.out.println("\t\tGenetic Algorithm Runtime Parameters (Final):");
         }
-        System.out.println("Population Multiplier: " + POPULATION_MULTIPLIER);
-        System.out.println("Crossover Rate: " + CROSSOVER_RATE);
-        System.out.println("Mutation Rate: " + MUTATION_RATE);
-        System.out.println("Max Generations: " + MAX_GENERATIONS);
-        System.out.println("Stopping Iterations: " + STOPPING_ITERATIONS);
-        System.out.println("Penalty Factor: " + PENALTY_FACTOR);
-        System.out.println("Tournament Portion: " + TOURNAMENT_PORTION);
-        System.out.println("Initial Bit Probability: " + INITIAL_BIT_PROBABILITY);
+        System.out.println("\t\tBest Knapsack: " + Arrays.toString(bestKnapsack));
+        System.out.println("\t\tBest Fitness: " + bestFitness);
+        System.out.println("\t\tNo Improvement: " + noImprovement);
+        System.out.println("\t\tAverage Fitness: " + averageFitness);
+        System.out.println("\t\tTime Taken: " + timeTaken);
+        // System.out.println("\t\tWinners: " + winners.stream().map(Arrays::toString).collect(Collectors.joining(", ")));
+        System.out.println("\t\tBest Iteration: " + bestIteration);
     }
 }
