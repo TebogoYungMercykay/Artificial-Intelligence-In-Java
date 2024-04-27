@@ -121,8 +121,9 @@ public class Main {
                 GA ga = new GA(knapsack, seed);
                 averageTime += ga.getTimeElapsed();
 
-                System.out.print("\nProblem Instance: " + key + " ");
+                System.out.print("\t\tProblem Instance: " + key + " ");
                 ga.printGAParameters("Final");
+                System.out.println();
 
                 if (ga.getBestFitness() > bestFitness) {
                     bestFitness = ga.getBestFitness();
@@ -157,8 +158,9 @@ public class Main {
                 ACO aco = new ACO(knapsack, seed);
                 averageTime += aco.getTimeElapsed();
 
-                System.out.print("\nProblem Instance: " + key + " ");
+                System.out.print("\t\tProblem Instance: " + key + " ");
                 aco.printACOParameters("Final");
+                System.out.println();
 
                 if (bestFitness < aco.getBestFitness()) {
                     bestFitness = aco.getBestFitness();
