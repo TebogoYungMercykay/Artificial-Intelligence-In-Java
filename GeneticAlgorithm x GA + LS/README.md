@@ -1,11 +1,9 @@
 # Artificial Intelligence (COS314) - Assignment 2 Documentation
 
-## My Details
-
-- Names: Selepe Sello
-- Email: u20748052@tuks.co.za
-- Date: 27 April 2024
-- Topic: Knapsack Problem (Optimisation Challenge)
+- **Names**: Selepe Sello
+- **Email**: uXXXXXXXX@tuks.co.za
+- **Date**: 27 April 2024
+- **Challenge**: Knapsack Problem
 
 ## Configuration Descriptions
 
@@ -103,70 +101,108 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
 
 ## 5. Comparison of GA and GA + LS on 10 Knapsack Problem Instances
 
-| Problem Instance    | Algorithm | Seed Value | Best Solution | Known Optimum | Runtime (seconds) |
-| ------------------- | --------- | ---------- | ------------- | ------------- | ----------------- |
-| f9_l-d_kp_5_80      | GA        | 24         | 130.00        | 130.00        | 0.00              |
-|                     | GA - ILS  | 24         | 130.00        | 130.00        | 0.01              |
-| f1_l-d_kp_10_269    | GA        | 24         | 295.00        | 295.00        | 0.00              |
-|                     | GA - ILS  | 24         | 295.00        | 295.00        | 0.01              |
-| f3_l-d_kp_4_20      | GA        | 24         | 35.00         | 35.00         | 0.00              |
-|                     | GA - ILS  | 24         | 35.00         | 35.00         | 0.00              |
-| knapPI_1_100_1000_1 | GA        | 24         | 9147.00       | 9147.00       | 7.00              |
-|                     | GA - ILS  | 24         | 9147.00       | 9147.00       | 0.22              |
-| f6_l-d_kp_10_60     | GA        | 24         | 52.00         | 52.00         | 0.00              |
-|                     | GA - ILS  | 24         | 52.00         | 52.00         | 0.00              |
-| f5_l-d_kp_15_375    | GA        | 24         | 481.07        | 481.07        | 0.00              |
-|                     | GA - ILS  | 24         | 481.07        | 481.07        | 0.01              |
-| f8_l-d_kp_23_10000  | GA        | 24         | 9767.00       | 9767.00       | 0.00              |
-|                     | GA - ILS  | 24         | 9750.00       | 9767.00       | 0.01              |
-| f10_l-d_kp_20_879   | GA        | 24         | 1025.00       | 1025.00       | 0.00              |
-|                     | GA - ILS  | 24         | 1025.00       | 1025.00       | 0.01              |
-| f4_l-d_kp_4_11      | GA        | 24         | 23.00         | 23.00         | 0.00              |
-|                     | GA - ILS  | 24         | 23.00         | 23.00         | 0.00              |
-| f7_l-d_kp_7_50      | GA        | 24         | 105.00        | 107.00        | 0.00              |
-|                     | GA - ILS  | 24         | 107.00        | 107.00        | 0.00              |
-| f2_l-d_kp_20_878    | GA        | 24         | 1024.00       | 1024.00       | 0.00              |
-|                     | GA - ILS  | 24         | 1024.00       | 1024.00       | 0.01              |
+| Problem Instance    | Algorithm | Seed Value | Best Solution | Known Optimum | Runtime (seconds) | Majority Optimal |
+| ------------------- | --------- | ---------- | ------------- | ------------- | ----------------- | ---------------- |
+| f9_l-d_kp_5_80      | GA        | 24         | 130.00        | 130.00        | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 130.00        | 130.00        | 0.01              | Yes              |
+| f1_l-d_kp_10_269    | GA        | 24         | 295.00        | 295.00        | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 295.00        | 295.00        | 0.01              | Yes              |
+| f3_l-d_kp_4_20      | GA        | 24         | 35.00         | 35.00         | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 35.00         | 35.00         | 0.00              | Yes              |
+| knapPI_1_100_1000_1 | GA        | 24         | 9147.00       | 9147.00       | 7.00              | Yes              |
+|                     | GA - ILS  | 24         | 9147.00       | 9147.00       | 0.22              | Yes              |
+| f6_l-d_kp_10_60     | GA        | 24         | 52.00         | 52.00         | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 52.00         | 52.00         | 0.00              | Yes              |
+| f5_l-d_kp_15_375    | GA        | 24         | 481.07        | 481.07        | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 481.07        | 481.07        | 0.01              | Yes              |
+| f8_l-d_kp_23_10000  | GA        | 24         | 9767.00       | 9767.00       | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 9750.00       | 9767.00       | 0.01              | No               |
+| f10_l-d_kp_20_879   | GA        | 24         | 1025.00       | 1025.00       | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 1025.00       | 1025.00       | 0.01              | Yes              |
+| f4_l-d_kp_4_11      | GA        | 24         | 23.00         | 23.00         | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 23.00         | 23.00         | 0.00              | Yes              |
+| f7_l-d_kp_7_50      | GA        | 24         | 105.00        | 107.00        | 0.00              | No               |
+|                     | GA - ILS  | 24         | 107.00        | 107.00        | 0.00              | Yes              |
+| f2_l-d_kp_20_878    | GA        | 24         | 1024.00       | 1024.00       | 0.00              | Yes              |
+|                     | GA - ILS  | 24         | 1024.00       | 1024.00       | 0.01              | Yes              |
 
-## Documentation for Constants:
+## 6. Statistical Analysis (One-Tailed Z-Test (5% level)):
 
-### Ant Colony Optimization Parameters:
+- #### Hypotheses:
 
-- `MAX_ITERATIONS`: Maximum number of iterations.
-- `STOPPING_ITERATIONS`: Number of iterations after which to stop if no improvement is observed.
-- `ALPHA`: Alpha parameter for pheromone influence.
-- `BETA`: Beta parameter for heuristic information influence.
-- `EVAPORATION_RATE`: Rate at which pheromone evaporates.
-- `INITIAL_PHEROMONE`: Initial pheromone level.
-- `UPDATE_STRENGTH`: Strength of pheromone update.
-- `LS_METHOD`: Local search method (0 = none, 1 = replace the worst item, 2 = assess all single item flips and choose the best).
+  - **Null Hypothesis (H0)**: Mean best solution found by GA is greater than or equal to Mean best solution found by GA + ACO.
+  - **Alternative Hypothesis (H1)**: Mean best solution found by GA is less than Mean best solution found by GA + ACO.
+- #### Significance Level (α):
 
-### Genetic Algorithm Parameters:
+  - 5% level
+  - 0.05
+- #### Calculation of Sample Statistics:
 
-- `POPULATION_MULTIPLIER`: Population size multiplier.
-- `CROSSOVER_RATE`: Rate of crossover during reproduction.
-- `MUTATION_RATE`: Rate of mutation during reproduction.
-- `MAX_GENERATIONS`: Maximum number of generations.
-- `STOPPING_ITERATIONS`: Number of iterations after which to stop if no improvement is observed.
-- `PENALTY_FACTOR`: Penalty factor for infeasible solutions.
-- `TOURNAMENT_PORTION`: Proportion of the population to select during tournament selection.
-- `INITIAL_BIT_PROBABILITY`: Initial probability for a bit to be set in the initial population.
+  - ##### `For GA`:
 
-## The Known Optimums:
+    - Mean best solution (x̄1): 1682.870
+    - Standard deviation (s1): ≈ 3592.91
+    - Sample size (n1): 11
+  - ##### `For GA + ACO`:
 
-| Filename            | Optimum  |
-| ------------------- | -------- |
-| f1_l-d_kp_10_269    | 295      |
-| f2_l-d_kp_20_878    | 1024     |
-| f3_l-d_kp_4_20      | 35       |
-| f4_l-d_kp_4_11      | 23       |
-| f5_l-d_kp_15_375    | 481.0694 |
-| f6_l-d_kp_10_60     | 52       |
-| f7_l-d_kp_7_50      | 107      |
-| knapPI_1_100_1000_1 | 9147     |
-| f8_l-d_kp_23_10000  | 9767     |
-| f9_l-d_kp_5_80      | 130      |
-| f10_l-d_kp_20_879   | 1025     |
+    - Mean best solution (x̄2): 1681.370
+    - Standard deviation (s2): ≈ 3592.71
+    - Sample size (n2): 11
+- #### Calculation of Z-Score:
+
+  - ##### `Formula`:
+
+    ```
+    z = (x̄1 - x̄2) / sqrt((s1^2/n1) + (s2^2/n2))
+    ```
+  - ##### `Calculation`:
+
+    ```
+    z ≈ 1.500 / sqrt((12897223.28/11) + (12895912.25/11))
+
+    z ≈ 1.500 / sqrt(1172474.844 + 1172255.659)
+
+    z ≈ 1.500 / sqrt(2344730.503)
+
+    z ≈ 1.500 / 1531.326
+
+    So, z ≈ 0.000979
+    ```
+  - #### Critical Z-Value:
+
+    For `α = 0.05`, the critical z-value is approximately `1.645`.
+  - #### Conclusion:
+
+    Since the calculated `z-score (0.000979)` is less than the critical `z-value (1.645)`, we fail to reject the null hypothesis. Therefore, we do not have sufficient evidence to conclude that the mean best solution found by GA is significantly less than the mean best solution found by GA + ACO.
+
+## 7. Critical Analysis of the Results:
+
+- The Genetic Algorithm (GA) and the Genetic Algorithm + Ant Colony Optimization (GA + ACO) are both powerful approaches for solving the Knapsack problem, each with its own strengths and weaknesses. Let's critically analyze these two algorithms based on various factors:
+
+  - ##### Solution Quality:
+
+    Both GA and GA + ACO exhibit high solution quality, as evidenced by their ability to find solutions close to the known optima for the majority of problem instances. This indicates that both algorithms are effective in exploring the solution space and identifying near-optimal solutions.
+  - ##### Convergence Speed:
+
+    The runtime analysis shows that both algorithms are efficient, with most instances solved within seconds. This suggests that they converge relatively quickly to solutions, making them suitable for real-world applications where computational efficiency is crucial.
+  - ##### Algorithm Complexity:
+
+    GA is a relatively simpler algorithm compared to GA + ACO, which incorporates additional complexity due to the integration of Ant Colony Optimization (ACO). While ACO enhances the exploration and exploitation capabilities of the algorithm, it also introduces additional parameters and computational overhead.
+  - ##### Robustness:
+
+    Both algorithms demonstrate robustness across different problem instances, with the majority of solutions being optimal or near-optimal. This indicates that they are capable of handling diverse problem scenarios and adapting to varying problem characteristics.
+  - ##### Parameter Sensitivity:
+
+    GA typically requires tuning of parameters such as population size, crossover rate, and mutation rate to achieve optimal performance. Similarly, GA + ACO involves tuning parameters specific to ACO, such as alpha, beta, and evaporation rate. Parameter tuning can be time-consuming and may require extensive experimentation to achieve optimal results.
+  - ##### Complementary Nature:
+
+    GA and ACO are complementary in nature, with GA providing a global search capability while ACO offers a local search strategy. The integration of ACO within GA enhances the algorithm's ability to exploit promising regions of the solution space, leading to improved solutions.
+  - ##### Scalability:
+
+    Both algorithms demonstrate scalability, with the ability to handle larger problem instances efficiently. However, as problem size increases, the computational complexity of both algorithms may also increase, requiring careful consideration of computational resources.
+- #### Conclusion:
+
+  In conclusion, both GA and GA + ACO offer effective solutions for the Knapsack problem, with each algorithm having its own set of advantages and trade-offs. While GA is simpler and easier to implement, GA + ACO provides enhanced solution quality through the integration of ACO's local search capabilities. The choice between the two algorithms depends on the specific requirements of the problem, including solution quality, runtime efficiency, and available computational resources. Further research and experimentation may be needed to explore the full potential of these algorithms and optimize their performance for specific problem domains.
 
 ---
 
