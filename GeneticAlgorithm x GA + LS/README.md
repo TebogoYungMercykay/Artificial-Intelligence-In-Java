@@ -5,6 +5,23 @@
 - **Date**: 27 April 2024
 - **Challenge**: Knapsack Problem
 
+## Introduction: Knapsack Problem
+
+The Knapsack Problem is a well-known problem in computer science and combinatorial optimization. The problem involves choosing a set of items, each with a specific weight and value, to maximize the total value while ensuring the total weight does not exceed a given limit (the capacity of the knapsack).
+
+The problem can be mathematically defined as follows:
+
+Given:
+
+- A set of items, denoted as I = {1, 2, ..., n}
+- Each item, denoted as i, has a weight, denoted as w_i, and a value, denoted as v_i
+- A knapsack with a maximum weight capacity, denoted as W
+
+The goal is to:
+
+- Find a subset, denoted as S, of items that maximizes the total value, denoted as sum(v_i for i in S)
+- Ensure the total weight, denoted as sum(w_i for i in S), does not exceed the knapsack's capacity, W
+
 ## Configuration Descriptions
 
 The initial configuration values for both the Genetic Algorithm (GA) and the Genetic Algorithm + Ant Colony Optimization (GA + ACO) were obtained from relevant literature and used as starting points for parameter tuning. The final values used were determined through a process of experimentation and tuning to optimize the performance of the algorithms on the Knapsack problem.
@@ -130,13 +147,16 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
 
 - #### Hypotheses:
 
+
   - **Null Hypothesis (H0)**: Mean best solution found by GA is greater than or equal to Mean best solution found by GA + ACO.
   - **Alternative Hypothesis (H1)**: Mean best solution found by GA is less than Mean best solution found by GA + ACO.
 - #### Significance Level (α):
 
+
   - 5% level
   - 0.05
 - #### Calculation of Sample Statistics:
+
 
   - ##### `For GA`:
 
@@ -149,6 +169,7 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
     - Standard deviation (s2): ≈ 3592.71
     - Sample size (n2): 11
 - #### Calculation of Z-Score:
+
 
   - ##### `Formula`:
 
@@ -171,38 +192,92 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
   - #### Critical Z-Value:
 
     For `α = 0.05`, the critical z-value is approximately `1.645`.
-  - #### Conclusion:
 
-    Since the calculated `z-score (0.000979)` is less than the critical `z-value (1.645)`, we fail to reject the null hypothesis. Therefore, we do not have sufficient evidence to conclude that the mean best solution found by GA is significantly less than the mean best solution found by GA + ACO.
+  In conclusion, Since the calculated `z-score (0.000979)` is less than the critical `z-value (1.645)`, we fail to reject the null hypothesis. Therefore, we do not have sufficient evidence to conclude that the mean best solution found by GA is significantly less than the mean best solution found by GA + ACO.
 
 ## 7. Critical Analysis of the Results:
 
-- The Genetic Algorithm (GA) and the Genetic Algorithm + Ant Colony Optimization (GA + ACO) are both powerful approaches for solving the Knapsack problem, each with its own strengths and weaknesses. Let's critically analyze these two algorithms based on various factors:
+The Genetic Algorithm (GA) and the Genetic Algorithm + Ant Colony Optimization (GA + ACO) are both powerful approaches for solving the Knapsack problem, each with its own strengths and weaknesses. Let's critically analyze these two algorithms based on various factors:
 
-  - ##### Solution Quality:
+- **Solution Quality**:
 
-    Both GA and GA + ACO exhibit high solution quality, as evidenced by their ability to find solutions close to the known optima for the majority of problem instances. This indicates that both algorithms are effective in exploring the solution space and identifying near-optimal solutions.
-  - ##### Convergence Speed:
+  Both GA and GA + ACO exhibit high solution quality, as evidenced by their ability to find solutions close to the known optima for the majority of problem instances. This indicates that both algorithms are effective in exploring the solution space and identifying near-optimal solutions.
+- **Convergence Speed**:
 
-    The runtime analysis shows that both algorithms are efficient, with most instances solved within seconds. This suggests that they converge relatively quickly to solutions, making them suitable for real-world applications where computational efficiency is crucial.
-  - ##### Algorithm Complexity:
+  The runtime analysis shows that both algorithms are efficient, with most instances solved within seconds. This suggests that they converge relatively quickly to solutions, making them suitable for real-world applications where computational efficiency is crucial.
+- **Algorithm Complexity**:
 
-    GA is a relatively simpler algorithm compared to GA + ACO, which incorporates additional complexity due to the integration of Ant Colony Optimization (ACO). While ACO enhances the exploration and exploitation capabilities of the algorithm, it also introduces additional parameters and computational overhead.
-  - ##### Robustness:
+  GA is a relatively simpler algorithm compared to GA + ACO, which incorporates additional complexity due to the integration of Ant Colony Optimization (ACO). While ACO enhances the exploration and exploitation capabilities of the algorithm, it also introduces additional parameters and computational overhead.
+- **Robustness**:
 
-    Both algorithms demonstrate robustness across different problem instances, with the majority of solutions being optimal or near-optimal. This indicates that they are capable of handling diverse problem scenarios and adapting to varying problem characteristics.
-  - ##### Parameter Sensitivity:
+  Both algorithms demonstrate robustness across different problem instances, with the majority of solutions being optimal or near-optimal. This indicates that they are capable of handling diverse problem scenarios and adapting to varying problem characteristics.
+- **Parameter Sensitivity**:
 
-    GA typically requires tuning of parameters such as population size, crossover rate, and mutation rate to achieve optimal performance. Similarly, GA + ACO involves tuning parameters specific to ACO, such as alpha, beta, and evaporation rate. Parameter tuning can be time-consuming and may require extensive experimentation to achieve optimal results.
-  - ##### Complementary Nature:
+  GA typically requires tuning of parameters such as population size, crossover rate, and mutation rate to achieve optimal performance. Similarly, GA + ACO involves tuning parameters specific to ACO, such as alpha, beta, and evaporation rate. Parameter tuning can be time-consuming and may require extensive experimentation to achieve optimal results.
+- **Complementary Nature**:
 
-    GA and ACO are complementary in nature, with GA providing a global search capability while ACO offers a local search strategy. The integration of ACO within GA enhances the algorithm's ability to exploit promising regions of the solution space, leading to improved solutions.
-  - ##### Scalability:
+  GA and ACO are complementary in nature, with GA providing a global search capability while ACO offers a local search strategy. The integration of ACO within GA enhances the algorithm's ability to exploit promising regions of the solution space, leading to improved solutions.
+- **Scalability**:
 
-    Both algorithms demonstrate scalability, with the ability to handle larger problem instances efficiently. However, as problem size increases, the computational complexity of both algorithms may also increase, requiring careful consideration of computational resources.
-- #### Conclusion:
+  Both algorithms demonstrate scalability, with the ability to handle larger problem instances efficiently. However, as problem size increases, the computational complexity of both algorithms may also increase, requiring careful consideration of computational resources.
 
-  In conclusion, both GA and GA + ACO offer effective solutions for the Knapsack problem, with each algorithm having its own set of advantages and trade-offs. While GA is simpler and easier to implement, GA + ACO provides enhanced solution quality through the integration of ACO's local search capabilities. The choice between the two algorithms depends on the specific requirements of the problem, including solution quality, runtime efficiency, and available computational resources. Further research and experimentation may be needed to explore the full potential of these algorithms and optimize their performance for specific problem domains.
+In conclusion, both GA and GA + ACO offer effective solutions for the Knapsack problem, with each algorithm having its own set of advantages and trade-offs. While GA is simpler and easier to implement, GA + ACO provides enhanced solution quality through the integration of ACO's local search capabilities. The choice between the two algorithms depends on the specific requirements of the problem, including solution quality, runtime efficiency, and available computational resources. Further research and experimentation may be needed to explore the full potential of these algorithms and optimize their performance for specific problem domains.
+
+## 8. Running the Code
+
+#### Requirements before running codes:
+
+- Install an `IDE` that `compiles` and `runs` Java codes. Recommendation `VS Code`
+- How to setup `WSL` Ubuntu terminal shell and run it from `Visual Studio Code:`
+  visit: https://www.youtube.com/watch?v=fp45HpZuhS8&t=112s
+- How to Install `Java JDK 17` on `Windows 11:` https://www.youtube.com/watch?v=ykAhL1IoQUM&t=136s
+
+#### To run the code:
+
+- Compile all `.java` files in your preferred IDE or using command-line tools.
+- Execute the `Main.java` class.
+- View the output in the console.
+- Makefile I Used:
+  - Compiling and Running Code:
+    ```bash
+    default:
+      javac *.java
+
+    run:
+      java Main
+
+    clean:
+      rm -f *.class
+      reset
+      clear
+
+    tar:
+      tar -cvz *.java -f assignment2.tar.gz
+
+    untar:
+      tar -zxvf *.tar.gz
+    ```
+  - Running the .jar File
+    ```bash
+    default:
+      java -jar assignment2.jar
+
+    clean:
+      rm -f *.class
+      reset
+      clear
+
+    tar:
+      tar -cvz *.java -f assignment2.tar.gz
+
+    untar:
+      tar -zxvf *.tar.gz
+    ```
+
+## 9. Documentation Information
+
+- I used Doxygen Comments for Documentation,
+- To generate full documentation run command: ```doxygen Doxyfile ```
 
 ---
 
