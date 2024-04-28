@@ -34,7 +34,17 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
 
   The Genetic Algorithm (GA) configuration is a method for solving optimization problems, specifically tailored here for the Knapsack problem. It utilizes evolutionary principles inspired by natural selection to evolve a population of potential solutions over generations.
 - #### Parameters:
-
+  ```java
+  // Genetic Algorithm parameters
+  private static final int POPULATION_MULTIPLIER = 8;
+  private static final double CROSSOVER_RATE = 0.3;
+  private static final double MUTATION_RATE = 0.4;
+  private static final int MAX_GENERATIONS = 500;
+  private static final int STOPPING_ITERATIONS = 250;
+  private static final int PENALTY_FACTOR = 10;
+  private static final double TOURNAMENT_PORTION = 0.2;
+  private static final double INITIAL_BIT_PROBABILITY = 0.1;
+  ```
   - **Population Multiplier**: Determines the size of the population by multiplying the number of items in the knapsack.
   - **Crossover Rate**: Probability of crossover between two parent chromosomes during reproduction.
   - **Mutation Rate**: Probability of a bit flip mutation occurring on a chromosome.
@@ -53,7 +63,23 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
 
   The Genetic Algorithm + Ant Colony Optimization (GA + ACO) configuration enhances the traditional GA with an additional local search method, ACO. This hybrid approach aims to further refine solutions found by the GA, leveraging ACO's ability to exploit promising areas of the solution space.
 - #### Additional Parameters (ACO):
+   ```java
+  // Ant Colony Optimization parameters (constants)
+  private static final int MAX_ITERATIONS = 200;
+  private static final int STOPPING_ITERATIONS = 100;
+  private static final double ALPHA = 0.5;
+  private static final double BETA = 2;
+  private static final double EVAPORATION_RATE = 0.95;
+  private static final double INITIAL_PHEROMONE = 0.5;
+  private static final double UPDATE_STRENGTH = 0.5;
 
+  /*
+      0 = none,
+      1 = Replace the worst item,
+      2 = Assess all single item flips and choose the best
+    */
+  private static final int LS_METHOD = 0;
+  ```
   - **Max Iterations**: Maximum number of iterations for the ACO algorithm.
   - **Stopping Iterations**: Number of iterations with no improvement in average fitness before stopping.
   - **Alpha**: Importance of pheromone in decision-making.
@@ -62,9 +88,10 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
   - **Initial Pheromone**: Initial amount of pheromone on paths.
   - **Update Strength**: Strength of pheromone update.
   - **Local Search Method**: Specifies the method used in local search (e.g., replacing worst item or assessing single item flips).
+
 - #### Usage:
 
-  The GA generates an initial population of solutions, which are then refined using ACO as a local search method. ACO employs artificial ants to explore the solution space guided by pheromone trails and heuristic information, leading to improved solutions by exploiting promising regions of the space.
+  The GA generates an initial population of solutions, which are then refined using ACO as a local search method. ACO employs artificial ants to explore the solution space guided by pheromone traLS  and heuristic information, leading to improved solutions by exploiting promising regions of the space.
 
 ## 3. Local Search Description and Justification:
 
@@ -72,12 +99,12 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
 
 - #### Overview:
 
-  ACO is a metaheuristic inspired by the foraging behavior of ants. It utilizes artificial ants to explore solution spaces, guided by pheromone trails and heuristic information. ACO maintains diversity and incorporates memory of past solutions to efficiently navigate complex problem spaces.
+  ACO is a metaheuristic inspired by the foraging behavior of ants. It utilizes artificial ants to explore solution spaces, guided by pheromone traLS  and heuristic information. ACO maintains diversity and incorporates memory of past solutions to efficiently navigate complex problem spaces.
 - #### Justification:
 
 
   - **Diversity of Solutions**: ACO maintains a diverse population, enhancing exploration of the solution space.
-  - **Memory of Past Solutions**: Pheromone trails act as a memory, guiding the search toward promising regions.
+  - **Memory of Past Solutions**: Pheromone traLS  act as a memory, guiding the search toward promising regions.
   - **Robustness**: ACO is robust across problem domains, capable of finding quality solutions for various problems.
   - **Complementarity with GA**: ACO complements GA by refining solutions found by GA, effectively balancing exploration and exploitation.
 
@@ -121,27 +148,27 @@ The results of running the Genetic Algorithm (GA) and the Genetic Algorithm + An
 | Problem Instance    | Algorithm | Seed Value | Best Solution | Known Optimum | Runtime (seconds) | Majority Optimal |
 | ------------------- | --------- | ---------- | ------------- | ------------- | ----------------- | ---------------- |
 | f9_l-d_kp_5_80      | GA        | 24         | 130.00        | 130.00        | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 130.00        | 130.00        | 0.01              | Yes              |
+|                     | GA - LS   | 24         | 130.00        | 130.00        | 0.01              | Yes              |
 | f1_l-d_kp_10_269    | GA        | 24         | 295.00        | 295.00        | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 295.00        | 295.00        | 0.01              | Yes              |
+|                     | GA - LS   | 24         | 295.00        | 295.00        | 0.01              | Yes              |
 | f3_l-d_kp_4_20      | GA        | 24         | 35.00         | 35.00         | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 35.00         | 35.00         | 0.00              | Yes              |
+|                     | GA - LS   | 24         | 35.00         | 35.00         | 0.00              | Yes              |
 | knapPI_1_100_1000_1 | GA        | 24         | 9147.00       | 9147.00       | 7.00              | Yes              |
-|                     | GA - ILS  | 24         | 9147.00       | 9147.00       | 0.22              | Yes              |
+|                     | GA - LS   | 24         | 9147.00       | 9147.00       | 0.22              | Yes              |
 | f6_l-d_kp_10_60     | GA        | 24         | 52.00         | 52.00         | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 52.00         | 52.00         | 0.00              | Yes              |
+|                     | GA - LS   | 24         | 52.00         | 52.00         | 0.00              | Yes              |
 | f5_l-d_kp_15_375    | GA        | 24         | 481.07        | 481.07        | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 481.07        | 481.07        | 0.01              | Yes              |
+|                     | GA - LS   | 24         | 481.07        | 481.07        | 0.01              | Yes              |
 | f8_l-d_kp_23_10000  | GA        | 24         | 9767.00       | 9767.00       | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 9750.00       | 9767.00       | 0.01              | No               |
+|                     | GA - LS   | 24         | 9750.00       | 9767.00       | 0.01              | No               |
 | f10_l-d_kp_20_879   | GA        | 24         | 1025.00       | 1025.00       | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 1025.00       | 1025.00       | 0.01              | Yes              |
+|                     | GA - LS   | 24         | 1025.00       | 1025.00       | 0.01              | Yes              |
 | f4_l-d_kp_4_11      | GA        | 24         | 23.00         | 23.00         | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 23.00         | 23.00         | 0.00              | Yes              |
+|                     | GA - LS   | 24         | 23.00         | 23.00         | 0.00              | Yes              |
 | f7_l-d_kp_7_50      | GA        | 24         | 105.00        | 107.00        | 0.00              | No               |
-|                     | GA - ILS  | 24         | 107.00        | 107.00        | 0.00              | Yes              |
+|                     | GA - LS   | 24         | 107.00        | 107.00        | 0.00              | Yes              |
 | f2_l-d_kp_20_878    | GA        | 24         | 1024.00       | 1024.00       | 0.00              | Yes              |
-|                     | GA - ILS  | 24         | 1024.00       | 1024.00       | 0.01              | Yes              |
+|                     | GA - LS   | 24         | 1024.00       | 1024.00       | 0.01              | Yes              |
 
 ## 6. Statistical Analysis (One-Tailed Z-Test (5% level)):
 
