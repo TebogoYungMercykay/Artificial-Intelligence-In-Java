@@ -204,7 +204,7 @@ The Genetic Algorithm (GA) and the Genetic Algorithm + Ant Colony Optimization (
   Both GA and GA + ACO exhibit high solution quality, as evidenced by their ability to find solutions close to the known optima for the majority of problem instances. This indicates that both algorithms are effective in exploring the solution space and identifying near-optimal solutions.
 - **Convergence Speed**:
 
-  The runtime analysis shows that both algorithms are efficient, with most instances solved within seconds. This suggests that they converge relatively quickly to solutions, making them suitable for real-world applications where computational efficiency is crucial.
+  GA + LS perfoms better on a larger population than GA alone judging from the 6 seconds compared to 0.20 for the `knapPI_1_100_1000_1`, And overall the runtime analysis shows that both algorithms are efficient, with most instances solved within seconds. This suggests that they converge relatively quickly to solutions, making them suitable for real-world applications where computational efficiency is crucial.
 - **Algorithm Complexity**:
 
   GA is a relatively simpler algorithm compared to GA + ACO, which incorporates additional complexity due to the integration of Ant Colony Optimization (ACO). While ACO enhances the exploration and exploitation capabilities of the algorithm, it also introduces additional parameters and computational overhead.
@@ -277,7 +277,7 @@ In conclusion, both GA and GA + ACO offer effective solutions for the Knapsack p
 ## 9. Documentation Information
 
 - I used Doxygen Comments for Documentation,
-- To generate full documentation run command: ```doxygen Doxyfile ```
+- To generate full documentation run command: ``doxygen Doxyfile ``
 
 ---
 

@@ -188,7 +188,7 @@ public class Main {
             }
 
             averageTime /= RUN_COUNT;
-            AlgorithmResult gaResult = new AlgorithmResult(key, "GA - ILS", seed, bestFitness, optimums.get(key), averageTime, majorityOptimal);
+            AlgorithmResult gaResult = new AlgorithmResult(key, "GA - LS", seed, bestFitness, optimums.get(key), averageTime, majorityOptimal);
             resultsGeneticAlgorithmILS.add(gaResult);
         }
     }
@@ -247,7 +247,7 @@ public class Main {
         for (int i = 0; i < resultsGeneticAlgorithmILS.size(); i++) {
             AlgorithmResult result = resultsGeneticAlgorithm.get(i);
             AlgorithmResult result1 = resultsGeneticAlgorithmILS.get(i);
-            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-17.2f | %-15s%n", 
+            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-17.4f | %-15s%n", 
                 result.getProblemInstance(), 
                 result.getAlgorithm(), 
                 result.getSeedValue(), 
@@ -255,7 +255,7 @@ public class Main {
                 result.getKnownOptimum(), 
                 result.getRuntimeSeconds(),
                 result.getMajorityOptimal() ? "Yes" : "No");
-            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-17.2f | %-15s%n", 
+            System.out.printf("%-20s | %-10s | %-10d | %-15.2f | %-13.2f | %-17.4f | %-15s%n", 
                 " ", 
                 result1.getAlgorithm(), 
                 result1.getSeedValue(), 
