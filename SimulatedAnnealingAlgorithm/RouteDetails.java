@@ -5,7 +5,7 @@ import java.util.List;
  * @file RouteDetails.java
  * 
  * @author Selepe Sello
- * @date 29 March 2021
+ * @date 29 March 2024
  * @version 1.0
  * @brief Class representing details of multiple routes.
  */
