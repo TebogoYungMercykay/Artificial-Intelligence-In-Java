@@ -17,17 +17,40 @@ public class Main {
         double[][] hotDataMatrixTrain = generateHotDataMatrix(filePathTrain);
         double[][] hotDataMatrixTest = generateHotDataMatrix(filePathTest);
     
-        // testANN(hotDataMatrixTrain, hotDataMatrixTest);
+        testANN(hotDataMatrixTrain, hotDataMatrixTest);
         testGP(hotDataMatrixTrain, hotDataMatrixTest);
     }
 
     public static void testGP(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest) {
-        double[] labels = {
-            1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
-        };
-    
-        GP.run(hotDataMatrixTrain, labels);
-        GP.run(hotDataMatrixTest, labels);
+        // Extracting labels for the training dataset
+        double[] labelsTraining = new double[hotDataMatrixTrain.length];
+        for (int i = 0; i < hotDataMatrixTrain.length; i++) {
+            labelsTraining[i] = hotDataMatrixTrain[i][hotDataMatrixTrain[i].length - 1];
+        }
+
+        // Extracting labels for the test dataset
+        double[] labelsTesting = new double[hotDataMatrixTest.length];
+        for (int i = 0; i < hotDataMatrixTest.length; i++) {
+            labelsTesting[i] = hotDataMatrixTest[i][hotDataMatrixTest[i].length - 1];
+        }
+
+        // Create the GP instance with a random seed and the number of features
+        GP gp = new GP(42, hotDataMatrixTrain[0].length);
+
+        // Run the GP algorithm on the training hotDataMatrixTrain
+        gp.run(hotDataMatrixTrain, labelsTraining);
+
+        // Find the best individual in the final population
+        Individual best = gp.getBestIndividual();
+
+        // Evaluate the model on the test dataset
+        gp.evaluateModel(best, hotDataMatrixTest, labelsTesting);
+
+        // Print the evaluation metrics
+        System.out.println("Accuracy: " + gp.getAccuracy());
+        System.out.println("Specificity: " + gp.getSpecificity());
+        System.out.println("Sensitivity: " + gp.getSensitivity());
+        System.out.println("F-Measure: " + gp.getFMeasure());
     }
 
     public static void testANN(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest) {
@@ -215,6 +238,12 @@ public class Main {
         }
 
         return hotDataMatrix;
+    }
+
+    private static double[] extractLabels(double[][] dataMatrix) {
+        // Implementation to extract labels from the last column of the data matrix
+        // ...
+        return new double[]{};
     }
 
     private static double normalizeValue(double value, double min, double max) {
