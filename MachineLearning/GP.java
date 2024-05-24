@@ -3,16 +3,29 @@ import java.util.List;
 import java.util.Random;
 
 public class GP {
-    private static final Random rand = new Random();
+    private final Random rand;
     private static final int POP_SIZE = 100;
     private static final int MAX_DEPTH = 5;
     private static final int GENERATIONS = 40;
     private static final double CROSSOVER_RATE = 0.9;
     private static final double MUTATION_RATE = 0.1;
 
-    private static Node generateRandomTree(int maxDepth) {
+    private List<Individual> population;
+    private double accuracy;
+    private double specificity;
+    private double sensitivity;
+    private double fMeasure;
+    // to store the number of features
+    private int featureCount;
+
+    public GP(long seed, int featureCount) {
+        this.rand = new Random(seed);
+        this.featureCount = featureCount; // initialize feature count
+    }
+
+    private Node generateRandomTree(int maxDepth) {
         if (maxDepth == 0) {
-            return rand.nextBoolean() ? new TerminalNode(rand.nextInt(19)) : new ConstantNode(rand.nextDouble() * 2 - 1);
+            return rand.nextBoolean() ? new TerminalNode(rand.nextInt(featureCount)) : new ConstantNode(rand.nextDouble() * 2 - 1);
         } else {
             FunctionNode node = new FunctionNode("+-*/".charAt(rand.nextInt(4)));
             node.left = generateRandomTree(maxDepth - 1);
@@ -21,7 +34,7 @@ public class GP {
         }
     }
 
-    private static Individual tournamentSelection(List<Individual> population) {
+    private Individual tournamentSelection(List<Individual> population) {
         Individual best = population.get(rand.nextInt(POP_SIZE));
         for (int i = 1; i < 3; i++) {
             Individual challenger = population.get(rand.nextInt(POP_SIZE));
@@ -32,7 +45,7 @@ public class GP {
         return best;
     }
 
-    private static void crossover(Individual ind1, Individual ind2) {
+    private void crossover(Individual ind1, Individual ind2) {
         if (rand.nextDouble() < CROSSOVER_RATE) {
             Node temp = ind1.root.left;
             ind1.root.left = ind2.root.left;
@@ -40,14 +53,14 @@ public class GP {
         }
     }
 
-    private static void mutate(Individual ind) {
+    private void mutate(Individual ind) {
         if (rand.nextDouble() < MUTATION_RATE) {
             ind.root.left = generateRandomTree(MAX_DEPTH);
         }
     }
 
-    public static void run(double[][] dataset, double[] labels) {
-        List<Individual> population = new ArrayList<>();
+    public void run(double[][] dataset, double[] labels) {
+        population = new ArrayList<>();
         for (int i = 0; i < POP_SIZE; i++) {
             Node root = generateRandomTree(MAX_DEPTH);
             Individual ind = new Individual(root);
@@ -68,8 +81,51 @@ public class GP {
             }
             population = newPopulation;
 
-            Individual best = population.stream().max((ind1, ind2) -> Double.compare(ind1.fitness, ind2.fitness)).get();
-            System.out.println("Generation " + generation + ": Best fitness = " + best.fitness);
+            // Individual best = getBestIndividual();
+            // System.out.println("Generation " + generation + ": Best fitness = " + best.fitness);
         }
+    }
+
+    public Individual getBestIndividual() {
+        return population.stream().max((ind1, ind2) -> Double.compare(ind1.fitness, ind2.fitness)).get();
+    }
+
+    public void evaluateModel(Individual best, double[][] testDataset, double[] testLabels) {
+        int tp = 0, tn = 0, fp = 0, fn = 0;
+
+        for (int i = 0; i < testDataset.length; i++) {
+            double actual = testLabels[i];
+            double predicted = best.predict(testDataset[i]);
+
+            if (predicted == 1.0) {
+                if (actual == 1.0) tp++;
+                else fp++;
+            } else {
+                if (actual == 0.0) tn++;
+                else fn++;
+            }
+        }
+
+        this.accuracy = (double) (tp + tn) / (tp + tn + fp + fn);
+        this.specificity = (double) tn / (tn + fp);
+        this.sensitivity = (double) tp / (tp + fn);
+        double precision = tp + fp == 0 ? 0 : (double) tp / (tp + fp);
+        this.fMeasure = precision + sensitivity == 0 ? 0 : 2 * ((precision * sensitivity) / (precision + sensitivity));
+    }
+
+    public double getAccuracy() {
+        return accuracy;
+    }
+
+    public double getSpecificity() {
+        return specificity;
+    }
+
+    public double getSensitivity() {
+        return sensitivity;
+    }
+
+    public double getFMeasure() {
+        return fMeasure;
     }
 }
