@@ -21,6 +21,10 @@ class Individual {
         fitness = -sumError / dataset.length;
     }
 
+    double predict(double[] inputs) {
+        return root.eval(inputs) > 0.5 ? 1.0 : 0.0;
+    }
+
     @Override
     public String toString() {
         return "Individual{" + "root=" + root + ", fitness=" + fitness + '}';
