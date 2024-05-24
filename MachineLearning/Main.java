@@ -16,9 +16,13 @@ public class Main {
         
         double[][] hotDataMatrixTrain = generateHotDataMatrix(filePathTrain);
         double[][] hotDataMatrixTest = generateHotDataMatrix(filePathTest);
-    
-        testANN(hotDataMatrixTrain, hotDataMatrixTest);
-        testGP(hotDataMatrixTrain, hotDataMatrixTest);
+        
+        try {
+            testANN(hotDataMatrixTrain, hotDataMatrixTest);
+            testGP(hotDataMatrixTrain, hotDataMatrixTest);
+        } catch (Exception e) {
+            System.out.println("Error Occurred: " + e.getMessage());
+        }
     }
 
     public static void testGP(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest) {
