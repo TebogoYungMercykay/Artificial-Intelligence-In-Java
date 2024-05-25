@@ -6,7 +6,21 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+/**
+ * @file Main.java
+ * 
+ * @author Selepe Sello
+ * @date 25 may 2024
+ * @version 1.0
+ * @brief The Main class serves as the entry point for running and testing the Artificial Neural Network (ANN) and Genetic Programming (GP) algorithms on mushroom classification data.
+ */
+
 public class Main {
+    /**
+     * The main method, entry point of the application.
+     *
+     * @param args Command line arguments (not used)
+     */
 
     public static void main(String[] args) {
         String filePathTrain = "./mushroom_data/mushroom_train.csv";
@@ -74,6 +88,13 @@ public class Main {
         }
     }
 
+    /**
+     * Testing ANN Algorithm with the hot encoded data matrix from a CSV file.
+     *
+     * @param hotDataMatrixTrain The training hot encoded data matrix
+     * @param hotDataMatrixTest The testing hot encoded data matrix
+     * @param seed Seed value used for the random number generator
+     */
     public static void testANN(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest, long seed) {
         // Initialize ANN with input size
         ANN ann = new ANN(seed, hotDataMatrixTrain[0].length);
@@ -111,6 +132,13 @@ public class Main {
         System.out.println("F-measure: " + fMeasureTest); 
     }
 
+    /**
+     * Testing GP Algorithm with the hot encoded data matrix from a CSV file.
+     *
+     * @param hotDataMatrixTrain The training hot encoded data matrix
+     * @param hotDataMatrixTest The testing hot encoded data matrix
+     * @param seed Seed value used for the random number generator
+     */
     public static void testGP(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest, long seed) {
         // Extracting labels for the training dataset
         double[] labelsTraining = new double[hotDataMatrixTrain.length];
@@ -164,6 +192,12 @@ public class Main {
         System.out.println("F-measure: " + fMeasureTest); 
     }
 
+    /**
+     * Generates a hot encoded data matrix from a CSV file.
+     *
+     * @param filePath The file path of the CSV file
+     * @return A hot encoded data matrix
+     */
     public static double[][] generateHotDataMatrix(String filePath) {
         try {
             List<MushroomData> dataList = readData(filePath);
@@ -178,6 +212,13 @@ public class Main {
         }
     }
 
+    /**
+     * Reads mushroom data from a CSV file.
+     *
+     * @param filePath The file path of the CSV file
+     * @return A list of MushroomData objects
+     * @throws FileNotFoundException if the specified file is not found
+     */
     public static List<MushroomData> readData(String filePath) throws FileNotFoundException {
         List<MushroomData> data = new ArrayList<>();
         Scanner scanner = new Scanner(new File(filePath));
@@ -192,6 +233,12 @@ public class Main {
         return data;
     }
 
+    /**
+     * Normalizes the mushroom data.
+     *
+     * @param dataList The list of MushroomData objects to be normalized
+     * @return A list of normalized MushroomData objects
+     */
     public static List<MushroomData> normalize(List<MushroomData> dataList) {
         double minCapDiameter = Double.MAX_VALUE, maxCapDiameter = Double.MIN_VALUE;
         double minStemHeight = Double.MAX_VALUE, maxStemHeight = Double.MIN_VALUE;
@@ -243,6 +290,12 @@ public class Main {
         return normalizedDataList;
     }
 
+    /**
+     * Generates a hot encoded data matrix from a list of normalized MushroomData objects.
+     *
+     * @param normalizedDataList The list of normalized MushroomData objects
+     * @return A hot encoded data matrix
+     */
     public static double[][] generateHotDataMatrix(List<MushroomData> normalizedDataList) {
         // Identify unique values for each categorical column
         Set<String> capShapes = new HashSet<>();
@@ -305,6 +358,14 @@ public class Main {
         return hotDataMatrix;
     }
 
+    /**
+     * Normalizes a numerical value.
+     *
+     * @param value The value to be normalized
+     * @param min   The minimum value in the range
+     * @param max   The maximum value in the range
+     * @return The normalized value
+     */
     private static double normalizeValue(double value, double min, double max) {
         return (value - min) / (max - min);
     }
