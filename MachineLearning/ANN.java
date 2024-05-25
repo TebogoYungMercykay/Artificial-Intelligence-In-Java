@@ -227,13 +227,21 @@ public class ANN {
      */
     public void train(double[][] hotDataMatrixTrain) {
         resetValues();
+        double totalError = 0.0;
+        int epoch = 0;
         for (double[] data : hotDataMatrixTrain) {
             // Assuming the target value is the last element
             double target = data[data.length - 1];
             // Remove target value
             double[] input = Arrays.copyOf(data, data.length - 1);
             train(input, target);
+            double prediction = outputLayerNode >= 0.5 ? 1.0 : 0.0;
+            double error = Math.pow(target - prediction, 2);
+            totalError += error;
+            epoch++;
+            System.out.println("Epoch: " + epoch + ", Error: " + error);
         }
+        System.out.println("Total Errors after all epochs: " + String.format("%d", (int) totalError));
     }
 
     /**
