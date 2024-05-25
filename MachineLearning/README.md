@@ -111,7 +111,7 @@ clean:
    clear
 
 tar:
-   tar -cvz *.java -f Search.tar.gz
+   tar -cvz *.java -f MachineLearning.tar.gz
 
 untar:
    tar -zxvf *.tar.gz
