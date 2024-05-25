@@ -60,7 +60,7 @@ This ensures that the data is appropriately formatted and ready for testing with
 | Algorithm | Runtime (ms) [Type] | Accuracy | Specificity | Sensitivity | F-measure |
 |-----------|----------------------|----------|-------------|-------------|------------|
 | ANN       | 18 (Training)        | 57.73%   | 3.12%       | 87.44%      | 72.83%     |
-|           | 5 (Testing)          | %58.87%   | 0.0         | 100.0%      | 74.11%     |
+|           | 5 (Testing)          | 58.87%   | 0.0         | 100.0%      | 74.11%     |
 | GP        | 2332 (Training)      | 49.70%   | 46.88%      | 51.23%      | 56.89%     |
 |           | 625 (Testing)        | 75.79%   | 51.21%      | 92.96%      | 81.89%     |
 
