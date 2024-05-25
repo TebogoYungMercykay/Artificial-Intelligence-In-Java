@@ -11,7 +11,6 @@ import java.util.Random;
  */
 
 public class ANN {
-
     // Variables
     private Double[] inputLayerNodes; ///< Nodes in the input layer
     private Double[] hiddenLayerNodes; ///< Nodes in the hidden layer
