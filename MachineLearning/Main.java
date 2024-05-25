@@ -21,8 +21,10 @@ public class Main {
      *
      * @param args Command line arguments (not used)
      */
+    
+     public static List<Result> results = new ArrayList<>();
 
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         String filePathTrain = "./mushroom_data/mushroom_train.csv";
         String filePathTest = "./mushroom_data/mushroom_test.csv";
         
@@ -83,6 +85,9 @@ public class Main {
             testGP(hotDataMatrixTrain, hotDataMatrixTest, seedGP);
             System.out.println("            ---");
             System.out.println();
+
+            // Print results
+            printResults(results);
         } catch (Exception e) {
             System.out.println("Error Occurred: " + e.getMessage());
         }
@@ -94,6 +99,7 @@ public class Main {
      * @param hotDataMatrixTrain The training hot encoded data matrix
      * @param hotDataMatrixTest The testing hot encoded data matrix
      * @param seed Seed value used for the random number generator
+     * @return List of results
      */
     public static void testANN(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest, long seed) {
         ANN ann = new ANN(seed, hotDataMatrixTrain[0].length);
@@ -118,7 +124,10 @@ public class Main {
         System.out.println("Accuracy: " + accuracyTrain);
         System.out.println("Specificity: " + specificityTrain);
         System.out.println("Sensitivity: " + sensitivityTrain);
-        System.out.println("F-measure: " + fMeasureTrain); 
+        System.out.println("F-measure: " + fMeasureTrain);
+        
+        // Store the result
+        results.add(new Result("ANN", "Training", runtime, accuracyTrain, specificityTrain, sensitivityTrain, fMeasureTrain));
 
         System.out.println("\n------ TESTING MODEL -------");
         startTime = System.currentTimeMillis();
@@ -138,7 +147,10 @@ public class Main {
         System.out.println("Accuracy: " + accuracyTest);
         System.out.println("Specificity: " + specificityTest);
         System.out.println("Sensitivity: " + sensitivityTest);
-        System.out.println("F-measure: " + fMeasureTest); 
+        System.out.println("F-measure: " + fMeasureTest);
+        
+        // Store the result
+        results.add(new Result("ANN", "Testing", runtime, accuracyTest, specificityTest, sensitivityTest, fMeasureTest));
     }
 
     /**
@@ -147,6 +159,7 @@ public class Main {
      * @param hotDataMatrixTrain The training hot encoded data matrix
      * @param hotDataMatrixTest The testing hot encoded data matrix
      * @param seed Seed value used for the random number generator
+     * @return List of results
      */
     public static void testGP(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest, long seed) {
         // Extracting labels for the training dataset
@@ -185,6 +198,9 @@ public class Main {
         System.out.println("Sensitivity: " + sensitivityTrain);
         System.out.println("F-measure: " + fMeasureTrain); 
 
+        // Store the result
+        results.add(new Result("GP", "Training", runtime, accuracyTrain, specificityTrain, sensitivityTrain, fMeasureTrain));
+
         System.out.println("\n------ TESTING MODEL -------");
         startTime = System.currentTimeMillis();
         // Find the best individual in the final population
@@ -205,7 +221,25 @@ public class Main {
         System.out.println("Accuracy: " + accuracyTest);
         System.out.println("Specificity: " + specificityTest);
         System.out.println("Sensitivity: " + sensitivityTest);
-        System.out.println("F-measure: " + fMeasureTest); 
+        System.out.println("F-measure: " + fMeasureTest);
+
+        // Store the result
+        results.add(new Result("GP", "Testing", runtime, accuracyTest, specificityTest, sensitivityTest, fMeasureTest));
+    }
+
+    /**
+     * @brief Prints the results of the machine learning model evaluations.
+     * 
+     * @param results A list of Result objects containing the evaluation metrics.
+     */
+    private static void printResults(List<Result> results) {
+        System.out.println("|------------------------------------------------------------------------------------------------|");
+        System.out.println("| Algorithm | Runtime (ms) [Type] | Accuracy(%) | Specificity(%) | Sensitivity(%) | F-measure(%) |");
+        System.out.println("|-----------|---------------------|-------------|----------------|----------------|--------------|");
+        for (Result result : results) {
+            System.out.println(result.toString());
+        }
+        System.out.println("|------------------------------------------------------------------------------------------------|");
     }
 
     /**
