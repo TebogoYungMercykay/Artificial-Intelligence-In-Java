@@ -112,7 +112,7 @@ public class Main {
 
         long endTime = System.currentTimeMillis();
         long runtime = endTime - startTime;
-        System.out.println("Runtime (ms): " + runtime);
+        System.out.println("\n\nRuntime (ms): " + runtime);
         
         // Get evaluation metrics
         double accuracyTrain = ann.getAccuracy();
@@ -135,7 +135,7 @@ public class Main {
         
         endTime = System.currentTimeMillis();
         runtime = endTime - startTime;
-        System.out.println("Runtime (ms): " + runtime);
+        System.out.println("\nRuntime (ms): " + runtime);
 
         // Get evaluation metrics
         double accuracyTest = ann.getAccuracy();
@@ -180,13 +180,13 @@ public class Main {
         // Run the GP algorithm on the training hotDataMatrixTrain
         System.out.println("\n------ TRAINING MODEL -------");
         long startTime = System.currentTimeMillis();
-        gp.run(hotDataMatrixTrain, labelsTraining);
+        gp.run(hotDataMatrixTrain, labelsTraining, "training");
         Individual best = gp.getBestIndividual();
         // Evaluate the model on the test dataset
         gp.evaluateModel(best, hotDataMatrixTrain, labelsTraining);
         long endTime = System.currentTimeMillis();
         long runtime = endTime - startTime;
-        System.out.println("Runtime (ms): " + runtime);
+        System.out.println("\n\nRuntime (ms): " + runtime);
 
         double accuracyTrain = gp.getAccuracy();
         double specificityTrain = gp.getSpecificity();
@@ -204,13 +204,13 @@ public class Main {
         System.out.println("\n------ TESTING MODEL -------");
         startTime = System.currentTimeMillis();
         // Find the best individual in the final population
-        gp.run(hotDataMatrixTest, labelsTesting);
+        gp.run(hotDataMatrixTest, labelsTesting, "testing");
         best = gp.getBestIndividual();
         // Evaluate the model on the test dataset
         gp.evaluateModel(best, hotDataMatrixTest, labelsTesting);
         endTime = System.currentTimeMillis();
         runtime = endTime - startTime;
-        System.out.println("Runtime (ms): " + runtime);
+        System.out.println("\nRuntime (ms): " + runtime);
 
         double accuracyTest = gp.getAccuracy();
         double specificityTest = gp.getSpecificity();
