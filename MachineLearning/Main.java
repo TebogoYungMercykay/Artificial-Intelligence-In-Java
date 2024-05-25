@@ -1,31 +1,167 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Main {
+/**
+ * @file Main.java
+ * 
+ * @author Selepe Sello
+ * @date 25 may 2024
+ * @version 1.0
+ * @brief The Main class serves as the entry point for running and testing the Artificial Neural Network (ANN) and Genetic Programming (GP) algorithms on mushroom classification data.
+ */
 
-    public static void main(String[] args) {
+public class Main {
+    /**
+     * The main method, entry point of the application.
+     *
+     * @param args Command line arguments (not used)
+     */
+    
+     public static List<Result> results = new ArrayList<>();
+
+     public static void main(String[] args) {
         String filePathTrain = "./mushroom_data/mushroom_train.csv";
         String filePathTest = "./mushroom_data/mushroom_test.csv";
         
         double[][] hotDataMatrixTrain = generateHotDataMatrix(filePathTrain);
         double[][] hotDataMatrixTest = generateHotDataMatrix(filePathTest);
-        
+
+        long seedANN = 32892793;
+        long seedGP = 32892799;
+          
         try {
-            testANN(hotDataMatrixTrain, hotDataMatrixTest);
-            testGP(hotDataMatrixTrain, hotDataMatrixTest);
+            // Print hot data matrix
+            System.out.println("----------------------------------------------------");
+            System.out.println(" HOT DATA MATRIX - NORMALISED AND ONE-HOT ENCODED");
+            System.out.println("----------------------------------------------------");
+
+            int setLimit = 9;
+            int maxLimit = Math.min(hotDataMatrixTrain != null ? hotDataMatrixTrain.length : Integer.MAX_VALUE, setLimit);
+
+            int counter = 0;
+
+            System.out.println("\nPrinting the first " + maxLimit + " rows in matrix.");
+            for (double[] row : hotDataMatrixTrain) {
+                if (counter < maxLimit) {
+                    for (double value : row) {
+                        System.out.print(value + " ");
+                    }
+                    System.out.println();
+                }
+                counter++;
+            }
+
+            System.out.println("\n----------------------------------------------------");
+            System.out.println("       MACHINE LEARNING MODELS       ");
+            System.out.println("            ---");
+            
+            // ANN section
+            System.out.println("----------------------------------------------------");
+            System.out.println("     _      _   ___   _   ___");
+            System.out.println("    / \\    | | /   | | | /   |");
+            System.out.println("   / _ \\   | |/ /| | | |/ /| |");
+            System.out.println("  / ___ \\  |   / | | |   / | |");
+            System.out.println(" /_/   \\_\\ |__/  |_| |__/  |_|");
+            System.out.println("\n Artificial  Neural   Network");
+            System.out.println("----------------------------------------------------");
+            testANN(hotDataMatrixTrain, hotDataMatrixTest, seedANN);
+            System.out.println("            ---");
+            System.out.println();
+            
+            // GP section
+            System.out.println("----------------------------------------------------");
+            System.out.println("   ____    ____");
+            System.out.println("  / ___|  |  _ \\");
+            System.out.println(" | |  _   | |_) |");
+            System.out.println(" | |_| |  |  __/");
+            System.out.println("  \\____|  |_|");
+            System.out.println("\n Genetic Programming");
+            System.out.println("----------------------------------------------------");
+            testGP(hotDataMatrixTrain, hotDataMatrixTest, seedGP);
+            System.out.println("            ---");
+            System.out.println();
+
+            // Print results
+            printResults(results);
         } catch (Exception e) {
             System.out.println("Error Occurred: " + e.getMessage());
         }
     }
 
-    public static void testGP(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest) {
+    /**
+     * Testing ANN Algorithm with the hot encoded data matrix from a CSV file.
+     *
+     * @param hotDataMatrixTrain The training hot encoded data matrix
+     * @param hotDataMatrixTest The testing hot encoded data matrix
+     * @param seed Seed value used for the random number generator
+     * @return List of results
+     */
+    public static void testANN(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest, long seed) {
+        ANN ann = new ANN(seed, hotDataMatrixTrain[0].length);
+
+        // Train ANN with your data
+        System.out.println("\n------ TRAINING MODEL -------");
+
+        long startTime = System.currentTimeMillis();
+        ann.train(hotDataMatrixTrain);
+
+        long endTime = System.currentTimeMillis();
+        long runtime = endTime - startTime;
+        System.out.println("\n\nRuntime (ms): " + runtime);
+        
+        // Get evaluation metrics
+        double accuracyTrain = ann.getAccuracy();
+        double specificityTrain = ann.getSpecificity();
+        double sensitivityTrain = ann.getSensitivity();
+        double fMeasureTrain = ann.getFMeasure();
+
+        // Print the evaluation metrics
+        System.out.println("Accuracy: " + accuracyTrain);
+        System.out.println("Specificity: " + specificityTrain);
+        System.out.println("Sensitivity: " + sensitivityTrain);
+        System.out.println("F-measure: " + fMeasureTrain);
+        
+        // Store the result
+        results.add(new Result("ANN", "Training", runtime, accuracyTrain, specificityTrain, sensitivityTrain, fMeasureTrain));
+
+        System.out.println("\n------ TESTING MODEL -------");
+        startTime = System.currentTimeMillis();
+        ann.test(hotDataMatrixTest);
+        
+        endTime = System.currentTimeMillis();
+        runtime = endTime - startTime;
+        System.out.println("\nRuntime (ms): " + runtime);
+
+        // Get evaluation metrics
+        double accuracyTest = ann.getAccuracy();
+        double specificityTest = ann.getSpecificity();
+        double sensitivityTest = ann.getSensitivity();
+        double fMeasureTest = ann.getFMeasure();
+
+        // Print the evaluation metrics
+        System.out.println("Accuracy: " + accuracyTest);
+        System.out.println("Specificity: " + specificityTest);
+        System.out.println("Sensitivity: " + sensitivityTest);
+        System.out.println("F-measure: " + fMeasureTest);
+        
+        // Store the result
+        results.add(new Result("ANN", "Testing", runtime, accuracyTest, specificityTest, sensitivityTest, fMeasureTest));
+    }
+
+    /**
+     * Testing GP Algorithm with the hot encoded data matrix from a CSV file.
+     *
+     * @param hotDataMatrixTrain The training hot encoded data matrix
+     * @param hotDataMatrixTest The testing hot encoded data matrix
+     * @param seed Seed value used for the random number generator
+     * @return List of results
+     */
+    public static void testGP(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest, long seed) {
         // Extracting labels for the training dataset
         double[] labelsTraining = new double[hotDataMatrixTrain.length];
         for (int i = 0; i < hotDataMatrixTrain.length; i++) {
@@ -39,77 +175,85 @@ public class Main {
         }
 
         // Create the GP instance with a random seed and the number of features
-        GP gp = new GP(42, hotDataMatrixTrain[0].length);
+        GP gp = new GP(seed, hotDataMatrixTrain[0].length);
 
         // Run the GP algorithm on the training hotDataMatrixTrain
-        gp.run(hotDataMatrixTrain, labelsTraining);
-
-        // Find the best individual in the final population
+        System.out.println("\n------ TRAINING MODEL -------");
+        long startTime = System.currentTimeMillis();
+        gp.run(hotDataMatrixTrain, labelsTraining, "training");
         Individual best = gp.getBestIndividual();
+        // Evaluate the model on the test dataset
+        gp.evaluateModel(best, hotDataMatrixTrain, labelsTraining);
+        long endTime = System.currentTimeMillis();
+        long runtime = endTime - startTime;
+        System.out.println("\n\nRuntime (ms): " + runtime);
 
+        double accuracyTrain = gp.getAccuracy();
+        double specificityTrain = gp.getSpecificity();
+        double sensitivityTrain = gp.getSensitivity();
+        double fMeasureTrain = gp.getFMeasure();
+        // Print the evaluation metrics
+        System.out.println("Accuracy: " + accuracyTrain);
+        System.out.println("Specificity: " + specificityTrain);
+        System.out.println("Sensitivity: " + sensitivityTrain);
+        System.out.println("F-measure: " + fMeasureTrain); 
+
+        // Store the result
+        results.add(new Result("GP", "Training", runtime, accuracyTrain, specificityTrain, sensitivityTrain, fMeasureTrain));
+
+        System.out.println("\n------ TESTING MODEL -------");
+        startTime = System.currentTimeMillis();
+        // Find the best individual in the final population
+        gp.run(hotDataMatrixTest, labelsTesting, "testing");
+        best = gp.getBestIndividual();
         // Evaluate the model on the test dataset
         gp.evaluateModel(best, hotDataMatrixTest, labelsTesting);
+        endTime = System.currentTimeMillis();
+        runtime = endTime - startTime;
+        System.out.println("\nRuntime (ms): " + runtime);
+
+        double accuracyTest = gp.getAccuracy();
+        double specificityTest = gp.getSpecificity();
+        double sensitivityTest = gp.getSensitivity();
+        double fMeasureTest = gp.getFMeasure();
 
         // Print the evaluation metrics
-        System.out.println("Accuracy: " + gp.getAccuracy());
-        System.out.println("Specificity: " + gp.getSpecificity());
-        System.out.println("Sensitivity: " + gp.getSensitivity());
-        System.out.println("F-Measure: " + gp.getFMeasure());
+        System.out.println("Accuracy: " + accuracyTest);
+        System.out.println("Specificity: " + specificityTest);
+        System.out.println("Sensitivity: " + sensitivityTest);
+        System.out.println("F-measure: " + fMeasureTest);
+
+        // Store the result
+        results.add(new Result("GP", "Testing", runtime, accuracyTest, specificityTest, sensitivityTest, fMeasureTest));
     }
 
-    public static void testANN(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest) {
-        // Initialize a Random object
-        Random random = new Random();
-        // Initialize ANN with input size
-        ANN ann = new ANN(hotDataMatrixTrain[0].length, random);
-        // Train ANN with your data
-        for (double[] data : hotDataMatrixTrain) {
-            // Assuming the target value is the last element
-            double target = data[data.length - 1];
-            // Remove target value
-            double[] input = Arrays.copyOf(data, data.length - 1);
-            ann.train(input, target);
+    /**
+     * @brief Prints the results of the machine learning model evaluations.
+     * 
+     * @param results A list of Result objects containing the evaluation metrics.
+     */
+    private static void printResults(List<Result> results) {
+        System.out.println("|------------------------------------------------------------------------------------------------|");
+        System.out.println("| Algorithm | Runtime (ms) [Type] | Accuracy(%) | Specificity(%) | Sensitivity(%) | F-measure(%) |");
+        System.out.println("|-----------|---------------------|-------------|----------------|----------------|--------------|");
+        for (Result result : results) {
+            System.out.println(result.toString());
         }
-
-        for (double[] data : hotDataMatrixTest) {
-            // Assuming the target value is the last element
-            double target = data[data.length - 1];
-            // Remove target value
-            double[] input = Arrays.copyOf(data, data.length - 1);
-            ann.test(input, target);
-        }
-
-        // Get evaluation metrics
-        double accuracy = ann.getAccuracy();
-        double specificity = ann.getSpecificity();
-        double sensitivity = ann.getSensitivity();
-        double fMeasure = ann.getFMeasure();
-
-        // Print or use the evaluation metrics as needed
-        System.out.println("Accuracy: " + accuracy);
-        System.out.println("Specificity: " + specificity);
-        System.out.println("Sensitivity: " + sensitivity);
-        System.out.println("F-measure: " + fMeasure); 
+        System.out.println("|------------------------------------------------------------------------------------------------|");
     }
 
+    /**
+     * Generates a hot encoded data matrix from a CSV file.
+     *
+     * @param filePath The file path of the CSV file
+     * @return A hot encoded data matrix
+     */
     public static double[][] generateHotDataMatrix(String filePath) {
         try {
             List<MushroomData> dataList = readData(filePath);
-            // Example usage: Print the first few rows of data
-            // for (int i = 0; i < 5 && i < dataList.size(); i++) {
-            //     System.out.println(dataList.get(i).toString());
-            // }
 
             List<MushroomData> normalizedDataList = normalize(dataList);
             double[][] hotDataMatrix = generateHotDataMatrix(normalizedDataList);
-
-            // Print hot data matrix
-            for (double[] row : hotDataMatrix) {
-                for (double value : row) {
-                    System.out.print(value + " ");
-                }
-                System.out.println();
-            }
 
             return hotDataMatrix;
         } catch (FileNotFoundException e) {
@@ -118,11 +262,18 @@ public class Main {
         }
     }
 
+    /**
+     * Reads mushroom data from a CSV file.
+     *
+     * @param filePath The file path of the CSV file
+     * @return A list of MushroomData objects
+     * @throws FileNotFoundException if the specified file is not found
+     */
     public static List<MushroomData> readData(String filePath) throws FileNotFoundException {
         List<MushroomData> data = new ArrayList<>();
         Scanner scanner = new Scanner(new File(filePath));
         if (scanner.hasNextLine()) {
-            scanner.nextLine(); // Skip the header line
+            scanner.nextLine();
         }
         while (scanner.hasNextLine()) {
             String[] line = scanner.nextLine().split(",");
@@ -132,6 +283,12 @@ public class Main {
         return data;
     }
 
+    /**
+     * Normalizes the mushroom data.
+     *
+     * @param dataList The list of MushroomData objects to be normalized
+     * @return A list of normalized MushroomData objects
+     */
     public static List<MushroomData> normalize(List<MushroomData> dataList) {
         double minCapDiameter = Double.MAX_VALUE, maxCapDiameter = Double.MIN_VALUE;
         double minStemHeight = Double.MAX_VALUE, maxStemHeight = Double.MIN_VALUE;
@@ -183,6 +340,12 @@ public class Main {
         return normalizedDataList;
     }
 
+    /**
+     * Generates a hot encoded data matrix from a list of normalized MushroomData objects.
+     *
+     * @param normalizedDataList The list of normalized MushroomData objects
+     * @return A hot encoded data matrix
+     */
     public static double[][] generateHotDataMatrix(List<MushroomData> normalizedDataList) {
         // Identify unique values for each categorical column
         Set<String> capShapes = new HashSet<>();
@@ -199,7 +362,8 @@ public class Main {
             seasons.add(data.getSeason());
         }
 
-        int numCols = capShapes.size() + gillAttachments.size() + gillColors.size() + stemColors.size() + seasons.size() + 4; // +4 for the numeric columns and class
+        // +4 for the numeric columns and class
+        int numCols = capShapes.size() + gillAttachments.size() + gillColors.size() + stemColors.size() + seasons.size() + 4;
         int numRows = normalizedDataList.size();
         double[][] hotDataMatrix = new double[numRows][numCols];
 
@@ -244,12 +408,14 @@ public class Main {
         return hotDataMatrix;
     }
 
-    private static double[] extractLabels(double[][] dataMatrix) {
-        // Implementation to extract labels from the last column of the data matrix
-        // ...
-        return new double[]{};
-    }
-
+    /**
+     * Normalizes a numerical value.
+     *
+     * @param value The value to be normalized
+     * @param min   The minimum value in the range
+     * @param max   The maximum value in the range
+     * @return The normalized value
+     */
     private static double normalizeValue(double value, double min, double max) {
         return (value - min) / (max - min);
     }
