@@ -5,11 +5,8 @@
  * @date 25 may 2024
  * @version 1.0
  * @brief A class representing the result of a machine learning model evaluation.
- *
- * This class stores the evaluation metrics of a machine learning model, such as 
- * accuracy, specificity, sensitivity, and F-measure, along with the algorithm name, 
- * type of evaluation (training/testing), and runtime.
  */
+
 public class Result {
     private String algorithm;    ///< The name of the algorithm
     private String type;         ///< The type of evaluation (e.g., Training, Testing)
@@ -43,14 +40,11 @@ public class Result {
     /**
      * @brief Returns a string representation of the Result object.
      *
-     * The string is formatted to display the algorithm name, runtime, type of 
-     * evaluation, accuracy, specificity, sensitivity, and F-measure.
-     *
      * @return A formatted string representing the Result object.
      */
     @Override
     public String toString() {
-        return String.format("%-3s | %15d (%-8s) | %7.2f%% | %9.2f%% | %10.2f%% | %9.2f%%", 
-                algorithm, runtime, type, accuracy * 100, specificity * 100, sensitivity * 100, fMeasure * 100);
-    }
+        return String.format("| %-9s | %-8d (%-8s) | %-11.2f | %-14.2f | %-14.2f | %-12.2f |", 
+            algorithm, runtime, type, accuracy * 100, specificity * 100, sensitivity * 100, fMeasure * 100);
+    }    
 }
