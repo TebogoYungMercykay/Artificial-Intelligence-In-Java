@@ -29,7 +29,7 @@ public class Main {
         double[][] hotDataMatrixTrain = generateHotDataMatrix(filePathTrain);
         double[][] hotDataMatrixTest = generateHotDataMatrix(filePathTest);
 
-        long seedANN = 32892796;
+        long seedANN = 32892793;
         long seedGP = 32892799;
           
         try {
@@ -96,14 +96,18 @@ public class Main {
      * @param seed Seed value used for the random number generator
      */
     public static void testANN(double[][] hotDataMatrixTrain, double[][] hotDataMatrixTest, long seed) {
-        // Initialize ANN with input size
         ANN ann = new ANN(seed, hotDataMatrixTrain[0].length);
 
         // Train ANN with your data
         System.out.println("\n------ TRAINING MODEL -------");
 
+        long startTime = System.currentTimeMillis();
         ann.train(hotDataMatrixTrain);
 
+        long endTime = System.currentTimeMillis();
+        long runtime = endTime - startTime;
+        System.out.println("Runtime (ms): " + runtime);
+        
         // Get evaluation metrics
         double accuracyTrain = ann.getAccuracy();
         double specificityTrain = ann.getSpecificity();
@@ -117,7 +121,12 @@ public class Main {
         System.out.println("F-measure: " + fMeasureTrain); 
 
         System.out.println("\n------ TESTING MODEL -------");
+        startTime = System.currentTimeMillis();
         ann.test(hotDataMatrixTest);
+        
+        endTime = System.currentTimeMillis();
+        runtime = endTime - startTime;
+        System.out.println("Runtime (ms): " + runtime);
 
         // Get evaluation metrics
         double accuracyTest = ann.getAccuracy();
@@ -157,16 +166,19 @@ public class Main {
 
         // Run the GP algorithm on the training hotDataMatrixTrain
         System.out.println("\n------ TRAINING MODEL -------");
+        long startTime = System.currentTimeMillis();
         gp.run(hotDataMatrixTrain, labelsTraining);
         Individual best = gp.getBestIndividual();
         // Evaluate the model on the test dataset
         gp.evaluateModel(best, hotDataMatrixTrain, labelsTraining);
+        long endTime = System.currentTimeMillis();
+        long runtime = endTime - startTime;
+        System.out.println("Runtime (ms): " + runtime);
 
         double accuracyTrain = gp.getAccuracy();
         double specificityTrain = gp.getSpecificity();
         double sensitivityTrain = gp.getSensitivity();
         double fMeasureTrain = gp.getFMeasure();
-
         // Print the evaluation metrics
         System.out.println("Accuracy: " + accuracyTrain);
         System.out.println("Specificity: " + specificityTrain);
@@ -174,11 +186,15 @@ public class Main {
         System.out.println("F-measure: " + fMeasureTrain); 
 
         System.out.println("\n------ TESTING MODEL -------");
+        startTime = System.currentTimeMillis();
         // Find the best individual in the final population
         gp.run(hotDataMatrixTest, labelsTesting);
         best = gp.getBestIndividual();
         // Evaluate the model on the test dataset
         gp.evaluateModel(best, hotDataMatrixTest, labelsTesting);
+        endTime = System.currentTimeMillis();
+        runtime = endTime - startTime;
+        System.out.println("Runtime (ms): " + runtime);
 
         double accuracyTest = gp.getAccuracy();
         double specificityTest = gp.getSpecificity();
