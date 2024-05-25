@@ -28,6 +28,8 @@ public class GP {
     private double falsePositive = 0; ///< False positive count
     private double falseNegative = 0; ///< False negative count
 
+    private String type = "testing";
+
     /**
      * @brief Constructor for GP algorithm.
      * @param seed Seed for random number generation.
@@ -98,7 +100,7 @@ public class GP {
      * @param dataset Input dataset.
      * @param labels Labels of the dataset.
      */
-    public void run(double[][] dataset, double[] labels) {
+    public void run(double[][] dataset, double[] labels, String type) {
         population = new ArrayList<>();
         for (int i = 0; i < POP_SIZE; i++) {
             Node root = generateRandomTree(MAX_DEPTH);
@@ -118,6 +120,14 @@ public class GP {
                 offspring.evaluate(dataset, labels);
                 newPopulation.add(offspring);
             }
+
+            if ("training".equals(type)) {
+                Individual best = getBestIndividual();
+                best.evaluate(dataset, labels);
+                double trainingAccuracy = calculateAccuracy(best, dataset, labels);
+                System.out.println("Generation: " + String.format("%02d", (generation + 1)) + ", Training Accuracy: " + String.format("%.2f", trainingAccuracy * 100) + "%");
+            }
+
             population = newPopulation;
         }
     }
@@ -130,6 +140,18 @@ public class GP {
         return population.stream().max((ind1, ind2) -> Double.compare(ind1.fitness, ind2.fitness)).get();
     }
 
+    private double calculateAccuracy(Individual individual, double[][] dataset, double[] labels) {
+        int correctPredictions = 0;
+        for (int i = 0; i < dataset.length; i++) {
+            double actual = labels[i];
+            double predicted = individual.predict(dataset[i]);
+            if ((predicted >= 0.5 && actual == 1.0) || (predicted < 0.5 && actual == 0.0)) {
+                correctPredictions++;
+            }
+        }
+        return (double) correctPredictions / dataset.length;
+    }
+
     /**
      * @brief Evaluates the model using the best individual.
      * @param best Best individual.
@@ -138,7 +160,6 @@ public class GP {
      */
     public void evaluateModel(Individual best, double[][] testDataset, double[] testLabels) {
         resetValues();
-
         // Update the Values
         for (int i = 0; i < testDataset.length; i++) {
             double actual = testLabels[i];
