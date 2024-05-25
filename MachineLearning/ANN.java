@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class ANN {
@@ -19,17 +19,17 @@ public class ANN {
 
     // Parameters
     private final double learningRate = 0.01;
-    private final int hiddenLayerSize = 7;
+    private final int hiddenLayerSize = 4;
 
     // Performance metrics
-    private int truePositive;
-    private int trueNegative;
-    private int falsePositive;
-    private int falseNegative;
+    private double truePositive = 0;
+    private double trueNegative = 0;
+    private double falsePositive = 0;
+    private double falseNegative = 0;
 
     // Constructor
-    public ANN(int inputSize, Random seededRandom) {
-        this.random = seededRandom;
+    public ANN(long seed, int inputSize) {
+        this.random = new Random(seed);
         initialize(inputSize - 1);
     }
 
@@ -130,13 +130,37 @@ public class ANN {
     }
 
     // Test the network
+    public void test(double[][] hotDataMatrixTest) {
+        resetValues();
+        for (double[] data : hotDataMatrixTest) {
+            // Assuming the target value is the last element
+            double target = data[data.length - 1];
+            // Remove target value
+            double[] input = Arrays.copyOf(data, data.length - 1);
+            test(input, target);
+        }
+    }
+
+    // Test the network
     public void test(double[] dataSet, Double target) {
         for (int i = 0; i < inputLayerNodes.length; i++) {
             inputLayerNodes[i] = dataSet[i];
         }
         feedforward();
-        double prediction = outputLayerNode >= 0.5 ? 1.0 : 0.0; // Assuming binary classification
+        double prediction = outputLayerNode >= 0.5 ? 1.0 : 0.0;
         updateMetrics(prediction, target);
+    }
+
+    // Train the network
+    public void train(double[][] hotDataMatrixTrain) {
+        resetValues();
+        for (double[] data : hotDataMatrixTrain) {
+            // Assuming the target value is the last element
+            double target = data[data.length - 1];
+            // Remove target value
+            double[] input = Arrays.copyOf(data, data.length - 1);
+            train(input, target);
+        }
     }
 
     // Train the network
@@ -146,6 +170,16 @@ public class ANN {
         }
         feedforward();
         backpropagation(target);
+        double prediction = outputLayerNode >= 0.5 ? 1.0 : 0.0;
+        updateMetrics(prediction, target);
+    }
+
+    public void resetValues() {
+        // Reset the Values
+        truePositive = 0;
+        trueNegative = 0;
+        falsePositive = 0;
+        falseNegative = 0;
     }
 
     // Update performance metrics based on prediction and target
@@ -163,25 +197,23 @@ public class ANN {
 
     // Calculate and return accuracy
     public double getAccuracy() {
-        int total = truePositive + trueNegative + falsePositive + falseNegative;
-        int correct = truePositive + trueNegative;
-        return (double) correct / total;
+        return (truePositive + trueNegative) / (truePositive + trueNegative + falsePositive + falseNegative);
     }
 
     // Calculate and return specificity
     public double getSpecificity() {
-        return (double) trueNegative / (trueNegative + falsePositive);
+        return trueNegative / (trueNegative + falsePositive);
     }
 
     // Calculate and return sensitivity
     public double getSensitivity() {
-        return (double) truePositive / (truePositive + falseNegative);
+        return truePositive / (truePositive + falseNegative);
     }
 
     // Calculate and return F-measure
     public double getFMeasure() {
-        double precision = truePositive / (double) (truePositive + falsePositive);
-        double recall = truePositive / (double) (truePositive + falseNegative);
+        double precision = truePositive / (truePositive + falsePositive);
+        double recall = truePositive / (truePositive + falseNegative);
         return 2 * (precision * recall) / (precision + recall);
     }
 }
