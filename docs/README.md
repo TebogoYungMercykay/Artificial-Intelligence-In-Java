@@ -1,4 +1,4 @@
-# Artificial Intelligence
+# COS314: Artificial Intelligence
 
 This project contains files that were provided as specifications for assignments. 
 
